@@ -1,0 +1,87 @@
+
+// =======================================================================
+// 這個作法很簡潔，但只能得到 95%，最後一個測資沒辦法過。（一條直線）
+
+#include <iostream>
+
+using namespace std;
+
+int n, node[100005]={0}, h[100005]={0};
+
+int main()
+{
+    cin >> n;
+    int k, child, maxlevel, pnode, curnode;
+    for (int nd=1; nd<=n; nd++) {
+        cin >> k;
+        if (!k) continue;
+        maxlevel = -1;
+        for (int i=0; i<k; i++) { // read child
+            cin >> child;
+            node[child] = nd; // connection
+            if (h[child] > maxlevel) maxlevel = h[child];
+        }
+        if (maxlevel+1 > h[nd]) {
+            h[nd] = maxlevel+1;
+            curnode = nd;
+            pnode = node[curnode];
+            while (pnode) {
+                if (h[curnode]+1 <= h[pnode]) break;
+                h[pnode] = h[curnode]+1;
+                curnode = pnode;
+                pnode = node[curnode];
+            }
+        }
+    }
+    int root, sum=0;
+    for (int i=1; i<=n; i++) {
+        if (!node[i]) root = i;
+        sum += h[i];
+    }
+    cout << root << endl << sum << endl;
+    return 0;
+}
+
+// =======================================================================
+// 這個作法先建立樹，然後再計算高的和，為了快速，要先把葉節點存起來，
+// 應注意的是求和的時候，原先宣告為 int 會溢位，沒法通過，改成 long long 就可以了。
+
+#include <iostream>
+
+using namespace std;
+
+int n, node[100005]={0}, h[100005]={0}, zeros[100000], zidx=0;
+
+int main()
+{
+    cin >> n;
+    int k, child, level, pnode, curnode;
+    for (int nd=1; nd<=n; nd++) {
+        cin >> k;
+        if (!k) zeros[zidx++] = nd;
+        else for (int i=0; i<k; i++) { // read child
+            cin >> child;
+            node[child] = nd; // connection
+        }
+    }
+
+    for (int i=0; i<zidx; i++) {
+        curnode = zeros[i];
+        pnode = node[curnode];
+        for (int lvl=1; pnode; lvl++) {
+            if (h[pnode] >= lvl) break;
+            h[pnode] = lvl;
+            pnode = node[pnode];
+        }
+    }
+
+    int root;
+    long long sum=0;
+    for (int i=1; i<=n; i++) {
+        if (!node[i]) root = i;
+        sum += h[i];
+    }
+    cout << root << endl << sum << endl;
+    return 0;
+}
+

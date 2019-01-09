@@ -1,0 +1,21 @@
+\section{M90H023 - 平面幾何-三角形重心}
+輸入三個點，輸出此三個點所構成的三角形的重心。
+\subsection{解題思惟}
+使用cin取得輸入的三個平面座標$(x_1, y_1), (x_2, y_2)$和$(x_3, y_3)$，接著將三點座標相加除以3以計算重心。本題之輸入為整數，但仍可使用浮點數的變數讀取，使用浮點數變數時，相加直接除以3即可。若使用整數變數，則必須先轉成浮點數，或者相加之後除以3.0亦可。
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	double x1, y1, x2, y2, x3, y3;
+	cin >> x1 >> y1 >> x2 >> y2 >> x3 >> y3;
+
+	cout << "(" << (x1 + x2 + x3) / 3;
+	cout << "," << (y1 + y2 + y3) / 3 << ")";	
+	return 0;	    
+}
+\end{cppcode}

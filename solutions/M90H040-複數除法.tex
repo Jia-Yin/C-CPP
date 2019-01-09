@@ -1,0 +1,27 @@
+\section{M90H040 - 複數除法}
+輸入兩個複數X和Y，輸出X除以Y的值(四捨五入至小數點後3位)。
+
+\subsection{解題思維}
+複數的除法為：$$\frac{a+bi}{c+di}=
+\frac{(a+bi)*(c-di)}{(c+di)*(c-di)}=
+\frac{(ac+bd)+(-ab+bc)i}{c^2+d^2}=
+\frac{ac+bd}{c^2+d^2}+\frac{-ad+bc}{c^2+d^2}i$$
+將輸入的數字套入公式即可得到答案，若運算式太複雜可以使用變數暫存。
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <cstdio>
+
+int main()
+{
+	float a, b, c, d;
+	scanf("%f%f%f%f", &a, &b, &c, &d);
+	float denom = c * c + d * d; // 分母
+	float re_part = (a * c + b * d) / denom;
+	float im_part = (-a * d + b * c) / denom;
+	printf("%.3f", re_part);
+	if(im_part) printf("%+.3fi", im_part);
+	return 0;
+}
+\end{cppcode}
+註：本題在瘋狂程設測試時，沒有辦法通過。仔細檢查，發現實際上輸出並未遵循題目所述，取四捨五入到小數點後三位，而是直接以cout將浮點數輸出。\cc{}預設的浮點數輸出，大約等同於C的\%g指示詞，因此若要通過瘋狂程設的檢查，可將上述程式碼中的\%.3f改成\%g，或者使用cout輸出即可。本題所給的參考答案係以題目所述為主。

@@ -1,0 +1,29 @@
+\section{A027 - 十六進位轉十進位}
+輸入5個十六進位字母 0...9A...F，輸出輸出該數的十進位。
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 第一次讀一個字元，算出其十進位的值，接著讀第二個字元，算出該兩個字元十進位的值，依此類推，最後可以得到答案。
+	\item 單一個字元轉成十進位的話，如果是0-9，值也是0-9，如果是A-F，值是10-15。所以當字元為0-9時，將字元減去`0'字元就可以得到相對的數目，如果是文字的話，減掉`A'字元加上10，就可以得到相對的數目。文字的部份，要注意大小寫。
+	\item 將前一次所算出的結果乘以16，加上新進來的個位數，就可以得到下一個更新的值。總共重覆5次，就可以得到答案。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	using namespace std;
+	int main()
+	{
+		int ans=0;
+		char c;
+		for(int i=0; i<5; i++) {
+			cin >> c;
+			ans *= 16;
+			if (c>='0' && c<='9') ans += c-'0';
+			else if (c>='A' && c<='F') ans += c-'A'+10;
+			else if (c>='a' && c<='f') ans += c-'a'+10;
+		}
+		cout<<ans;
+		return 0;
+	}
+\end{cppcode}

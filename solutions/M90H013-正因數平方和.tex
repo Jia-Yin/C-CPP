@@ -1,0 +1,25 @@
+\section{M90H013 - 正因數平方和}
+輸入一整數n，輸出其正因數平方和。
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 令初始answer=0。
+	\item 當輸入n除以迴圈內i整除，則令answer累加此$(i\times i)$。
+\end{enumerate}
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n;
+	cin >>n;
+	int answer = 0;
+	for (int i = 1 ; i <= n ;i++) {
+		if(n % i == 0) answer += i*i;
+	}
+	cout << answer;
+	return 0;
+}
+\end{cppcode}

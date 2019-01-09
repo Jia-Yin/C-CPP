@@ -1,0 +1,37 @@
+\section{A037 百數排序-選擇排序法}
+輸入一百個正整數，將這些數依照選擇排序法從小排到大。
+\subsection{解題思維}
+選擇排序法的方式說明如下：
+\begin{enumerate}
+	\item 首先在未排序序列中找到最小元素的位置，將這個位置的數和最前面位置的數互換。這樣的話，最前面的數已經是最小的數了。
+	\item 接下來不看最前面的數，把其它的數依上面的方式再做一次，這樣的話，第二個最小的數也已經排好了。依此類推，直到所有的數都排好為止。
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <stdio.h>
+	
+	int main()
+	{
+		int num[100];
+		int index;
+		int n=100;
+		
+		for (int i=0; i<100; i++) scanf("%d", &num[i]);
+		
+		for (int i=0; i<n; i++) {
+			index = i;
+			for(int j=i+1; j<n; j++) {
+				if(num[j] < num[index]) index = j;
+			}
+			// swap num[i] and num[index]
+			int tmp = num[i];
+			num[i] = num[index];
+			num[index] = tmp;
+		}
+		
+		for(int i = 0; i < n; i++) printf("%d ", num[i]);
+		
+		return 0;
+	}
+\end{cppcode}

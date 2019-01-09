@@ -1,0 +1,29 @@
+\section{F001 - 兩數相加}
+輸入兩整數，輸出兩數之和。
+\subsection{解題思惟}
+\begin{enumerate}
+\item 先宣告兩個變數，再使用cin或scanf取得使用者輸入的兩個數字。
+\begin{inside}
+	int a, b; // 宣告變數
+	cin >> a >> b; // 取得輸入的值, 存入a和b
+\end{inside}
+\item 將剛剛取得的兩個數字相加，並用cout或printf輸出。
+\begin{inside}
+	cout << a + b;
+\end{inside}
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int a, b;
+	cin >> a >> b;
+	cout << a + b;
+	return 0;
+}
+\end{cppcode}

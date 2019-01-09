@@ -1,0 +1,69 @@
+\section{A043 - 十六進位檢視器}
+十六進位檢視器：輸入一段連文字，印出該連文字的十六進位資料。
+
+\subsection{解題思惟}
+\begin{enumerate}
+\item 因為要輸入一串字元，可以使用字元陣列，假設輸入不含空白，長度不超過1023，可用以下宣告及程式碼：
+\begin{inside}
+	char doc[1024];
+	cin >> doc;
+\end{inside}
+\item 要針對每一個字元做處理，可以跑一個for迴圈，每次取一個字元，當字元的值不等於0時 (0為字串結束字符)，進行該字元的處理。
+\begin{inside}
+	for (int i=0; doc[i]; i++) { // 第i個字元 doc[i] 不為0時須處理
+\end{inside}
+\item 每一個字元要轉成16進位符號，因為字元有8個位元，16進位符號有4個位元，所以每個字元會有兩個16進位符號。
+\item 左邊的符號是前4個位元，假設字元為ch，可以將ch右移4個位元，這樣就只留下前面的4個位元了。
+\begin{inside}
+	ch_high = ch>>4; // 去掉後4個位元，只保留前4個位元
+\end{inside}
+\item 右邊的符號是後4個位元，可以將ch和0xF做位元AND運算得到。實際上0xF也就是二進位中最後4個位元皆為1的數，而任一個位元和位元1做位元AND運算的時候，等於保留該位元，和位元0做位元AND運算的時候，等於去掉該位元。所以和0xF做運算，等於保留最後4個位元。
+\begin{inside}
+	ch_low = ch & 0xF;
+\end{inside}
+\item 取得4個位元後，其值為$0\cdots 15$，對應到$0,1,\cdots, 9$, A, B, C, D, E, F，可以使用陣列先儲存16個字符，取索引值印出即可。或者也可以將數值k和10比較，大於等於10的話，將數值k改成字元 `A'+k-10，小於10的話，將數值k改成字元 `0'+k，這樣也可以。以下會使用陣列的方式處理，比較簡明易懂。
+\begin{inside}
+	char face[16] = {'0','1','2','3','4','5','6','7','8',
+					 '9','A','B','C','D','E','F'};
+	cout << face[ch_high] << face[ch_low];
+\end{inside}
+在上式中，因為字元陣列也可以看成是字串，所以還可以簡化如下：
+\begin{inside}
+	char face[] = "0123456789ABCDEF";
+	cout << face[ch_high] << face[ch_low];
+\end{inside}
+\item 本題也可以使用C語言的printf函式，取格式指定字 \%02X 印出該字元即可。其中X表示大寫16進位形式，02表示佔兩位，不足的話前面補0。
+\end{enumerate}
+
+\subsection{程式碼}
+使用陣列將數字改成16進位字元：
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main() {   
+	char face[] = "0123456789ABCDEF";
+	char doc[1024];
+	cin >> doc;
+	for (int i=0; doc[i]; i++) {
+		int high = doc[i] >> 4;
+		int low = doc[i] & 0xF;
+		cout << face[high] << face[low] << " ";
+	}
+	return 0;
+}
+\end{cppcode}
+使用printf函式的版本
+\begin{cppcode}
+	#include <cstdio>
+	
+	int main() {   
+		char doc[1024];
+		scanf("%s", doc);
+		for (int i=0; doc[i]; i++) {
+			printf("%02X ", doc[i]);
+		}
+		return 0;
+	}
+\end{cppcode}

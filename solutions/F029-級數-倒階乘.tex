@@ -1,0 +1,35 @@
+\section{F029 - 級數-倒階乘}
+輸入一整數n，輸出 $1/1!+1/2!+1/3!+...1/n!$
+\subsection{解題思惟}
+計算階層 sub *= k;\\
+判斷判斷與階層相加 
+\begin{inside}
+if(k==i) {
+	sum += (1/sub);
+	sub = 1;
+}
+\end{inside}
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	float n, i, k, sub=1;
+	float sum=0;
+	cin >> n;
+	for(i=1;i<=n;i++) {
+		for(k=1;k<=i;k++) {
+			sub *= k;
+			if(k==i) {
+				sum += (1/sub);
+				sub = 1;
+			}
+		}
+	}
+	cout << sum;
+	return 0;
+}
+\end{cppcode}

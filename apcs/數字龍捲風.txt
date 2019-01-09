@@ -1,0 +1,32 @@
+
+// 從中心開始，每個方向跑兩次，然後跑的長度遞增，最後一段要重覆再跑一次
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int a[49][49], n, dir, cr, cc;
+    int rdir[4]={0,-1,0,1}, cdir[4]={-1,0,1,0};
+    cin >> n >> dir;
+    for (int r=0; r<n; r++) {
+        for (int c=0; c<n; c++) cin >> a[r][c];
+    }
+    cr=n/2; cc=n/2; cout << a[cr][cc];
+    for (int i=1; i<n; i++) {
+        for (int j=0; j<2; j++) {
+            for (int k=0; k<i; k++) {
+                cr += rdir[dir];  cc += cdir[dir];
+                cout << a[cr][cc];
+            }
+            dir = (dir+1) % 4;
+        }
+    }
+    for (int k=0; k<n-1; k++) {
+        cr += rdir[dir];  cc += cdir[dir];
+        cout << a[cr][cc];
+    }
+    return 0;
+}
+

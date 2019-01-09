@@ -1,0 +1,58 @@
+\section{A045 - 大樂透包牌}
+大樂透從1到49號中選6個號碼，開獎時共開出6個號碼及1個特別號，6個號碼全中者得頭獎。
+阿平每期計算明牌，挑出8個號碼，想要將所有由這8個號碼所組的6個號碼全部簽。
+請你設計程式供阿平輸入此8個號碼，然後印出所有的簽牌可能。
+
+\subsection{解題思惟}
+
+\begin{enumerate}
+\item 將八個數讀到陣列裡。
+	\begin{inside}
+	int n[8];
+	for(int i=0; i<8; i++) {
+		scanf("%d", &n[i]);
+	}
+	\end{inside}
+\item 每次剔除兩個數，輸出其他六個數。假設a和b是要剔除的數的索引值，所以只有當輸出索引值i不等於a且不等於b時，才會輸出。
+	\begin{inside}
+	for(a=0; a<8; a++) {
+		for(b=a+1; b<8; b++) {
+			for(i=0; i<8; i++) {
+				if(i!=a && i!=b) printf("-%d", select[i]);
+			}
+		printf("\n");
+		}
+	}
+	\end{inside}
+\item 本題的輸出數字必須從小排到大，因此輸入數字之後必須先進行排序，排序的方法很多，
+此處使用氣泡排序法，程式碼如下：
+\begin{inside}
+	for (int i=1; i<8; i++) for (int j=0; j<8-i; j++) {
+		if (n[j] > n[j+1]) { t=n[j]; n[j]=n[j+1]; n[j+1]=t; }
+	}
+\end{inside}
+如果使用\cc{}，也可以引入<algorithm>，並使用std::sort(n, n+8)來進行排序。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <cstdio>
+
+int main()
+{
+	int n[8], t;
+	for (int i=0; i<8; i++) scanf("%d", &n[i]);
+	for (int i=1; i<8; i++) for (int j=0; j<8-i; j++) {
+		if (n[j] > n[j+1]) { t=n[j]; n[j]=n[j+1]; n[j+1]=t; }
+	}
+	for (int a=0; a<8; a++) {
+		for(int b=a+1; b<8; b++) {
+			for(int i=0; i<8; i++) {
+				if(i!=a && i!=b) printf("-%d", n[i]);
+			}
+			printf("\n");
+		}
+	}
+	return 0;
+}
+\end{cppcode}

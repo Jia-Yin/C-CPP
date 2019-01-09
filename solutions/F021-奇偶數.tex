@@ -1,0 +1,24 @@
+\section{F021 - 奇偶數}
+輸入一整數，輸出其奇偶性。
+
+\subsection{解題思維}
+判斷整數n是否為奇數的方法，可求其除以2的餘數，若非0即為奇數，或者將其和1做位元\&的運算，如果非0即為奇數。
+\begin{inside}
+	if (n%2) { // n 為奇數，或者
+	if (n&1) { // n 為奇數
+\end{inside}	
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main ()
+	{
+		int a;
+		cin >> a;
+		if (a%2) cout << "odd";
+		else cout << "even";
+		return 0;
+	}
+\end{cppcode}

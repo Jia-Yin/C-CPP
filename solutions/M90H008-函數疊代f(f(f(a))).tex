@@ -1,0 +1,37 @@
+\section{M90H008 函式疊代f(f(f(a)))}
+假設$f(x)=(x+3)/(x+2)$，輸入一整數 a，求f(f(f(a)))。
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item
+	只要照著題目的條件去寫 fun 函式即可。
+	\begin{inside}
+	double fun(double a) {
+		return (a+3)/(a+2);
+	}
+	\end{inside}
+	\item
+	完成 fun 函式後再代入主程式使用就好。
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+
+	using namespace std;
+	
+	double fun(double a);
+	
+	int main()
+	{
+		double a;
+		cin >> a;
+		cout << "f(f(f(" << a << ")))=" << fun(fun(fun(a)));
+		
+		return 0;
+	}
+	
+	double fun(double a) {
+		return (a+3)/(a+2);
+	}
+\end{cppcode}

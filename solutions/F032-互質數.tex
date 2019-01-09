@@ -1,0 +1,30 @@
+\section{F032 - 互質數}
+輸入一個整數N，從小到大輸出所有1到N中與N互質的數。
+\subsection{解題思惟}
+要判斷i與n是否互質，可以令k從2跑到i，並檢查k是否為n與i的共同因數。
+\begin{inside}
+if(i%k==0 && n%k==0) coprime=0;
+\end{inside}
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n, coprime, cnt=0;
+	cin >> n;
+	for (int i=1; i<=n; i++) {
+		coprime = 1;
+		for (int k=2; k<=i; k++) {
+			if(i%k==0 && n%k==0) { coprime=0; break; }
+		}
+		if (coprime) {
+			cout << " " << i;
+			if (++cnt%10==0) cout << endl;
+		}
+	}
+	return 0;
+}
+\end{cppcode}

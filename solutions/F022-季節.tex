@@ -1,0 +1,46 @@
+\section{F022 - 季節}
+輸入一月份，輸出其季節，其中季節和月份的關係如下：春季(3-5)，夏季(6-8)，秋季(9-11)，冬季(12-2)。若輸入的值不屬於月份，則印出error。
+
+\subsection{解題思維}
+本題可使用if，巢狀if-else，或者也可以使用switch來判斷，以下列出兩種方式供讀者參考。
+
+\subsection{程式碼}
+使用if判斷式
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+
+	int main()
+	{
+		int m;
+		cin >> m;
+		if (m >= 3 && m <= 5) cout << "spring";
+		if (m >= 6 && m <= 8) cout << "summer";
+		if (m >= 9 && m <= 11) cout << "fall";
+		if (m == 1 || m == 2 || m==12) cout << "winter";
+		if (m < 1 || m > 12) cout << "error";
+		return 0;
+	}		
+\end{cppcode}
+
+\noindent 使用switch判斷式
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int m;
+		cin >> m;
+		switch (m) {
+		case 1: case 2: case 12: cout << "winter"; break;
+		case 3: case 4: case 5: cout << "spring"; break;
+		case 6: case 7: case 8: cout << "summer"; break;
+		case 9: case 10: case 11: cout << "fall"; break;
+		default: cout << "error";
+		}
+		return 0;
+	}	
+\end{cppcode}

@@ -1,0 +1,27 @@
+\section{M90H057 - 級數極限 $1+1/3+1/3^2+1/3^3+\cdots$}
+請使用double型別，計算無窮級數$1+1/3+1/3^2+1/3^3+\cdots$。 
+
+\subsection{解題思惟}
+此題的題型與
+\ref{M90H054}
+「級數極限 $1+1/2+1/4+1/8+\cdots$」相同，只需要更改累加的規則。
+
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		double n=1.0, ans=0.0, next=1.0;
+		while (ans != next) {
+			ans = next;
+			n /= 3.0;
+			next += n;
+		}
+		cout << ans;
+		return 0;
+	}
+\end{cppcode}

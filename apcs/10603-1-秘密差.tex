@@ -1,0 +1,48 @@
+\section{10603-1 秘密差}
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 這個題目首先必須處理數字的讀取，按照題目給的測試資料，位數可能高達1000，所以不能使用數字型態來讀取，而要使用字串來處理，否則位數多的時候不能通過，只能得基本分。\item 用字串讀取數字之後，奇數位和偶數位的數字要分別取正負號加總，最後再取絕對值就可以了。
+\end{enumerate}
+
+\subsection{程式碼}
+以下程式碼用數字讀取輸入，但位數太大會有問題，只能得基本分。
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n, df=0, op=1; // op 用來做正負變換
+	cin >> n;
+	while (n) {
+		df += op * (n%10); // n%10 ==> 取個位
+		n /= 10; // 去掉個位
+		op = -op; // 正負變換
+	}
+	if (df<0) df = -df; // 取絕對值
+	cout << df << endl;
+	return 0;
+}
+\end{cppcode}
+以下程式碼用字串讀取輸入，位數再多都不怕。
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int df=0, op=1;
+	char num[1005];
+	cin >> num;
+	for (int i=0; num[i]; i++) {
+		df += op * (num[i]-'0'); // 將文字型態的數字轉成純數字
+		op = -op;
+	}
+	if (df<0) df = -df;
+	cout << df << endl;
+	return 0;
+}
+\end{cppcode}

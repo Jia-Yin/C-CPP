@@ -1,0 +1,41 @@
+\section{M90H035 平面幾何-點到線之距離}
+輸入平面上的點$P=(u, v)$及直線$L: ax+by=c$共五個參數$u, v, a, b, c$，輸出點$P$到直線$L$的最小距離。
+\subsection{解題思維}
+\begin{enumerate}
+	\item 
+$ax+by=c$的法向量為$(a,b)$，假設從$(u,v)$加上$k$倍法向量$(a,b)$落在直線$L$上，則
+$$ a(u+ka) + b(v+kb) = c $$
+所以
+$$ k = \frac{c-au-bv}{a^2+b^2} $$
+故點$P$到直線$L$的距離為
+$$ |k\sqrt{a^2+b^2}| = |c-au-bv| / \sqrt{a^2+b^2}$$
+	\item
+	依上面公式，可以寫出一點到直線距離的函式 len：
+	\begin{inside}
+	double len(int u, int v, int a, int b, int c) {
+		return abs(a*u+b*v-c)/sqrt(a*a+b*b);
+	}
+	\end{inside}
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	#include <cmath>
+
+	using namespace std;
+	
+	double len(int u, int v, int a, int b, int c);
+	
+	int main()
+	{
+		int u, v, a, b, c;
+		cin >> u >> v >> a >> b >> c;
+		cout << len(u, v, a, b ,c);
+		return 0;
+	}
+	
+	double len(int u, int v, int a, int b, int c) {
+		return abs(a*u+b*v-c)/sqrt(a*a+b*b);
+	}
+\end{cppcode}

@@ -1,0 +1,40 @@
+\section{A017 - 三角形種類}
+輸入為三角形三邊長(正整數) a, b, c，輸出三角形類型(英文)：isosceles triangle (等腰三角形), not a triangle (不成三角形), regular triangle (正三角形), rectangular triangle (直角三角形), obtuse triangle (鈍角三角形), acute triangle (銳角三角形), isosceles right triangle (等腰直角三角形)。
+
+\subsection{解題思維}
+\begin{enumerate}
+\item 先將三角形的三個邊a, b, c進行排序，這樣後面要判斷是哪一種三角形會比較方便。
+\item 接著使用巢狀的if-else進行分支判斷，判斷的順序，可以有很多方式。基本原則是找出一個條件和其他所有的條件都相反的，把它當作if的條件式，其餘的通通歸到else那一邊，然後在else的區塊裡，再繼續使用if-else細分出其他的各種種類。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int a, b, c;
+		cin >> a >> b >> c;
+		if(a>b) swap(a, b);
+		if(b>c) swap(b, c);
+		if(a>b) swap(a, b);
+		
+		// 三角形種類
+		if(a+b<=c) { // 兩小邊和小於等於大邊 => 不成三角形
+			cout << "not a triangle";
+		} else if(a==c) { // 最大和最小相等，表示三邊都相等 => 正三角形
+			cout << "regular triangle"; 
+		} else if((a==b) && (a*a+b*b==c*c)) { // 小邊相等，平方和等於大邊平方
+			cout << "isosceles righttriangle"; // => 等腰直角三角形
+		} else if(a==b || b==c) { // 任兩邊相等 => 等腰三角形
+			cout << "isosceles triangle";
+		} else if(a*a+b*b==c*c) { // 兩小邊平方和等於大邊平方
+			cout << "rectangular triangle"; // => 直角三角形
+		} else if(a*a+b*b<c*c) { // 兩小邊平方和小於大邊平方
+			cout << "obtuse triangle"; // => 鈍角三角形
+		} else cout << "acute triangle"; // => 最後剩下銳角三角形
+		return 0;
+	}
+\end{cppcode}

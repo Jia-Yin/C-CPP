@@ -1,0 +1,42 @@
+\section{A057 遞迴算費式數列-計算函式呼叫次數}
+費氏數列 f(0)=0, f(1)=1, f(n)=f(n-1)+f(n-2);請依照此定義計算費氏數列，並計算函式呼叫次數。本題輸入為一個正整數 n ，輸出為函式呼叫次數及 f(n)。
+
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item
+	首先先寫費氏數列的遞迴函式 f(n)。
+	\begin{inside}
+	int fn(int n) {
+		if(n<2) return n; // n為0回傳0，n為1回傳1
+		return fn(n-1)+fn(n-2); //其他情況則回傳 fn(n-1)+fn(n-2)
+	}	
+	\end{inside}
+	\item
+	計算函式呼叫次數的方式，如上一題A056的方式處理即可。
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	using namespace std;
+
+	int cnt = 0;	
+	int fn(int n);
+
+	int main()
+	{
+		int n;
+		cin >> n;
+		int ans = fn(n);
+		cout << cnt << endl;
+		cout << "f(n)=" << ans;
+		return 0;
+	}
+	
+	int fn(int n) {
+		if(n==0) return 0;
+		if(n==1) return 1;
+		return fn(n-1)+fn(n-2);
+	}
+\end{cppcode}

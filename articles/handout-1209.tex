@@ -1,0 +1,96 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[text={17cm,23cm},centering]{geometry}
+\usepackage[CJKecglue={}]{xeCJK}
+\usepackage{xcolor,colortbl}
+\usepackage{minted}
+\usepackage{enumitem}
+\setCJKmainfont{DFFangSong-W4-HKP-BF.ttf}
+\newCJKfontfamily[ming]\mingti{DFMing-Md-HK-BF.ttf}
+\newCJKfontfamily[hei]\heiti{DFHei-Md-HK-BF.ttf}
+\newcommand{\cc}{C\texttt{++}}
+\setlist[enumerate]{topsep=-6pt}
+\newminted{cpp}{xleftmargin=.8cm,linenos,baselinestretch=1.1,autogobble=true,tabsize=4,showtabs=false,frame=single,framesep=10pt,breaklines}
+\newminted[inside]{cpp}{tabsize=4,baselinestretch=1.1,autogobble=true,xleftmargin=.8cm}
+
+\begin{document}
+\centerline{\LARGE 12/09 參考講義}
+\vspace{0.7cm}
+這份講義只有條列幾個程式碼供同學參考，更詳細的講義內容，請參考兩份電子檔。
+
+\section{A009 質數判別}
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int i, n, flag=1;
+		cin >> n;
+		if (n==1) flag=0; // 1 非質數
+		else if (n>3) { // 2和3是質數，flag不用變動，處理n>3情況即可
+			if (n%2==0) flag=0; // 偶數非質數
+			else for (i=3; i*i<=n; i+=2) { // 只檢查奇數i，範圍i*i<=n
+				if (n%i==0) { flag=0; break; } // 發現因數，設定旗標跳出
+			}
+		}
+		if (flag) cout << "Yes";
+		else cout << "No";
+		return 0;
+	}
+\end{cppcode}
+
+\section{B898 畢氏定理}	
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n; cin >> n;
+	string a, b, c;
+	for (int i=0; i<n; i++) {
+		cin >> a >> b >> c;
+		if (a.length()>b.length() || (a.length()==b.length() && a>b)) swap(a, b);
+		if (b.length()>c.length() || (b.length()==c.length() && b>c)) swap(b, c);
+		cout << c << endl;
+	}
+	return 0;
+}
+\end{cppcode}	
+
+
+\section{ITSA-58-2 道路修補}
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int kase, n, s, e, lend[10000];
+		while (kase--) {
+			for (int i=0; i<10000; i++) lend[i]=0;
+			cin >> n;
+			while (n--) {
+				cin >> s >> e;
+				for (int i=s; i<e; i++) lend[i]=1;
+			}
+			int sum = 0;
+			for (int i=0; i<10000; i++) sum+=lend[i];
+			cout << sum << endl;
+		}
+		return 0;
+	}	
+\end{cppcode}
+
+\section{其他}
+	
+\begin{enumerate}
+	\item 60分鐘尬程式。
+	\item 2018/2/24 APCS，2017/12/20開始報名。
+	\item 2018/2/5, 2/22, 9:00-12:00AM 考前培訓。
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,29 @@
+\section{10510-1 三角形辨別}
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 輸入三個數之後先排序。
+	\item 排序之後依題示進行判斷即可。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int a, b, c;
+	cin >> a >> b >> c;
+	if (a>b) swap(a,b); // 此處三列用來排序
+	if (b>c) swap(b,c);
+	if (a>b) swap(a,b);
+	cout << a << " " << b << " " << c << endl;
+	if (a+b<=c) cout << "No";
+	else if (a*a+b*b<c*c) cout << "Obtuse";
+	else if (a*a+b*b==c*c) cout << "Right";
+	else cout << "Acute";
+	return 0;
+}
+\end{cppcode}

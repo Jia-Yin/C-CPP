@@ -1,0 +1,21 @@
+\section{F025 - 級數-平方和}
+輸入一整數n，輸出 $1^{2}+2^2+3^2+...+n^2$
+\subsection{解題思惟}
+使用迴圈包覆n的平方後相加
+\subsection{程式碼}
+\begin{cppcode}
+#include<iostream>
+
+using namespace std;
+
+int main()
+{
+	int n, sum=0;
+	cin >> n;
+	for(int i=1; i<=n; i++) {
+		sum += i*i;
+	}
+	cout << sum;
+	return 0;
+}
+\end{cppcode}

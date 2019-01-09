@@ -1,0 +1,32 @@
+\section{10603-2 小群體}
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 先用陣列把N個人的好友編號存起來。
+	\item 接下來從陣列最前面開始，依序找每個人的好友，找到好友編號之後，接下來再繼續找他的好友，這樣反覆讀取，都是同一個群組的，那找到什麼時候停止呢？
+	\item 我們可以另外設一個陣列，來表示某個人是否曾經被找過。一開始把這個陣列全設為0，那如果某個人被找過了，就把他的位置改成1。這樣一來，上面的尋找過程，只要碰到被找過的人，就可以停止尋找了。另外在上面依序處理的過程中，被找過的人也不用再處理，可以直接跳過。
+	\item 用另外一個變數計算總共有幾個群組就好了。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int gf[50005], n, mark[50005]={0}, group=0;
+	cin >> n;
+	for (int i=0; i<n; i++) cin >> gf[i];
+	for (int i=0; i<n; i++) {
+		if (mark[i]) continue; // 這個人被找過了，跳過
+		group++; // 新增一個群組
+		do {
+			mark[i]=1; i=gf[i]; // 標記該人，並繼續找他的好友
+		} while (mark[i]==0); // 如果好友還沒被找過，繼續處理
+	}
+	cout << group << endl;
+	return 0;
+}
+\end{cppcode}

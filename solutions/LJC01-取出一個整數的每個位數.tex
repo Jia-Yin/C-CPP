@@ -1,0 +1,27 @@
+\section{取出一個整數的每個位數}
+輸入一個整數，把每個位數印出來(從個位數開始印)。輸出時，用換行符號分隔每一個數。
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 取出一個整數n的個位，可以使用n\%10求餘數即可。
+	\item 將一個整數n的個位去掉，可以使用 n/=10 求商即可。
+	\item 如果 n>0，表示n還有位數可取，可以重覆以上的計算。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n;
+	cin >> n;
+	while (n) {
+		cout << n%10 << endl;
+		n/=10;
+	}
+	return 0;
+}
+\end{cppcode}

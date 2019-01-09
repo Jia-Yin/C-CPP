@@ -1,0 +1,36 @@
+\section{F031 函式-印n次}
+輸入一整數n，運用print(n)印出n次``i love C++"。
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item
+	print 函式，有一個輸入 n，並且輸出 n 次 ``i love C++"：
+	\begin{inside}
+	void print (int n) {
+		while(n--) cout << "i lovd C++\n";	
+	}
+	\end{inside}
+	\item
+	完成 print 函式後再代入主程式使用就好。
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+
+	using namespace std;
+	
+	void print(int n);
+	
+	int main()
+	{
+		int n;
+		cin>>n;
+		print(n);
+		return 0;
+	}
+	
+	void print(int n) {
+		while(n--) cout << "i love C++\n";
+	}
+\end{cppcode}

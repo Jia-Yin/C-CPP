@@ -1,0 +1,254 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{jyw-program}
+
+\begin{document}
+\title{河內塔物件設計}
+\author{Jia-Yin Wang}
+\maketitle
+
+\begin{abstract}
+這個課程要討論如何設計一個可以使用的河內塔物件。我會提供一些思惟和實作的過程，但也會留一些作業讓大家討論和思考。本課程結束後，我希望各組可以把這個小題目完成。另外，我也會講解如何把程式碼變成程式庫，以及在Code::Blocks中使用程式庫的方法。
+\end{abstract}
+\section{設計物件操作界面}
+\noindent 設計經驗分享：
+
+\begin{enumerate}
+	\item 在發展物件導向程式設計的時候，經常會先從一些小元件寫起，把一些小元件寫完之後，再使用它來設計出更大的元件。
+	\item 當然一開始有個整體的構想是比較好的，但可能也沒有辦法想得很完整。之後在撰寫元件的時候，可能會有一些修正的過程，這是正常的。
+	\item 在實作過程，慢慢會累積一些經驗，等到經驗豐富之後，碰到問題就可以比較快想出解決的辦法。
+\end{enumerate}
+
+\vspace{0.5cm}
+\noindent 以河內塔為例，我目前所寫的物件操作介面如下：
+\begin{cppcode}
+class Hanoi {
+public:
+	Hanoi();
+	
+	void SetSticks(string left, string middle, string right);
+	void SetDelay(int val) { m_Delay = val; }
+	void ShowNumber(bool show) { m_sring = show; }
+	void PutRings(int r, int n);
+	void PutRings(string r, int n);
+	void Move(int from, int to);
+	void Move(string from, string to);
+}
+\end{cppcode}
+這裡Hanoi是物件名稱，第一個Hanoi()函式是所謂的constructor，我是想用它來畫框和柱。接下來幾個方法構想如下：
+\begin{enumerate}
+	\item SetStick函式用來設定柱子的名稱，所以給三個字串。（Q1：可以使用字元嗎?）
+	\item SetDelay函式用來設定畫格延遲時間，所以給一個整數。因為程式較短，所以直接把程式碼寫在後面。（延伸：查一下什麼叫做inline函式。)
+	\item ShowNumber函式，這個函式在一開始設計的時候沒有想到，是在操作的時候，發現不清楚現在移動的是哪一個環，所以才把它加上去的。就是用數字標示每一個環，讓使用者易於了解現在是在操作哪一個環。當然，你也可以考慮不要在環上面放數字，而是把環的資訊顯示在螢幕某一個部份，這也是可以的。這個函式只設定旗標值而已。
+	\item PutRings，這個函式是設定在哪一根柱上面放幾個環，所以有兩個參數。第一個指明哪一根柱，第二個說明放幾個環。一般河內塔問題會先說明共有幾個環，放在哪一根柱子上，就用這個函式來處理。最初設計這個函式的時候，只有數字的版本(0=左柱，1=中柱，2=右柱)，後來想說柱子都有名稱，所以加上了用字串取代柱子編號的版本。
+	\item Move函式，這個函式用來模擬移動的過程。最初覺得河內塔問題，如果可以用機械手臂和實體積木做為實作練習的平台，學習效果可能會更好，但實際上沒有辦法給大家一人一個機械手臂，所以用動畫來模擬。那這個函式就是模擬手臂移動環的過程。可能也是整個物件最難實作的部份。
+\end{enumerate}
+\vspace{1cm}
+
+\section{實作過程}
+第一個考量是使用圖形或文字介面?如果使用圖形介面的話，可能視覺效果會比較好，但是有兩個問題必須考量：1)圖形介面的程式設計，可能更為複雜，對同學來說，可能需要更多時間去學習和理解。2)設計出來的物件，希望幫助同學學習河內塔遞迴函式的設計，這其中可能會有逐步移動及除錯的需求，用圖形介面設計的話，可能更難和文字程式的除錯過程結合在一起。最後考量是使用文字介面撰寫。
+
+第二個考量，文字介面設計的話，如何畫出簡單的圖形呢?答案是找網路資源。這種console類的程式庫網路上其實很多，我選擇的是rlutil，這個程式很小，簡單容易使用，而且C和\cc{}都可以使用，詳細資訊可以參考\url{https://github.com/tapio/rlutil}。（Q2：你可以找到其他類似功能的程式庫嗎?）
+
+\subsection{constructor}
+建構元不用給參數。基本上設定一些啟始參數，並且把框和柱畫出來。
+\begin{cppcode}
+const int OFFSET_X = 2;
+const int OFFSET_Y = 1;
+const int SEP_Y = 2;
+const int WIDTH = 75;
+const int HEIGHT = 22;
+const int STICKWIDTH = 10;
+	
+Hanoi::Hanoi()
+{
+	m_stick[0] = "A";
+	m_stick[1] = "B";
+	m_stick[2] = "C";
+	m_sring = false;
+	m_Delay = 100;
+	m_yBase = OFFSET_Y+HEIGHT-5;
+	m_x[1] = OFFSET_X+WIDTH/2+1;
+	m_x[0] = m_x[1]-2*STICKWIDTH-3;
+	m_x[2] = m_x[1]+2*STICKWIDTH+3;
+	DrawBound();
+	DrawSticks();
+	//ctor
+}
+\end{cppcode}
+這裡 m\_yBase是柱子的y座標，m\_x陣列存的是柱子的x座標。畫框和畫柱分別由兩個函式來完成。一般而言，我們習慣把複雜的工作分成幾個簡單的部份，每個部份用一個函式來處理，這樣可以把問題簡化成幾個小題，個別加以解決。
+
+這裡畫框和畫柱的兩個函式，為什麼沒有放在操作介面裡呢?基本上這應該是內部使用的函式，不需要讓使用者知道或使用，像這樣的函式，可以放在protected或private的區段中。protected區段，是繼承的物件可以看見並使用的; private區段，則只有這個物件本身內部可以看見並使用。在這裡我是把兩個函式放到private區段中。
+
+\subsubsection{DrawBound}
+怎麼在螢幕的某個地方畫出一個點呢?先使用rlutil的locate函式定位游標位置，接著設定背景顏色，然後畫一個空格就可以了。知道怎麼畫點，就可以畫線，可以畫框了。
+\begin{cppcode}
+void Hanoi::DrawBound()
+{
+	setBackgroundColor(WALLCOLOR);
+	locate(OFFSET_X, OFFSET_Y);
+	for (int i=0; i<WIDTH; i++) cout << " ";
+	locate(OFFSET_X, OFFSET_Y+HEIGHT-1);
+	for (int i=0; i<WIDTH; i++) cout << " ";
+	
+	for (int i=0; i<HEIGHT; i++) {
+		locate(OFFSET_X, OFFSET_Y+i);
+		cout << "  ";
+		locate(OFFSET_X+WIDTH, OFFSET_Y+i);
+		cout << "  ";
+	}
+}
+\end{cppcode}
+在上述程式中，第5列畫上邊界，第7列畫下邊界，第10和12列分別畫左邊界和右邊界。
+
+\subsubsection{DrawStick}
+怎麼畫柱呢?因為有三根柱，所以可以寫一個函式畫一根柱的，然後呼叫三次就可以了。每次給的是柱的水平位置（垂直位置為什麼不用給定呢?），以及柱子的標示（會印在柱子的下方）。這裡三個柱子的標示用字串陣列m\_stick來儲存。
+\begin{cppcode}
+void Hanoi::DrawSticks()
+{
+	DrawStick(m_x[0], m_stick[0]);
+	DrawStick(m_x[1], m_stick[1]);
+	DrawStick(m_x[2], m_stick[2]);
+}
+
+void Hanoi::DrawStick(int x0, string str)
+{
+	setBackgroundColor(STICKCOLOR);
+	for (int i=-STICKWIDTH; i<=STICKWIDTH; i++) {
+		locate(x0+i, m_yBase);
+		cout << " ";
+	}
+	for (int i=1; i<=10; i++) {
+		locate(x0, m_yBase-i);
+		cout << " ";
+	}
+	setColor(FONTCOLOR);
+	setBackgroundColor(0);
+	locate(x0-str.length()/2, m_yBase + 2);
+	cout << str;
+}
+\end{cppcode}	
+第10到14列畫水平部份，第15到18列畫垂直部份，之後的程式碼是在柱子下方印出文字。
+
+\subsection{SetStick}
+這個部份相對簡單，只要設定柱子的標示，並且重新呼叫畫柱的函式就可以了。從這裡也可以看出，我們上面把畫框和畫柱的函式分開，是有好處的，我們只要針對要重新處理的部份進行呼叫即可。（Q3：可否把畫柱體及標示文字的部份再分成兩個函式?)
+\begin{cppcode}
+void Hanoi::SetSticks(string left, string middle, string right)
+{
+	m_stick[0] = left;
+	m_stick[1] = middle;
+	m_stick[2] = right;
+	DrawSticks();
+}
+\end{cppcode}
+
+\subsection{PutRings}
+放環在柱子的函式，針對柱的標示，有數字和文字兩種版本，但實際上只要寫一套即可，另一套找出對應的數字或文字，加以呼叫即可。實作時，我是先寫數字的版本，寫完之後，才想到文字的版本。那文字的版本，就找出對應的數字，然後加以呼叫即可。
+\begin{cppcode}
+void Hanoi::PutRings(string r, int n)
+{
+	int s = -1;
+	for (int i=0; i<3; i++) if (m_stick[i]==r) s = i;
+	if (s<0) ShowError("No stick : " + r);
+	PutRings(s, n);
+}
+
+void Hanoi::PutRings(int r, int n)
+{
+	if (n>7) {
+		n = 7;
+		ShowMessage("At most 7 rings, Set rings = 7");
+	}
+	for (int i=n; i>0; i--) {
+		int y = m_yBase - m_stack[r].size() - 1;
+		for (int j=-i; j<=i; j++) {
+			resetColor();
+			setColor(COLORS[i]);
+			locate(m_x[r]+j, y);
+			m_sring ? cout << i : cout << 'O';
+		}
+		m_stack[r].push(i);
+	}
+}
+\end{cppcode}	
+第11到14列，判斷環的個數，如果超過7個，就設定成7個，實際應用，設太多也沒有意義。
+第15列，i用來標示第幾個環，所以是從n變到1。(Q4:為何從下往上畫，而不從上往下畫?)
+第17到22列，畫第i個環。這邊要判斷一下m\_sring變數，看畫的時候要不要標號，如果要的話，要輸出數字而不是空格。
+
+另外，ShowError和ShowMessage函式，是用來顯示一些警示或提醒的文字訊息，只要找一個空白處，將文字印出來即可。
+
+\subsection{Move}
+Move函式用來把環從一根柱子移動到另一根柱子，因為一定是移動最上面的環，所以只要提供出發點和目的地即可。因為柱子可以用數字或文字來標示，所以一樣有兩個版本，但只要針對其中一個撰寫，另一個變換符號後，直接呼叫寫好的函式即可。
+
+每根柱子上面可能有若干個環，並且要支援移入移出的功能，這要用什麼來處理呢?基本上，使用陣列、向量vector、或者堆疊stack皆可，這裡我是使用堆疊。關於堆疊基本的使用說明，可以參考這一篇：
+\url{http://blog.csdn.net/wallwind/article/details/6858634}。
+\begin{cppcode}
+	void Hanoi::Move(string from, string to)
+	{
+		int f=-1, t=-1;
+		for (int i=0; i<3; i++) {
+			if (m_stick[i]==from) f=i;
+			if (m_stick[i]==to) t=i;
+		}
+		if (f<0) ShowError("No stick : "+from);
+		if (t<0) ShowError("No stick : "+to);
+		Move(f, t);
+	}
+	
+	void Hanoi::Move(int from, int to)
+	{
+		string str = "Move from " + m_stick[from] + " to " + m_stick[to];
+		ShowMessage(str);
+		if (!m_stack[from].size()) ShowError("Move from empty stick!");
+		else if (m_stack[to].size()>0 && 
+			(m_stack[from].top() > m_stack[to].top()))
+				ShowError("Move big on top of small!");
+		int n = MoveToTop(from);
+		MoveAtTop(from, to , n);
+		MoveToStick(to, n);
+		ShowMessage("");
+		msleep(m_Delay);
+	}
+\end{cppcode}
+第17列檢查出發點是否有柱子，如果沒有的話，要印出錯誤訊息。第18-19列檢查出發點最上面的環有沒有大於目的環最上面的環，有的話也要印出錯誤訊息。
+第21列使用MoveToTop函式把環從出發柱移到上方，第22列使用MoveAtTop函式從出發柱上方移到目的柱上方，第23列使用MoveToStick函式從目的柱上方移到柱子裡。
+
+\subsection{MoveToTop}
+這個函式把環從出發柱移到上方的程式碼，基本上是內部使用的，所以一樣設定成private。基本上移動的方法，就是跑一個迴圈，每次在新的位置畫上柱環，並且把舊的柱環位置消去，然後停一個延遲時間，再繼續下一回合，連續下來，就成了移動的動作。這裡每次迴圈停留的延遲時間，可以用來控制移動的速度。另外要注意的是，因為消去柱環之後，可能中間的柱子部份會跑出來，所以可能要補畫柱子的部份。
+\begin{cppcode}
+int Hanoi::MoveToTop(int from)
+{
+	hidecursor();
+	int yfrom = m_yBase - m_stack[from].size();
+	int yto = m_yBase - 10 - SEP_Y;
+	int n = m_stack[from].top();
+	for (int y=yfrom; y>yto; y--) {
+		resetColor(); setColor(COLORS[n]);
+		locate(m_x[from]-n, y-1);
+		for (int j=-n; j<=n; j++) m_sring ? cout << n : cout << 'O';
+		resetColor();
+		locate(m_x[from]-n, y);
+		for (int j=-n; j<=n; j++) cout << ' ';
+		if (y>OFFSET_Y+6) {
+			locate(m_x[from], y);
+			setBackgroundColor(STICKCOLOR);
+			cout << ' ';
+		}
+		cout.flush();
+		msleep(m_Delay);
+	}
+	m_stack[from].pop();
+	return n;
+}
+\end{cppcode}
+第4列計算要移動的柱子目前的y座標，第5列計算要移往的y座標，第7-21列是移動的程式，其中8-10列是畫新的環，11到13列是消去舊的環，第14列判斷是否在柱子的範圍內，如果是的話，使用第15-17列補畫柱子。第19列是強迫螢幕輸出目前的內容（緩衝資料不一定會立刻呈現出來，但要產生平滑的移動效果，所以強迫輸出）。第20列是產生延遲。第22列在柱環移出之後，將最上面的環pop出來，以更新柱子儲存的柱環資料。
+	
+Q5:請自行撰寫MoveAtTop以及MoveToStick兩個函式，並測試柱環的移動狀況。
+\vspace{1cm}
+
+\section{製作及使用程式庫}
+程式庫大略分為兩種，一種是靜態的，一種是動態的。靜態的通常都是在產生執行檔前連結引入，會成為執行檔的部份，一般副檔名為.a；動態的則是在程式執行的時期，由程式尋找程式庫檔案引入並執行，通常在Windows中副檔名為.dll，在unix系統則為.so。使用Code::Blocks要產生
+
+實際製作及使用方式待補。課堂講解。
+
+\end{document}

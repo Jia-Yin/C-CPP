@@ -1,0 +1,29 @@
+\section{F015 - 是否為畢氏數}
+輸入三個大於零的數字a、b、c，問其中兩數平方和是否為第三數之平方。 如果是，則輸出``yes"，否則輸出``no"。 如果輸入小於等於零的數，則輸出``input error"。
+\subsection{解題思維}
+\begin{enumerate}
+\item 宣告三整數 a, b, c，先判斷輸入是否小於等於零，如果是則輸出 input error。
+\item 如果不是的話，我們先對 a, b, c 進行排序，再檢查$a^2+b^2=c^2$是否成立。
+\item 本題也可以不用排序，直接判斷是否$a^2+b^2=c^2$， $a^2+c^2=b^2$， $b^2+c^2=a^2$三者中有一個成立。
+\end{enumerate}
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int a, b, c;
+		cin >> a >> b >> c;
+		if (a<=0 || b<=0 || c<=0) cout << "input error";
+		else {
+			if (a>b) swap(a, b);
+			if (b>c) swap(b, c);
+			if (a>b) swap(a, b);
+			if (a*a+b*b==c*c) cout << "yes";
+			else cout << "no";
+		}
+		return 0;
+	}
+\end{cppcode}

@@ -1,0 +1,27 @@
+\section{F020 - 計算BMI}
+輸入身高(公尺)及體重(公斤)，計算BMI=體重/身高平方，\\
+若\ BMI<18.5，則輸出``too thin"；\\
+若\ 18.5$\le$BMI$<$24，則輸出``standard"；\\
+若\ BMI$\ge$24，則輸出``too fat"。
+\subsection{解題思惟}
+本題的輸入為浮點數，可使用float或double宣告身高及體重兩個變數。
+另外可再宣告BMI變數，依題目所給的公式計算BMI值，再使用分支指令判斷大小即可。
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	float height, weight;
+	cin >> height >> weight;
+	float BMI = weight / (height * height);
+	cout << BMI << endl;
+	if (BMI < 18.5) cout << "too thin";
+	else if (BMI < 24) cout << "standard";
+	else cout << "too fat";
+	return 0;
+}
+\end{cppcode}

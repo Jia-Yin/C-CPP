@@ -1,0 +1,30 @@
+\section{A003 - 攝氏轉華氏}
+輸入攝氏溫度，輸出華氏溫度。(華氏F)=(攝氏C)*9/5+32，小數部份請無條件捨去。
+\subsection{解題思惟}
+\begin{enumerate}
+\item　先宣告一個變數，再使用cin或scanf取得使用者輸入的攝氏溫度存入變數。
+\begin{inside}
+	int a; // 宣告變數
+	cin >> a; // 取得輸入的值
+\end{inside}
+\item 將剛剛取得的攝氏溫度套入公式，並用cout輸出。PS：整數運算式得到的結果只取整數部份。
+\begin{inside}
+	cout << "F=" << a*9/5 + 32;
+\end{inside}
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int a;
+	cout << "C=" << endl;
+	cin >> a;
+	cout << "F=" << a*9/5 + 32;
+	return 0;
+}
+\end{cppcode}

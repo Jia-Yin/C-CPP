@@ -1,0 +1,107 @@
+// ================================================================================
+// Initial version: bubble sort
+// Pass only 75% due to time limit ==> we need quick sort
+
+#include <iostream>
+
+using namespace std;
+
+int w[100005], f[100005], s[100005];
+
+bool myfunction (int i, int j) { return w[i]*f[j]>w[j]*f[i]; }
+
+int main()
+{
+    int n;
+    cin >> n;
+    for (int i=0; i<n; i++) cin >> w[i];
+    for (int i=0; i<n; i++) cin >> f[i];
+    
+    for (int i=1; i<n; i++) {
+        for (int j=0; j<n-i; j++) {
+            if (w[j]*f[j+1]>w[j+1]*f[j]) {
+                swap(w[j], w[j+1]);
+                swap(f[j], f[j+1]);
+            }
+        }
+    }
+    
+    s[0] = w[0];
+    for (int i=1; i<n; i++) s[i] = s[i-1]+w[i];
+    long long sum = 0;
+    for (int i=1; i<n; i++) sum += s[i-1]*f[i];
+    cout << sum << endl;
+    return 0;
+}
+
+// ================================================================================
+// STL sort first version
+// Pass 75% due to overflow ==> use long long instead of int
+
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+struct item {
+    int weight;
+    int freq;
+};
+    
+item items[100005];
+int s[100005];
+
+bool myfunction (item i, item j) { return i.weight*j.freq < j.weight*i.freq; }
+
+int main()
+{
+    int n;
+    cin >> n;
+    for (int i=0; i<n; i++) cin >> items[i].weight;
+    for (int i=0; i<n; i++) cin >> items[i].freq;
+    
+    sort(items, items+n, myfunction);
+    
+    s[0] = items[0].weight;
+    for (int i=1; i<n; i++) s[i] = s[i-1]+items[i].weight;
+    long long sum = 0;
+    for (int i=1; i<n; i++) sum += s[i-1]*items[i].freq;
+    cout << sum << endl;
+    return 0;
+}
+
+// ================================================================================
+// STL sort last version
+
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+struct item {
+    long long weight;
+    long long freq;
+};
+    
+item items[100005];
+long long s[100005];
+
+bool myfunction (item i, item j) { return i.weight*j.freq < j.weight*i.freq; }
+
+int main()
+{
+    int n;
+    cin >> n;
+    for (int i=0; i<n; i++) cin >> items[i].weight;
+    for (int i=0; i<n; i++) cin >> items[i].freq;
+    
+    sort(items, items+n, myfunction);
+    
+    s[0] = items[0].weight;
+    for (int i=1; i<n; i++) s[i] = s[i-1]+items[i].weight;
+    long long sum = 0;
+    for (int i=1; i<n; i++) sum += s[i-1]*items[i].freq;
+    cout << sum << endl;
+    return 0;
+}
+

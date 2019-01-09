@@ -1,0 +1,79 @@
+\section{A056 遞迴計算最大公因數-計算函式呼叫次數}
+遞迴計算最大公因數-計算函式呼叫次數\\輸入兩個正整數xy，輸出依序為函式呼叫次數及最大公因數。\\其gcd函式依照以下準則撰寫： \\
+1. 如果 x小於0 改計算 y 與 -x 的最大公因數 \\
+2. 如果 x大於y 改計算 y 與 x 的最大公因數 \\
+3. 如果 x等於0 回傳y \\
+4. 回傳 y%x 與 x 的最大公因數 \\
+在過程中，你需要紀錄函式呼叫的次數。
+
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item
+	首先撰寫gcd遞迴函式：
+	\begin{inside}
+	int gcd(int x, int y) {
+		if(x<0) return gcd(y, -x); 
+		//如果 x 小於 0，藉由回傳 (y, -x) 來改計算 y 與 -x 的最大公因數
+		if(x>y) return gcd(y, x);
+		//如果 x 大於 y，藉由回傳 (y, x) 來改計算 y 與 x 的對大公因數 
+		if(x==0) return y; //如果 x 等於 0 回傳 y
+		return gcd(y%x, x); //其他情況則回傳 (y%x, x) 來求最大公因數
+	}	
+	\end{inside}
+	\item 要計算gcd函式被呼叫的次數，常用的方式有二，第一個是使用全域變數，第二個是使用區域變數。
+	\item 使用全域變數的話，在main函式的上面宣告變數並給啟始值0，之後每次呼叫gcd函式的時候，把該變數加1。
+	\begin{inside}
+	int cnt = 0;
+	int main() {...}
+	int gcd(int x, int y) {
+		cnt++;
+		...
+	}
+	\end{inside}
+	\item 使用區域變數的話，在gcd函式裡面宣告靜態變數並給啟始值0，每次呼叫gcd函式時，把該數加1。靜態變數的啟始值只有第一次會被執行，並且離開函式的時候，它的內容不會消失，因此可以用來計算呼叫次數。要注意的是，該區域變數屬於gcd函式，因此只有在gcd函式中才可以使用此變數，離開該函式便無法引用。
+	\begin{inside}
+	int gcd(int x, int y) {
+		static int cnt = 0;
+		cnt++;
+		...
+	}
+	\end{inside}
+	\item 如果熟悉指標(pointer)，或參照(reference)，也可以把計算次數的變數設為函式的參數之一，並用在呼叫函式的時候將該變數加1。
+	\begin{inside}
+	int gcd(int x, int y, int &c) {
+		c++;
+		if(x<0) return gcd(y, -x, c);
+		if(x>y) return gcd(y, x, c);
+		if(x==0) return y;
+		return gcd(y%x, x, c);
+	}	
+	\end{inside}
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	using namespace std;
+	
+	int cnt = 0;
+	int gcd(int x, int y);
+	
+	int main()
+	{
+		int x, y;
+		cin >> x >> y;
+		int ans=gcd(x, y);
+		cout << cnt << endl;
+		cout << ans;
+		return 0;
+	}
+
+	int gcd(int x, int y) {
+		cnt++;
+		if(x<0) return gcd(y, -x);
+		if(x>y) return gcd(y, x);
+		if(x==0) return y;
+		return gcd(y%x, x);
+	}	
+\end{cppcode}

@@ -1,0 +1,33 @@
+\section{A035 百數排序}
+輸入100個正整數，將這些數從小印到大。
+\subsection{解題思維}
+將100個數讀入陣列，並用氣泡排序法(Bubble Sort)排序後印出，它的基本原理是兩兩相比，順序不對就互相交換，這樣依序比過一輪，最大的就跑到最右邊了。之後再比第二輪，可以把次大的送到右邊第二位，依此類推。還不明白的讀者可自行上網查詢，或查看一般程式書籍，以進一步了解其原理和作法。
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <stdio.h>
+	
+	int main()
+	{
+		int a[100];
+		
+		for (int i=0; i<100; i++) scanf("%d", &a[i]);
+		
+		for (int i=0; i<99; i++) {
+			for (int j=0; j<99-i; j++) {
+				if (a[j] > a[j+1]) {
+					int tmp = a[j];
+					a[j] = a[j+1];
+					a[j+1] = tmp;
+				}
+			}
+		}
+		
+		for (int i=0; i<100; i++) {
+			printf(" %d", a[i]);
+			if (i%10 == 9 && i != 99) printf("\n");
+		}
+		
+		return 0;
+	}
+\end{cppcode}

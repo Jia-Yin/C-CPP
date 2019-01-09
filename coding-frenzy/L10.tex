@@ -1,0 +1,153 @@
+\chapter{第十關：結構}
+
+%1
+\section{結構宣告}
+完成結構宣告，使程式正常執行。
+
+\subsection{解題思維}
+
+宣告一結構Student，其成員變數為m\_name和m\_score。
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include<iostream>
+	
+	using namespace std;
+	struct Student {
+		string m_name;
+		int m_score;
+	};
+	
+	int main() 
+	{
+		struct Student stu;
+		cout<<endl<<"Name:";
+		cin>>stu.m_name;
+		cout<<endl<<"score:";
+		cin>>stu.m_score;
+		cout<<endl<<stu.m_name<<" gets score: "<<stu.m_score;
+		return 1;
+	}
+\end{cppcode}
+
+%2
+\section{結構初始化}
+完成結構初始化，使程式正常執行。
+
+\subsection{解題思維}
+
+在定義結構時，預先設好成員變數的初始值。
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include<iostream>
+	
+	using namespace std;
+	struct Student {
+		char m_name[128] = "Arping";
+		int m_score = 99;
+	};
+	
+	int main() 
+	{
+		struct Student stu;
+		cout<<endl<<stu.m_name<<" gets score: "<<stu.m_score;
+		return 1;
+	}
+\end{cppcode}
+
+%3
+\section{結構物件複製}
+完成結構複製，使程式正常執行。
+
+\subsection{解題思維}
+
+將輸入的資料存到結構x的欄位變數，再將x的資料複製到y，並輸出y的資料。
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include<iostream>
+	
+	using namespace std;
+	struct Student {
+		char m_name[128];
+		int m_score;
+	};
+	
+	int main()
+	{
+		struct Student x, y;
+		cin>>x.m_name;
+		cin>>x.m_score;
+		y = x;
+		cout<<endl<<y.m_name<<" gets score: "<<y.m_score;
+		return 1;
+	}
+\end{cppcode}
+
+%4
+\section{函數參數結構化(傳身)}
+將函數參數用結構傳入，使程式正常執行。
+
+\subsection{解題思維}
+
+寫一個函數，以傳身的方式傳遞參數，完成成績加10的功能。 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include<iostream>
+	
+	using namespace std;
+	struct Student {
+		char m_name[128];
+		int m_score;
+	};
+	
+	void Add10(Student & stu)
+	{
+		stu.m_score = stu.m_score + 10;
+	}
+	
+	int main()
+	{
+		struct Student stu;
+		cin>>stu.m_name;
+		cin>>stu.m_score;
+		Add10(stu);
+		cout<<endl<<stu.m_name<<" gets score: "<<stu.m_score;
+		return 1;
+	}
+\end{cppcode}
+
+%5
+\section{函數參數結構化(傳址)}
+將函數參數用結構傳入，使程式正常執行。
+\subsection{解題思維}
+
+寫一個函數，以傳址的方式傳遞參數，完成成績加10的功能。
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include<iostream>
+	
+	using namespace std;
+	struct Student {
+		char m_name[128];
+		int m_score;
+	};
+	
+	void Add10(Student * a)
+	{
+		a->m_score += 10;
+	}
+	
+	int main()
+	{
+		struct Student stu;
+		cin>>stu.m_name;
+		cin>>stu.m_score;
+		Add10(&stu);
+		cout<<endl<<stu.m_name<<" gets score: "<<stu.m_score;
+		return 1;
+	}
+\end{cppcode}

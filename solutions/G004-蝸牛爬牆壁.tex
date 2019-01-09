@@ -1,0 +1,35 @@
+\section{G004 - 蝸牛爬牆壁}
+資訊學院牆壁高 a 公尺，蝸牛從 b 公尺高的地方往上爬，白天可以往上爬 c 公尺，但是晚上睡著了會下降 d 公尺，請問蝸牛幾天後可以爬上屋頂？
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 這一題可以有兩類解法，第一種依題意設立變數a, b, c, d與天數，然後使用迴圈和題目規則去計算所需的天數；第二種則是使用代數的推導去計算所需的天數。
+	\item 第一種的作法比較直接，假設有a,b,c,d, 及day=0,可跑以下迴圈計算所需的天數：
+	\begin{inside}
+		while (b<a) { // 還沒爬到
+			day++; b+=c; // 多一天，並且可以爬到高度 b=b+c
+			if (b>=a) break; // 已經爬到了，跳出迴圈
+			b -= d; // 還沒到的話，晚上會掉下 d 公尺
+		}
+	\end{inside}
+	\item 第二種解法，假設所需天數為x，則x-1天白天可以到達的高度為 b+(c-d)(x-2)+c，這個值應該小於a；而第x天白天可以到達的高度為 b+(c-d)(x-1)+c，這個高度應該大於等於a，故可以得到以下的不等式：
+	$$ b+(c-d)(x-2)+c < a \le b+(c-d)(x-1)+c$$
+	稍作整理可以得到以下的不等式：
+	$$ \frac{a-b-c}{c-d}+1 \le x < \frac{a-b-c}{c-d}+2$$
+	換句話說，滿足$x\ge \frac{a-b-c}{c-d}+1$的最小整數$x$就是答案。如果m和n都是整數，要找整數$x\ge\frac{m}{n}$，因為在C/\cc{}語言中，整數除以整數只取整數，所以稍加思考，可以得到最小整數$x=\frac{m+n-1}{n}$（思考一下為什麼？），所以這一題的答案為$x=\frac{a-b-d-1}{c-d}+1$。讀者可以實際驗證看看是否正確。
+\end{enumerate}
+\subsection{程式碼}
+\begin{cppcode}
+#include <stdio.h>
+int main()
+{
+	int a, b, c, d, day=0;
+	scanf("%d%d%d%d", &a, &b, &c, &d);
+	while (b<a) {
+		day++; b+=c;
+		if (b>=a) break;
+		b-=d;
+	}
+	printf("%d", day);
+	return 0;
+}
+\end{cppcode}

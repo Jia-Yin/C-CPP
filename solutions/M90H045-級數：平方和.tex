@@ -1,0 +1,24 @@
+\section{M90H045 - 級數: 平方和}
+輸入一整數n，輸出$1^2+2^2+3^2+4^2+\cdots+n^2$。
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 初始化變數sum=0，用來作為累加之用。
+	\item 跑for迴圈令i從1到n，每次對sum累加$(i\times i)$。
+\end{enumerate}
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n, sum=0;
+	cin >> n;
+	for (int i=1; i <= n; i++) {
+		sum += i*i;
+	}
+	cout << sum ;
+	return 0;
+}
+\end{cppcode}

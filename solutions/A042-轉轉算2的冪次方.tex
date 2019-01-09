@@ -1,0 +1,30 @@
+\section{A042 - 轉轉算2的冪次方}
+輸入一個整數n ($1\le n<31$)，輸出$2^n$。
+
+\subsection{解題思惟}
+當n介於0到31之間時，$2^n$不會溢位，以下幾個思惟角度，都可以用來計算$2^n$。
+\begin{enumerate}
+\item 可以設ans=1，然後跑n次迴圈，每次將ans乘以2，最後ans會等於$2^n$。	
+\begin{inside}
+	int ans=1;
+	for (int i=0; i<n; i++) ans *= 2;
+\end{inside}
+\item 也可以把乘以2的運算，改成整數向左移一位的運算，也就是把 ans*=2 改成 ans<{}<=1。
+\item 使用移位的想法，$2^n$其實也就是1乘以2乘n次，也等於左移n個位元，所以答案其實是 1<{}<n。
+\end{enumerate}
+
+\subsection{程式碼}
+這裡使用第一個思惟角度來解答。
+\begin{cppcode}
+#include <iostream>
+using namespace std;
+
+int main() 
+{
+	int n, ans=1;
+	cin >> n;
+	for (int i=0; i<n; i++) ans *= 2;
+	cout << ans;
+	return 0;
+}
+\end{cppcode}

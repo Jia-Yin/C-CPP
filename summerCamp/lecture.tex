@@ -1,0 +1,97 @@
+\documentclass[a4paper,12pt]{article}
+%\usepackage[utf8x]{inputenc}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{xcolor,colortbl}
+\setCJKmainfont{DFMing-Md-HK-BF.ttf}
+%% Language and font encodings
+%\usepackage[english]{babel}
+%\usepackage[T1]{fontenc}
+\usepackage{minted}
+%\usepackage{indentfirst}
+%% Sets page size and margins
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm,marginparwidth=0.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{comment}
+\renewcommand{\figurename}{圖}
+\renewcommand{\figureautorefname}{圖}
+\renewcommand{\tablename}{表}
+\renewcommand{\tableautorefname}{表}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.5em}
+\renewcommand{\baselinestretch}{1.4}
+%\usepackage[explicit]{titlesec}
+%\usepackage{tikz}
+%\usetikzlibrary{shapes,shadows,calc}
+%\usepackage{lipsum}
+
+%\definecolor{visgreen}{rgb}{0.733, 0.776, 0}
+
+% the tikz picture that will be used for the title formatting
+% \SecTitle{<signal direction>}{<node anchor>}{<node horiz, shift>}{<node x position>}{#5}
+% the fifth argument will be used by \titleformat to write the section title using #1
+%\newcommand\SecTitle[5]{%
+%\begin{tikzpicture}[overlay,every node/.style={signal, draw, text=white, signal to=nowhere}]
+%  \node[visgreen,fill, signal to=#1, inner sep=0.5em,
+%    text=white,font=\Large\sffamily,anchor=#2,
+%    xshift=\the\dimexpr-\marginparwidth-\marginparsep-#3\relax] 
+%    at (#4,0) {#5};
+%\end{tikzpicture}%
+%}
+%\titleformat{name=\section,page=odd}
+%{\normalfont}{}{0em}
+%{\SecTitle{east}{west}{16pt}{0}{#1}}[\addvspace{4ex}]
+
+%\titleformat{name=\section,page=even}
+%{\normalfont\sffamily}{}{0em}
+%{\SecTitle{west}{east}{14pt}{\paperwidth}{#1}}[\addvspace{4ex}]
+
+
+
+%% Useful packages
+%\usepackage{amsmath}
+%\usepackage{graphicx}
+%\usepackage[colorinlistoftodos]{todonotes}
+\definecolor{bgc}{rgb}{0.95,0.95,0.95}
+\definecolor{LightCyan}{rgb}{0.88,1,1}
+%\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+%\usepackage{abstract}
+\renewcommand{\abstractname}{}%}\large 摘要}
+\newcommand{\cc}{C\texttt{++}}
+
+\newminted{cpp}{xleftmargin=.8cm,linenos,baselinestretch=1.2,autogobble=true,tabsize=4,showtabs=false,frame=single,framesep=10pt}
+\newminted[inside]{cpp}{tabsize=4,autogobble=true,baselinestretch=1.2}
+
+\title{2017年程式設計先修暑期夏令營\\學生上課講義}
+%\author{王佳盈　梁家萁　侯怡安　朱睿謙　巫鈺瑩　周身鴻}
+\begin{document}
+\maketitle
+%\begin{abstract}
+%\input{prefix}
+%\end{abstract}
+\ \\ \\ \\ \\ \\
+\begin{center}
+	本課程獲教育部扎根高中職資訊科學教育計畫補助
+\end{center} 
+\newpage
+這份講義，僅提供給同學作為學習參考之用，希望說可以幫助大家學習C/\cc{}程式語言。
+講義的內容，主要針對問題如何思考和解答來做說明，所以不是完整的教科書，很多C/\cc{}語言基本的概念，還是應該要參閱其他的書籍和資源。
+
+另外，寫程式要有相對應的開發工具，我們使用的整合開發環境是Code::Blocks，這是一套跨平台的自由軟體，而編譯程式用的編譯器是使用mingw，這是gcc移植到Windows的版本。另外為了方便學習，我們也使用「瘋狂程設」線上學習系統做為輔助的學習資源，瘋狂程設提供了一個很好的解題學習環境，對於學習程式語言可以提供一些幫助，所以講義也會針對Code::Blocks的安裝以及瘋狂程設的使用做一些說明。
+
+基本上，學習程式一定要自己思考和練習，如果只是光看而不練的話，實際遇到問題，還是做不出來的。因此大家在使用這份講義的時候，除了閱讀之外，也要花一些時間自己思考，然後實際上機練習解題，務求每一個步驟都充份了解和熟悉，這樣才能達到理想的功效。
+
+另外，這份講義還在修改階段，請自行參考使用，勿隨意流傳。如果有什麼修正的建議，可以提供給我們，感謝大家。連絡方式，可以當面說明，或者寄信到 \href{mailto:jywglady@gmail.com}{jywglady@gmail.com}　或　\href{mailto:dachurita@gmail.com}{dachurita@gmail.com}。
+
+\newpage
+\setcounter{tocdepth}{2}
+\tableofcontents
+
+\include{basic}
+\include{branch}
+\include{loop}
+\include{function}
+\include{recursion}
+
+
+\end{document}

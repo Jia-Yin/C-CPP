@@ -1,0 +1,51 @@
+\section{A009 - 質數判別}
+輸入一個正整數，如果是質數，則輸出 Yes，如果不是，則輸出 No。
+
+\subsection{解題思惟}
+\begin{enumerate}
+\item 質數的特色是除了1之外，另外一個唯一的因數就是n本身。所以從1檢查到n，應該有2個因數。以下的程式應該就可以判斷了。
+	\begin{inside}
+	int cnt=0;
+	for (i=1; i<=n; i++) if (n%i==0) cnt++; // 檢查到因數，把個數加1。
+	if (cnt==2) cout<<"Yes"; else cout<<"No";
+	\end{inside}
+\item 也可以只檢查2, …, n-1是否為n的因數，如果其中有一個因數，那n就不是質數了，否則n就是質數。在這種情況下，1和2應該要另外處理，1不是質數，但2是質數。
+\item 可以設定一個旗標變數，如果沒有因數存在，把值設為1 (表示n為質數)，當有任一個因數存在時，把它設為0 (表示n非質數)。預設值可以為1，檢查到因數時設為0。像以下這樣：
+	\begin{inside}
+	int flag=1;
+	for (i=2; i<n; i++) if (n%i==0) { flag=0; break; }
+	\end{inside}
+\item 綜合2-3兩點，也可以用以下方式解此問題。
+	\begin{inside}
+	int flag=1; // 預設flag為1
+	if (n==1) flag=0; // 1不是質數
+	else if (n>3) { // 2和3是質數，flag不用變動，處理n>3情況即可
+		for (i=2; i<n; i++) if (n%i==0) { flag=0; break; }
+	}
+	\end{inside}
+\item  進階思考：實際上檢查$n$的因數只要檢查到$\sqrt{n}$即可，因為如果有個因數$x$超過$\sqrt{n}$，那麼$n/x$就小於$\sqrt{n}$，會先被檢查到。另外$i\le\sqrt{n}$可以改成$i*i\le n$。
+\item 偶數不是質數，也可以先過濾掉，奇數的部份，只要檢查有沒有奇數的因數就可以了。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int i, n, flag=1;
+		cin >> n;
+		if (n==1) flag=0; // 1 非質數
+		else if (n>3) { // 2和3是質數，flag不用變動，處理n>3情況即可
+			if (n%2==0) flag=0; // 偶數非質數
+			else for (i=3; i*i<=n; i+=2) { // 只檢查奇數i，範圍i*i<=n
+				if (n%i==0) { flag=0; break; } // 發現因數，設定旗標跳出
+			}
+		}
+		if (flag) cout << "Yes";
+		else cout << "No";
+		return 0;
+	}
+\end{cppcode}

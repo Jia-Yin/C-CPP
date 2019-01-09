@@ -1,0 +1,65 @@
+\section{10510-4 棒球遊戲}
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 這題看起來覺得很難，但實際上仔細分析，會發現其實並不難，只是比較繁雜一點。
+	\item 輸入的訊息用二維陣列儲存，因為每個事件的第一個字母都不相同，讀取之後存第一個字母就可以了，判斷上也會比較方便。
+	\item 儲存輸入事件之後，依次取出判斷並更新狀態。基本上要更新的狀態包括各壘的情況、本局出局人數、總共出局人數、以及得分等資訊。
+	\item 各壘的情況可用一個變數，以各位元代表各壘狀況，位元0表示一壘，位元1表示二壘，位元2表示三壘，那麼如果一三壘有人，這個數就是0b101=5。這樣表示的好處在哪裡呢？如果接下來擊出二壘打，就把所有位元往左移二個位元(或乘以4)，那移完之後變成0b10100=20，第三個位元以後都表示得分，所以得分為0b10=2，或者20/8=2。此外第2個位元為1，表示三壘有人。所以出現安打的時候，只要處理位移，之後要計分或更新壘上的狀況都會很容易。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	char event[9][5], ss[3];
+	int k;
+	for (int r=0; r<9; r++) {
+		cin >> k; // 每位打手事件次數
+		for (int i=0; i<k; i++) {
+			cin >> ss; // 讀取事件
+			info[r][i] = ss[0]; // 存第一個字元
+		}
+	}
+	cin >> k; // 總出局人數
+	
+	int status = 0; // 各壘狀態
+	int outplayer = 0; // 各局出局人數　
+	int totalout = 0; // 總出局人數
+	int score = 0; // 得分
+	
+	for (int i=0; i<5; i++) { // 事件最多五回合
+		for (int r=0; r<9; r++) { // 打者順序
+			switch (info[r][i]) { // 取出事件
+				case '1': status = (status<<1) + 1; break; // 一壘打
+				case '2': status = (status<<2) + 2; break; // 二壘打
+				case '3': status = (status<<3) + 4; break; // 三壘打
+				case 'H': status = (status<<4) + 8; break; // 全壘打
+				case 'S': // 出局，繼續往下
+				case 'F': // 出局，繼續往下
+				case 'G': totalout++; outplayer++; break; // 出局
+			}
+			int sf = status >> 3; // 得分狀態
+			status &= 7; // 更新壘上狀態
+			while (sf) { // 計算得分狀態有幾個1，表示得幾分
+				score += sf & 1;
+				sf >>= 1;
+			}
+			if (totalout==k) { // 檢查總出局人數是否到達
+				cout << score << endl; // 輸出積分
+				return 0;
+			}
+			if (outplayer==3) { // 檢查該局出局人數是否達到3
+				status = 0; // 重設狀態
+				outplayer = 0; // 重設出局人數
+			}
+		}
+	}
+	
+	return 0;
+}
+\end{cppcode}

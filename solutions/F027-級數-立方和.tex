@@ -1,0 +1,22 @@
+\section{F027 - 級數-立方和}
+輸入一整數n，輸出 $1^3+2^3+3^3+...+n^3$
+\subsection{解題思惟}
+使用迴圈包覆n的立方後相加。本題數字較大，求和時若用整數，會有溢位問題，
+所以求和的變數要使用long long型態。
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	long long sum=0, n;
+	cin >> n;
+	for(int i=1; i<=n; i++) {
+		sum += i*i*i;
+	} 
+	cout << sum;
+	return 0;
+}
+\end{cppcode}

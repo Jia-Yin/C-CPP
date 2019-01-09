@@ -1,0 +1,51 @@
+\section{M90H048 級數-k方和}
+輸入整數k和n，輸出$1^{k}+2^{k}+3^{k}+\cdots+n^{k}$。
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item
+	我們先寫求次方 pow 函式，有兩個輸入分別代表整數及次方數。
+	\begin{inside}
+	int pow(int k, int n) {
+		int ans=1;
+		for (int i=0; i<k; i++) ans *= n;
+		return ans;
+	}
+	\end{inside}
+	\item
+	完成後代入主程式。先宣告整數 n 及次方數 k，接著跑一個迴圈來求題目所需的答案。
+	\begin{inside}
+		int main()
+		{
+			int k, n, sum=0;
+			cin >> k >> n;
+			for (int i=1; i<=n; i++) sum += pow(k, i);
+							
+			return 0;
+		}			
+	\end{inside}
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+
+	using namespace std;
+	
+	int pow(int k, int n);
+	
+	int main()
+	{
+		int k, n, sum=0;
+		cin >> k >> n;
+		for(int i=1; i<=n; i++) sum += pow(k, i);
+		cout << sum;
+		return 0;
+	}
+	
+	int pow(int k, int n) {
+		int ans=1;
+		for(int i=1; i<=k; i++) ans *= n;
+		return ans;
+	}
+\end{cppcode}

@@ -1,0 +1,65 @@
+\section{A014 - 次方求餘}
+輸入三個正整數 n, p, d，輸出 n 的 p 次方除以 d 的餘數。
+\subsection{解題思維}
+\begin{enumerate}
+\item 要求 n 的 p 次方，我們可以先設一個整數變數 m = 1，接著跑一個重覆 p 次的迴圈，每次將 m 乘以 n 來求出 n 的p次方。
+	\begin{inside}
+	int m = 1;
+	for (int i=0; i<p; i++) m *= n;
+	\end{inside}
+\item 求得 n 的 p 次方後，接著再取餘數。
+\item 以上的想法雖然正確，但實際依此方法解答的時候，卻會發生錯誤。原因是因為整數溢位的問題，基本上，n 的 p 次方可能會是一個很大的整數，所以必須考慮溢位的狀況。在數學上，求兩個數 a 和 b 的乘積除以 d 的餘數，可以先求 a 除以 d 的餘數，以及 b 除以 d 的餘數，將兩個餘數相乘，再除以 d 求餘數，這樣求出的答案是相同的。使用這樣的方法，可以避免掉溢位的問題。所以本題取餘數要跟求次方同時進行，才不會發生錯誤！
+	\begin{inside}
+	for (int i=0; i<p; i++) { 
+		m *= n;
+		m %= d;
+	}
+	\end{inside}	
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int n, p, d;
+		int m = 1;
+		cin >> n >> p >> d;
+		for (int i=0; i<p; i++) {
+			m *= n;
+			m %= d;
+		}
+		cout << m;
+		return 0;
+	}
+\end{cppcode}
+
+\subsection{延伸思考}
+在求$n^p$的時候，我們也可以把它分成兩半，也就是兩個$n^{p/2}$相乘。如果$p$是奇數的話，那我們可以先求$n^{p-1}$次方，然後再將結果乘以$n$。使用這樣的概念，當我們求$n^p$除以$d$的餘數的時候，實際上只要先計算$n^{p/2}$除以$d$的餘數就可以了。這樣的話，當$p$是一個很巨大的數目的時候，計算量可以大大降低。其次，我們在計算$n^{p/2}$的時候，又可以先計算$n^{p/4}$，所以每次可以把次冪數折一半，計算出來之後，再把它自乘一次。不斷使用這種二分法，可以得到非常高效率的演算法，當然這樣的程式寫法會變得稍微複雜一點。那這裡先提供這樣的思惟角度和程式碼供讀者參考，不能了解也沒有關係，等以後學到遞迴的時候，讀者可以回過頭來看這個題目，就會壑然開朗了。
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int npd(int n, int p, int d); // 計算n的p次方除以d的餘數
+	
+	int main()
+	{
+		int n, p, d;
+		cin >> n >> p >> d;
+		cout << npd(n, p, d);
+		return 0;
+	}
+	
+	int npd(int n, int p, int d)
+	{
+		if (p==1) return n % d; // 遞迴終止條件
+		int k = npd(n, p/2, d);
+		if (p%2) return (n*k*k) % d; // p is odd
+		else return (k*k) % d; // p is even
+	}
+\end{cppcode}	
+

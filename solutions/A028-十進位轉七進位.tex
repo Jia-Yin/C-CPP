@@ -1,0 +1,39 @@
+\section{A028 - 十進位轉七進位}
+輸入一個正整數N，輸出該數的七進位表達式。
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 十進位整數可以直接讀取。轉成七進位時，一般作法是把該數除以7，得到的餘數為最末位，商的部份繼續除以7，得到的餘數為次末位，依此類推，至不能再除為止。
+	\item 因為得到的位數是從個位開始到最高位，但輸出是要倒過來，所以要先把得到的值存起來，最後倒過來輸出。存起來的方式可以使用陣列。
+	\item 本題也可以從最高位算起，但是要先計算最高位的權重（即7的最高次冪）。計算的方式，是從權重1開始，每次把權重乘以7，一直到大於該數大小之前，此即為最高位。
+	\item 設最高位權重為d，則該數n除以d即得到最高位數，其次將d除以7，得到次高位權重，將n除以該權重，然後再求7的餘數得次高位數，依此類推。使用本方法計算的話，可以逐位輸出，不需要先儲存每一位的數字。
+\end{enumerate}
+
+\subsection{程式碼}
+一般解法
+\begin{cppcode}
+#include <stdio.h>
+
+int main()
+{
+	int n, a[20], idx=0;
+	scanf("%d", &n);
+	while (n) { a[idx++]=n%7; n/=7; }
+	for (n=idx-1; n>=0; n--) printf("%d", a[n]);
+	return 0;
+}
+\end{cppcode}
+	
+由高位起首解法
+\begin{cppcode}
+#include <stdio.h>
+
+int main()
+{
+	int n, d=1;
+	scanf("%d", &n);
+	while (d<=n) d*=7;
+	for (d/=7; d; d/=7) printf("%d", n/d%7);
+	return 0;
+}    
+\end{cppcode}

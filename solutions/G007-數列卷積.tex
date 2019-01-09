@@ -1,0 +1,57 @@
+\section{G007 - 數列卷積}
+已知 f(0)=1 且 
+f(n)=f(0)*f(n-1)+f(1)*f(n-2)+f(2)*f(n-3)+f(3)*f(n-4)+...+f(n-1)*f(0)。 \\
+f(0)=1 \\
+f(1)=f(0)*f(0)=1 \\
+f(2)=f(0)*f(1)+f(1)*f(0)=2 \\
+f(3)=f(0)*f(2)+f(1)*f(1)+f(2)*f(0)=5 \\
+f(4)=f(0)*f(3)+f(1)*f(2)+f(2)*f(1)+f(3)*f(0)=14 \\
+f(5)=f(0)*f(4)+f(1)*f(3)+f(2)*f(2)+f(3)*f(1)+f(4)*f(0)=42 \\
+輸入一正整數 n ， 輸出 f(n) 。
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 本題可以使用迭代法或遞迴來解。
+	\item 使用迭代法的話，我們用陣列來存函式f的值，假設所求不超過1000，可以宣告f[1000]，並設初始值f[0]=1。之後依次用公式求解f[i]的值，i從1到n。
+	\item 使用遞迴的話，要設終止條件並依公式求解f[n]。在求解過程中，很多函式值會被重複計算
+	多次，如果希望增加程式效率，可以把計算過的f[n]存起來，需要用到的時候，先判斷是否算過，
+	如果算過直接取用，否則再用公式計算。
+\end{enumerate}
+
+\subsection{程式碼}
+迭代解法：
+\begin{cppcode}
+#include <cstdio>
+
+int main()
+{
+	int n, f[1000]={1};
+	scanf("%d", &n);
+	for (int i=1; i<=n; i++) {
+		for (int j=0; j<i; j++) f[i] += f[j]*f[i-1-j];
+	}
+	printf("f(%d)=%d", n, f[n]);
+	return 0;
+}
+\end{cppcode}
+遞迴解法：
+\begin{cppcode}
+#include <cstdio>
+
+int f(int n);
+
+int main()
+{
+	int n;
+	scanf("%d", &n);
+	printf("f(%d)=%d", n, f(n));
+	return 0;
+}
+
+int f(int n)
+{
+	if (n==0) return 1;
+	int sum=0;
+	for (int i=0; i<n; i++) sum += f(i)*f(n-1-i);
+	return sum;
+}
+\end{cppcode}

@@ -1,0 +1,30 @@
+\section{M90H005 - 一對一函式個數}
+輸入定義域集合A元素個數a
+與對應域集合B的元素個數b，
+輸出A->B的一對一函式個數。 
+一對一函式個數為 (b)*(b-1)*(b-2)*...*(b-a+1)。
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 將last令為(b-a+1)，並初始answer=1。
+	\item 在for內i=b遞減至last，answer累乘i。
+\end{enumerate}
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int a, b;
+	cin>>a>>b;
+	int answer = 1;
+	int last = b-a+1;
+	if (last <= 0) cout << "0";
+	else {
+		for (int i=b; i>=last; i--) answer *= i;
+		cout << answer;
+	}
+	return 0;
+}
+\end{cppcode}

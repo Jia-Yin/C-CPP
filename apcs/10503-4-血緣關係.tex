@@ -1,0 +1,147 @@
+\section{10503-4 血緣關係}
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 這一題比較複雜一點，提供兩種解答思路供作參考。
+	\item 第一種思路，使用陣列處理。我們使用陣列parent，其第i個元素值表示第i個節點的父節點位置。另外我們還使用兩個陣列，一個陣列為leaf，用來儲存所有葉節點編號，一個陣列為isparent，記錄節點i是否為父節點。每次讀取一對父子節點時，就更新陣列parent及isparent的值。所有輸入讀取之後，利用isparent來找出所有葉節點並存入leaf陣列中。最後我們針對所有的葉節點進行巡訪，計算每個葉節點至最上層祖先的距離，以及任兩個葉節點之間的距離，找出其中的最大值即為答案。在計算兩葉節點之距離時，要先找出其共同祖先。所以我們撰寫了三個輔助函數，第一個函數計算從a節點上溯至b節點要幾步，如果到不了就回傳-1，這主要是用來輔助尋找共同祖先及計算距離使用的。第二個函數計算節點a至節點b的距離，其中會使用到第一個函數。最後一個函數用來計算某節點至最上面祖先節點的距離。詳細的程式碼及說明可參考程式碼一。
+	\item 第二種思路是同時使用向量(vector)來儲存某節點的所有子節點，因為各節點的子節點數是不定的，使用向量會比較便利。接著找出所有節點的高度，其方法如下：針對每個葉節點，設其高度為0，並開始不斷上溯，每次上溯一步高度便加1，如果這時上溯的父節點已設有高度，便進行比較，看是否需更新，如不需更新，則此葉節點的更新任務完成，可繼續巡訪下一葉節點，如需更新，則更新之後，再繼續找更上面的父親節，並重覆同樣步驟直到更新任務完成，再繼續巡訪下一葉節點。當所有葉節點巡訪完成之後，即得到所有節點的高度。接下來要計算最遠兩節點可分兩種情況，第一種情況，某節點只有一子節點，那就計算它自己的高度（等於和最遠葉節點的距離），第二種情況，某節點有兩個以上子節點，那麼就找出所有子節點中高度最大的兩個，把兩個值加起來再加上2就等於兩個最深葉節點的距離了。所以兩種情況的最大值就是答案了。詳細的程式碼及說明可參考程式碼二。
+	\item 以上兩個演算法中，第一個演算法較慢，當節點數較多的時候會超時，無法通過所有測資。第二個演算法較快，可以通過所有測資。
+\end{enumerate}
+
+\subsection{程式碼}
+程式碼一：這個方法較慢，當節點數較多的時候會超時，無法通過所有測資。
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int n, parent[100005];
+
+int fromAtoB(int a, int b); // 計算從a上溯到b要幾步，到不了就回傳-1
+int disAtoB(int a, int b); // 計算a與b的距離
+int disAtoRoot(int a); // 計算a到最上面的祖先之距離
+
+int main()
+{
+	int n, a, b, leaf[100000], isparent[100000], lfcnt;
+	while (cin >> n) {
+		for (int i=0; i<n; i++) { // 啟始值設定
+			parent[i] = -1;  // 預設其父節點為空
+			isparent[i] = 0; // 預設都不是父節點
+		}
+		for (int i=0; i<n-1; i++) {
+			cin >> a >> b;
+			parent[b] = a; // 標記：a為b之父節點
+			isparent[a] = 1; // a是父節點
+		}
+		// 找出所有葉節點
+		lfcnt=0;
+		for (int i=0; i<n; i++) {
+			if (isparent[i]) continue;
+			leaf[lfcnt++] = i;
+		}
+		int maxdis = 0, dis;
+		for (int i=0; i<lfcnt; i++) { // 從每個葉節點尋找
+			if (disAtoRoot(leaf[i]) > maxdis) { // 至祖先距離為最大值？
+				maxdis = disAtoRoot(leaf[i]); // 更新目前最大距離
+			}
+			for (int j=i+1; j<lfcnt; j++) { // 計算任兩個葉節點之距離
+				dis = disAtoB(leaf[i], leaf[j]);
+				if (dis > maxdis) maxdis = dis; // 超過最大值的話要更新
+			}
+		}
+		cout << maxdis << endl;
+	}
+	return 0;
+}
+
+int disAtoRoot(int a)
+{
+	int step = 0;
+	while (parent[a]>=0) { step++; a=parent[a]; } // 上溯並更新步數
+	return step;
+}
+
+int disAtoB(int a, int b)
+{
+	int common=parent[a], step=1; // common為共同祖先，從a父節點找起
+	
+	while (fromAtoB(b, common)<0) { // 如果b到不了common
+		step++; // 步數更新
+		common = parent[common]; // 繼續往上找共同祖先
+	}
+	return step + fromAtoB(b, common); // 祖先至兩邊的距離和
+}
+
+int fromAtoB(int a, int b) // a上溯到b的步數，到不了的話回傳-1
+{
+	int step, found=0; // 步數，是否到得
+	for (step=1; parent[a]>=0; step++) { // a父節點存在？
+		if (parent[a]==b) { found=1; break; } // 是否為b？
+		a = parent[a]; // 不是的話，繼續往上
+	}
+	if (found) return step; // 找到回傳步數
+	else return -1; // 找不到回傳-1
+}
+\end{cppcode}
+程式碼二：同時使用向量來儲存某節點的所有子節點，以及用陣列儲存某節點的高度。此方法較快，可通過所有測資。
+\begin{cppcode}
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+	int n, a, b;
+	while (cin >> n) {
+		int high[100005]={0}, parent[100005];
+		vector<int> node[100005], leaves;
+		for (int i=0; i<n; i++) parent[i] = -1; // 所有節點之父為空
+		for (int i=0; i<n-1; i++) {
+			cin >> a >> b;
+			node[a].push_back(b); // a節點之子節點加入b
+			parent[b] = a; // b之父為a
+		}
+		// Find leaves
+		for (int i=0; i<n; i++) { // 子節點數為0者即為葉節點
+			if (node[i].size()==0) leaves.push_back(i);
+		}
+		// Determine height for each node
+		for (int i=0; i<leaves.size(); i++) { // 使用每一個葉節點
+			int num = leaves[i]; // num為葉節點編號
+			int pnum = parent[num]; // pnum為父節點編號
+			while (pnum>=0) { // 父節點非空，高=max(子高度+1,已設高度)
+				if (high[num]+1 <= high[pnum]) break; // 不需更新
+				high[pnum] = high[num] + 1; // 更新父節點高度
+				num = pnum; // 這兩列更新目前節點及父節點編號值
+				pnum = parent[num];
+			}
+		}
+		// 最大距離情況有二：1)某點至最深葉節點，2)某點的兩個最深葉節點
+		int maxdis = 0;
+		for (int i=0; i<n; i++) { // 巡訪每個節點
+			if (node[i].size()==0) continue; // 無子節點，跳過
+			if (node[i].size()==1) { // 只有一葉節點，檢查情況1
+				if (high[i] > maxdis) maxdis = high[i];
+				continue;
+			}
+			// 以下為情況2，需找出兩最深葉節點
+			int maxd1=0, maxd2=0, d; 
+			for (int j=0; j<node[i].size(); j++) { // 巡訪所有子節點
+				d = high[node[i][j]]; // 計算其高度
+				if (d>maxd1) { maxd2=maxd1; maxd1=d; } // 更新二最大值
+				else if (d>maxd2) maxd2=d; // 更新次大值
+			}
+			// 以下為情況2之距離，比較看是否為最大值
+			if (maxd1+maxd2+2>maxdis) maxdis = maxd1+maxd2+2;
+		}
+		cout << maxdis << endl;
+	}
+	return 0;
+}
+
+
+// 以下程式只得 40% ，在 N 可以到2000的時候，測資點 < 10M，超時
+
+\end{cppcode}	

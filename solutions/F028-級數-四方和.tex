@@ -1,0 +1,21 @@
+\section{F028 - 級數-四方和}
+輸入一整數n，輸出 $1^4+2^4+3^4+...+n^4$
+\subsection{解題思惟}
+使用迴圈包覆n的四方後相加。
+\subsection{程式碼}
+\begin{cppcode}
+#include<iostream>
+
+using namespace std;
+
+int main()
+{
+	int n, sum=0;
+	cin >> n;
+	for(int i=0;i<=n;i++) {
+		sum += i*i*i*i;
+	}
+	cout << sum;
+	return 0;
+}
+\end{cppcode}

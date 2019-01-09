@@ -1,0 +1,50 @@
+\section{A013 - 年月日算第幾天}
+輸入西元年月日，算該日是該年的第幾天。
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 將每月的天數存在陣列中。陣列可宣告13個，第0個元素不用，第1到12個元素分別表示1月到12月的天數，這樣使用起來會比較便利。
+	\item 先計算該年為平年或閏年。基本上每4年閏一次，但每100年少一次，每400年又要加回一次。可用以下方式檢查：
+	\begin{inside}
+	if (y%4==0) leap = true;
+	if (y%100==0) leap = false;
+	if (y%400==0) leap = true;
+	\end{inside}
+	或者也可以使用以下方式：
+	\begin{inside}
+	leap = false;
+	if (y%400==0) leap = true;
+	else if (y%100!=0 && y%4==0) leap = true;
+	\end{inside}
+	\item 2月的天數先以28天計算，如果是閏年的話，把它加1。
+	\item 假設輸入的月和日分別為m和d，將1至m-1月的天數加起來，再加上d就是答案了。
+	\item 本題如果不用陣列的話，也可以使用switch來解題，第m月的天數可用以下程式碼決定：
+	\begin{inside}
+	switch (m) {
+	case 1:case 3:case 5:case 7:case 8:case 10:case 12: days=31; break;
+	case 4:case 6:case 9:case 11: days=30; break;
+	case 2: if(leap) days=29; else days=28;
+	}
+	\end{inside}
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int month[13]={0,31,28,31,30,31,30,31,31,30,31,30,31};
+	int yy, mm, dd, i, day=0;
+	cin >> yy >> mm >> dd;
+	
+	if (yy%400==0) month[2]++;
+	else if (yy%100!=0 && yy%4==0) month[2]++;
+	for (i=1; i<mm; i++) day += month[i];
+	day += dd;
+	cout << day;
+	return 0;
+}
+\end{cppcode}

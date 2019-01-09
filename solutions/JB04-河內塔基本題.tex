@@ -1,0 +1,39 @@
+\section{河內塔基本題}
+依河內塔規則，將環從A移到C，B為輔助。輸入環的個數n，輸出所有移動過程。
+
+\subsection{解題思惟}
+本題使用遞迴解題較為容易。假設 hanoi(int n, char from, char to, char buf) 代表可以將n個環，從from移到to，且暫存為buf的函式。當n為1的時候，直接移動即可，
+若n>1，則可以先將n-1個環從from移到buf，然後移動第n個環，再將n-1個環從buf移到to，如下：
+\begin{inside}
+	hanoi(n-1, from, buf, to);
+	cout << from << " => " << to << endl;
+	hanoi(n-1, buf, to, from);
+\end{inside}	
+			
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+void hanoi(int n, char from, char to, char buf);
+
+int main()
+{
+	int n;
+	cin >> n;
+	hanoi(n, 'A', 'C', 'B');
+	return 0;
+}
+
+void hanoi(int n, char from, char to, char buf)
+{
+	if (n==1) {
+		cout << from << " => " << to << endl;
+	} else {
+		hanoi(n-1, from, buf, to);
+		cout << from << " => " << to << endl;
+		hanoi(n-1, buf, to, from);
+	}
+}
+\end{cppcode}

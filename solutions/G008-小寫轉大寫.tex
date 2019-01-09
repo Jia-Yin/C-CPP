@@ -1,0 +1,31 @@
+\section{G008 - 小寫轉大寫}
+輸入一英文連字串（不超過1000個字），將所有英文字母轉成大寫印出。
+
+\subsection{解題思維}
+\begin{enumerate}
+	\item 判斷一個字元c是否為小寫字元，可以看是否介於`a'和`z'之間，邏輯如下：
+		\begin{inside}
+			if ('a'<=c && c<='z') { ... } // 不可寫成 'a'<=c<='z'
+		\end{inside}
+	\item 斷小寫字元轉成大寫字元，可以將c加上`A'-`a'
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	char buf[1005];
+	cin >> buf;
+	int offset = 'A'-'a';
+	for (int k=0; buf[k]; k++) {
+		char c=buf[k];
+		if('a'<=c && c<='z') buf[k] += offset;
+	}
+	cout << buf;
+	return 0;
+}
+\end{cppcode}

@@ -1,0 +1,49 @@
+\section{M90H016 有k個正因數之最小數為何}
+輸入一整數k，至少有k個正因數之最小正整數。
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item
+	我們先寫一個 factors 函式，來計算某數k有多少個因數。基本上就是從1到k跑一個迴圈，看看有幾個數是k的正因數。
+	\begin{inside}
+	int factors(int k) {
+		int n=0;
+		for (int i=1; i<=k; i++) {
+			if (k%i==0) n++;
+		}
+		return n;
+	}
+	\end{inside}
+	\item
+	完成 factors 函式後，接著就可以在主程式跑一個迴圈，找看看哪一個數的因數個數大於等於 k。
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+
+	using namespace std;
+	
+	int factors(int k);
+	
+	int main()
+	{
+		int k;
+		cin >> k;
+		for (int i=1; ; i++) {
+			if (factors(i) >= k) {
+				cout << i;
+				break;
+			}
+		}
+		return 0;
+	}
+	
+	int factors(int k) {
+		int n=0;
+		for (int i=1; i<=k; i++) {
+			if (k%i==0) n++;
+		}
+		return n;
+	}
+\end{cppcode}

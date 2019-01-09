@@ -1,0 +1,21 @@
+\section{A021 - N階乘}
+輸入一個正整數n，輸出n!。
+
+\subsection{解題思惟}
+n!等於從1乘到n，可使用一個變數m，將初始值設為1，並累乘至輸入的正整數n即可。
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int n, m=1;
+		cin >> n;
+		for (int i=1; i<=n; i++) m *= i;
+		cout << m;
+		return 0;
+	}
+\end{cppcode}

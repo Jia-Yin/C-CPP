@@ -1,0 +1,20 @@
+\section{F026 - 撕破布比賽}
+輸入一實數d，假設破布面積d，每次將破布撕去一半，請問多久次以後面積會小於0.00001?
+\subsection{解題思惟}輸入d的大小並在回圈規定每次撕去一半d/=2
+  並使用i計算撕的次數
+\subsection{程式碼}
+\begin{cppcode}
+#include<iostream>
+
+using namespace std;
+
+int main()
+{
+	float d;
+	int i=0;
+	cin >> d;
+	for( ; d>0.00001; d/=2) i++;
+	cout << i;
+	return 0;
+}
+\end{cppcode}

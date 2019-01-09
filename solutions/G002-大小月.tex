@@ -1,0 +1,47 @@
+\section{G002 - 大小月}
+輸入一個月份，如果該月份有31天則回答``>"，否則則回答``<"。若輸入非月份，則輸出``!"。
+
+\subsection{解題思維}
+本題可以使用if，巢狀if-else或switch直接作答。
+
+\subsection{程式碼}
+使用巢狀if-else判斷式
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int a;
+		cin >> a;
+		if (a == 1 || a == 3 || a == 5 || a == 7 || 
+		    a == 8 || a == 10 || a == 12) cout << ">";
+		else if (a>0 && a<13) cout << "<";
+		else cout << "!";
+		return 0;
+	}
+\end{cppcode}
+
+\noindent 使用switch判斷式
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int a;
+		cin >> a;
+		switch (a) {
+		case 1: case 3: case 5: case 7:
+		case 8: case 10: case 12:
+			cout << ">"; break;
+		case 2: case 4: case 6: case 9: case 11:
+			cout << "<"; break;
+		default:
+			cout << "!";
+		}
+		return 0;
+	}
+\end{cppcode}

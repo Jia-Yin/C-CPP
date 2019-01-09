@@ -1,0 +1,59 @@
+\section{A025 - 判斷閏年}
+輸入西元年，如果該年是閏年，則輸出Yes，若該年不是閏年，則輸出No。 (閏年的定義為，四年一閏，逢百不閏，逢四百又閏。例如西元1004年為閏年，西元1100年不是閏年，西元1600年是閏年)
+
+\subsection{解題思維}
+這一題可以使用巢狀的if-else依規則次序進行判斷，或者也可以使用複合的邏輯判斷式進行。方法有很多種，以下舉出三個方法供作參考。
+\subsection{程式碼}
+從400的倍數，100的倍數，4的倍數依次判斷
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int year;
+		cin >> year;
+		if (year%400==0) cout << "Yes"; // 400的倍數
+		else if (year%100==0) cout << "No"; // 否，但是100的倍數
+		else if (year%4==0) cout << "Yes"; // 否，但是4的倍數
+		else cout << "No";
+		return 0;
+	}
+\end{cppcode}
+
+\noindent 
+從4的倍數，100的倍數，400的倍數依次判斷，這邊是判斷非其倍數為主。要判斷一數n不是k的倍數，可以寫 if (n\%k != 0)，但是運算式不為0本來就代表true，所以也可以簡寫成 if (n\%k)。
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int year;
+		cin >> year;
+		if (year%4) cout << "No"; // 不是4的倍數
+		else if (year%100) cout << "Yes"; // 是，但不是100的倍數
+		else if (year%400) cout << "No"; // 是，但不是400的倍數
+		else cout << "Yes"; // 最後表示是400的倍數
+		return 0;
+	}
+\end{cppcode}
+
+\noindent 使用複合的邏輯判斷式
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int year;
+		cin >> year;
+		// 直接判斷是否為400的倍數，或者是4的倍數但不是100的倍數
+		if (year%400==0 || (year%4==0 && year%100)) cout << "Yes";
+		else cout << "No";
+		return 0;
+	}
+\end{cppcode}

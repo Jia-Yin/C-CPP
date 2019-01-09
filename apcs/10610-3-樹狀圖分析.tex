@@ -1,0 +1,84 @@
+\section{10610-3　樹狀圖分析}
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 一般儲存樹狀結構多使用指標，但我們也可以設法使用陣列來處理。基本上每個節點最多只有一個父節點，那這個題目共有n個節點，我們可以用一個陣列來表示，其中第i個元素($i\le 1\le n$)的值表示其父節點的位置；如果沒有父節點的話，就把它的值設為0。我們可以用下列程式來建構樹狀圖：
+	\begin{inside}
+		int n, k, node[100005]={0};
+		cin >> n;
+		for (int nd=1; nd<=n; nd++) {
+			cin >> k;
+			for (int i=0; i<k; i++) { // read child
+				cin >> child;
+				node[child] = nd; // connection
+			}
+		}
+	\end{inside}
+	\item 這個題目要計算每個節點的高度，這個部份怎麼處理呢？如果我們把葉節點存起來，它們的高度都是0，那麼從葉節點依次不斷尋找父節點，每次高度都增加1。應該注意的是，有些節點可能有超過一個以上的子節點，如果在往上尋找父節點的過程中，遇到一個父節點，其高度值已經存在，並且大於目前遞增的高度值，那這個遞增的高度值就沒有什麼用處了(因為高度會取最大的可能值)。假設要處理的葉節點為curnode，節點i的高度為h[i]，以下程式碼可以處理往上找父節點遞增高度的問題：
+	\begin{inside}
+	int pnode = node[curnode];
+	for (int lvl=1; pnode; lvl++) {
+		if (h[pnode] >= lvl) break;
+		h[pnode] = lvl;
+		pnode = node[pnode];
+	}
+	\end{inside}
+	\item 那要怎麼找到葉節點呢？基本上在讀入樹狀結構時，會讀取每個節點的子節點，如果其數目為0，就表示這個節點是葉節點，可以用以下程式碼處理：
+	\begin{inside}
+	int zeros[100000], zidx=0;
+	for (int nd=1; nd<=n; nd++) {
+		cin >> k;
+		if (!k) zeros[zidx++] = nd; // k==0 ==> Add to zeros array
+	}
+	\end{inside}
+	\item 這個題目還要找根節點，要怎麼找根節點呢？基本上當樹狀結構用陣列建構好之後，每個位置都會儲存它的父節點的位置，如果找到一個位置i，其儲存的值為0，就表示它沒有父節點，換句話說，i就是根節點，程式碼如下：
+	\begin{inside}
+	int root;
+	for (int i=1; i<=n; i++) {
+		if (!node[i]) root = i;
+	}
+	\end{inside}
+	\item 有了以上各個部份的處理，最後只要把所有的節點的高度加起來就可以了。但要注意的是，這個題目給的節點數可能高達100000，如果整個串成一直線的話，它們的高度和會超過整數的最大值。所以求和的時候，要宣告成long long才不會發生溢位的問題。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int n, node[100005]={0}, h[100005]={0}, zeros[100000], zidx=0;
+
+int main()
+{
+	cin >> n;
+	int k, child, level, pnode, curnode;
+	for (int nd=1; nd<=n; nd++) {
+		cin >> k;
+		if (!k) zeros[zidx++] = nd;
+		else for (int i=0; i<k; i++) { // read child
+			cin >> child;
+			node[child] = nd; // connection
+		}
+	}
+	
+	for (int i=0; i<zidx; i++) {
+		curnode = zeros[i];
+		pnode = node[curnode];
+		for (int lvl=1; pnode; lvl++) {
+			if (h[pnode] >= lvl) break;
+			h[pnode] = lvl;
+			pnode = node[pnode];
+		}
+	}
+	
+	int root;
+	long long sum=0;
+	for (int i=1; i<=n; i++) {
+		if (!node[i]) root = i;
+		sum += h[i];
+	}
+	cout << root << endl << sum << endl;
+	return 0;
+}
+\end{cppcode}

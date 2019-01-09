@@ -1,0 +1,116 @@
+\section{A033 巴斯卡三角形}
+一個正數N(N<20)，列出前N列巴斯卡三角形。
+
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item 這一題希望印出的巴斯卡三角形形式如下：
+	\begin{inside}
+	1
+	1 1
+	1 2 1
+	1 3 3 1
+	...
+	\end{inside}
+	\item 可以使用一維陣列或二維陣列來處理這個問題，也可以使用遞迴函式來處理，依次說明如下。
+	\item 使用一維陣列的話，有幾個觀察點：1)第i列有i個元素；2)第i列最前和最後都是1，其它第k個元素值為上一列第k-1和第k個元素值的和。假設我們知道第i列的所有元素，可以據此來計算第i+1列的所有元素。
+	\item 如果我們把第i列最左邊的1前面再補一個0，這樣的話第i列的索引位置依次為0,1,...i，那我們可以用以下的方式來計算第i+1列的元素：把i+1的位置設為1(最右邊為1)，接著把i的位置的值加上i-1的位置的值，接著把i-1的位置的值加上i-2位置的值，依次進行一直到位置1為止。程式如下：
+	\begin{inside}
+		// 從第i列計算第i+1列的值
+		bsk[i+1] = 1;
+		for (int k=i; k>0; k--) bsk[k] += bsk[k-1];
+	\end{inside}
+	\item 使用二維陣列來解答的話，基本概念與上面類似，不同的是第i列和第i+1列存在不同的陣列索引位置中，其關係為bsk[i][j]=bsk[i-1][j-1]+bsk[i-1][j]。適當設定啟始值 (左右邊為1，超出範圍為0)，用迴圈即可處理。程式碼如下：
+	\begin{inside}
+		// 從第i列計算第i+1列的值
+		bsk[i+1][0] = bsk[i+1][i] = 1; // 頭尾為1
+		for (int j=1; j<i; j++) {
+			bsk[i+1][j] = bsk[i][j] + bsk[i][j-1]; // 中間值為上面和上左的和
+		}
+	\end{inside}
+	\item 使用遞迴處理的話，假設第i列第j個位置的值為bsk(i,j)，則bsk(i,j)函式可以如下定義：
+	\begin{inside}
+		int bsk(int i, int j)
+		{
+			if (j==0 || j==i) return 1; // 終止條件一：左右邊界
+			if (j>i) return 0; // 終止條件二：超出邊界
+			return bsk(i-1, j) + bsk(i-1, j-1);
+		}
+	\end{inside}
+	\item 以下分別提供三種參考解答如下。
+\end{enumerate} 
+
+\subsection{程式碼}
+使用一維陣列解答：
+\begin{cppcode}
+#include <stdio.h>
+
+int main()
+{
+	int n, bsk[20]={0};
+	scanf("%d", &n);
+	for (int i=0; i<=n; i++) { // 每一列跑一次迴圈
+		if (i==0) bsk[1] = 1; // 第一列直接設定第1個數為1
+		else { // 從第i列計算第i+1列的值
+			bsk[i+1] = 1;
+			for (int k=i; k>0; k--) bsk[k] += bsk[k-1];
+		}
+		for (int k=1; k<=i+1; k++) printf(" %d", bsk[k]);
+		printf("\n");
+	}
+	
+	return 0;
+}
+\end{cppcode}
+使用二維陣列解答：
+\begin{cppcode}
+	#include <stdio.h>
+	
+	int main()
+	{
+		int n, bsk[20][20]={{0}};
+		scanf("%d", &n);
+		
+		for (int i=0; i<=n; i++) bsk[i][0] = bsk[i][i] = 1;
+		
+		for (int i=2; i<=n; i++) { // 前兩列不用再處理
+			for (int j=1; j<i; j++) {
+				bsk[i][j] = bsk[i-1][j-1] + bsk[i-1][j];
+			}
+		}
+		
+		for (int i=0; i<=n; i++) {
+			for (int j=0; j<=i; j++) {
+				printf(" %d", bsk[i][j]);
+			}
+			printf("\n");
+		}
+		
+		return 0;
+	}
+\end{cppcode}
+使用遞迴處理：
+\begin{cppcode}
+#include <stdio.h>
+
+int bsk(int i, int j);
+
+int main()
+{
+	int n;
+	scanf("%d", &n);
+	
+	for (int i=0; i<=n; i++) {
+		for (int j=0; j<=i; j++) printf(" %d", bsk(i,j));
+		printf("\n");
+	}
+	return 0;
+}
+
+int bsk(int i, int j)
+{
+	if (j==0 || j==i) return 1; // 終止條件一：左右邊界
+	if (j>i) return 0; // 終止條件二：超出邊界
+	return bsk(i-1, j) + bsk(i-1, j-1);
+}
+\end{cppcode}

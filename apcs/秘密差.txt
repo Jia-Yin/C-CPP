@@ -1,0 +1,41 @@
+
+// 以下用數字讀取的話，但位數太大會有問題
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int n, df=0, op=1;
+    cin >> n;
+    while (n) {
+        df += op * (n%10);
+        n /= 10;
+        op = -op;
+    }
+    if (df<0) df = -df;
+    cout << df << endl;
+    return 0;
+}
+
+// 用字串讀取的話，位數可以突破到1000
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int df=0, op=1;
+    char num[1005];
+    cin >> num;
+    for (int i=0; num[i]; i++) {
+        df += op * (num[i]-'0');
+        op = -op;
+    }
+    if (df<0) df = -df;
+    cout << df << endl;
+    return 0;
+}
+

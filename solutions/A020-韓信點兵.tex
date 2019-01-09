@@ -1,0 +1,39 @@
+\section{A020 - 韓信點兵}
+韓信點兵， 7個一數剩3個， 9個一數剩4個， 10個一數剩2個， 11個一數剩1個， 請問韓信兵團至少有多少人?
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 因為要求最少可能的人數，所以可從1開始往上嘗試，當條件滿足時即可印出並離開迴圈。
+	\item 在判斷條件時，可以使用 \&\& 把幾個條件串起來，全部符合時印出並跳出；或者個別測試，不符合時跳過。前者的用法如下：
+	\begin{inside}
+		if (i%7==3 && i%9==4 && i%10==2 && i%11==1) { ... }
+	\end{inside}
+	後者的用法如下：
+	\begin{inside}
+		if (i%7!=3) continue;
+		if (i%9!=4) continue;
+		if (i%10!=2) continue;
+		if (i%11!=1) continue;
+		...
+	\end{inside}
+\end{enumerate}
+
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main() 
+	{
+		for (int i=1; ; i++) {
+			if (i%7==3 && i%9==4 && i%10==2 && i%11==1) {
+				cout << i;
+				break;
+			}
+		}
+		return 0;
+	}
+\end{cppcode}
+

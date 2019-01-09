@@ -1,0 +1,43 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+int slen, h[100005]={0};
+
+int alen(int start, int k);
+
+int main()
+{
+    char str[100005];
+    int k;
+    cin >> k >> str;
+    slen = strlen(str);
+    for (int i=0; i<slen; i++) {
+        if (str[i]>='a' && str[i]<='z') h[i+1] = h[i];
+        if (str[i]>='A' && str[i]<='Z') h[i+1] = h[i] + 1;
+    }
+
+    int maxlen = 0;
+    for (int i=1; i<=slen; i++) {
+        int len = alen(i, k);
+        if (len > maxlen) maxlen = len;
+    }
+    cout << maxlen << endl;
+    return 0;
+}
+
+int alen(int start, int k)
+{
+    int last = start+k-1;
+    if (last>slen) return 0;
+    int sum = h[last] - h[start-1];
+    if ((sum != k) && (sum != 0)) return 0;
+    sum = k - sum;
+    while (last+k<=slen && h[last+k]-h[last]==sum) {
+        last += k;
+        sum = k - sum;
+    }
+    return last-start+1;
+}
+

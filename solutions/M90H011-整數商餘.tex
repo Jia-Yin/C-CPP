@@ -1,0 +1,17 @@
+\section{M90H011 - 整數商餘}
+輸入兩整數m和n，輸出m除以n之商及餘數。
+\subsection{解題思惟}
+整數相除仍為整數，也就是相除的商；另外求餘數可使用\%運算子。又本題之輸出帶有一點格式，使用printf函式輸出會比較方便一點。
+\subsection{程式碼}
+\begin{cppcode}
+#include <cstdio>
+
+int main()
+{
+	int m, n;
+	scanf("%d%d", &m, &n); 
+	printf("\n%d / %d=%d", m, n, m / n);
+	printf("\n%d mod %d=%d", m, n, m % n);
+	return 0;
+}
+\end{cppcode}

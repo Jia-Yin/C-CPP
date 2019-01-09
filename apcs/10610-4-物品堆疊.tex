@@ -1,0 +1,82 @@
+\section{10610-4　物品堆疊}
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 這個題目看起來似乎有點複雜，但仔細想一想，會發現一個很簡單的思路：我們先考慮一個特定的排列順序$T_1T_2\cdots T_N$ (從上到下)，其中$T_1, T_2\cdots,T_N$為$1,2,\cdots N$的重排。現在只考慮$T_iT_{i+1}$的順序，如果我們把它們對調過來，會不會變得更好呢？
+	\item 對調過來的話，$T_i$變到$T_{i+1}$的下面，這對於$T_{i+1}T_i$兩者上面的物品，取用所需的能量是不受影響的，對於$T_{i+1}T_i$兩者以下的物品，也不會有影響。但是對$T_i$來說，現在多了一個$T_{i+1}$在上面，所以要搬動的時候，要多搬動$W(T_{i+1})$的重量，另一方面，$T_{i+1}$現在跑到$T_i$上面了，所以搬動的時候，可以省下$W(T_i)$的重量，把兩者的搬動次數也考慮進去，對調後增加的能量為$W(T_{i+1})F(T_i)-W(T_i)F(T_{i+1})$。
+	\item 如果上面增加的能量為負的，那表示我們把$T_iT_{i+1}$對調，會得到更省能量的方式。也就是說，對於一個最好的排列順序$T_1T_2\cdots T_N$來說，必須有$W(T_{i+1})F(T_i)-W(T_i)F(T_{i+1})\ge 0$，或者說，
+	$$W(T_{i+1})/F(T_{i+1}) \ge W(T_i)/F(T_i)$$
+	把$T_1\cdots T_N$全部考慮進去，會得到以下的不等式：
+	$$W(T_1)/F(T_1)\le W(T_2)/F(T_2)\le\cdots\le W(T_N)/F(T_N)$$
+	\item 所以這一題等於透過排序就可以把最好的順序找出來，要排的數目字是每個物品的重量除以其搬動次數，從小到大。
+	\item 這一題要拿到全部的分數，有兩個地方必須注意：1)物品的個數可能高達100000，如果我們使用氣泡排序法等$O(n^2)$複雜度的排序法，會超時。這個部份可以直接呼叫std::sort函數，其複雜度為$O(n\log(n))$。2)計算總共需花費的能量時，因為每個物品重量可能高達1000，如果使用整數的話，也可能產生溢位的問題，所以用來計算總能量的變數必須宣告為long long才不會發生溢位的問題。
+	\item 這邊在使用std::sort排序函數時，要排的數目是$1,2,\cdots N$，但是排序的標準是使用要排序的數字的函數($W_i/F_i$)，所以使用了三個參數的版本，其中第三個參數是用來決定兩數大小的函數，基本上是回傳一個布林值，當順序正確時要回傳true。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int weight[100005], freq[100005], order[100005];
+
+bool myfunction (int i, int j) { return weight[i]*freq[j] < weight[j]*freq[i]; }
+
+int main()
+{
+	int n;
+	cin >> n;
+	for (int i=0; i<n; i++) cin >> weight[i];
+	for (int i=0; i<n; i++) cin >> freq[i];
+	for (int i=0; i<n; i++) order[i] = i;
+	
+	sort(order, order+n, myfunction);
+	
+	long long upweight=0, sum=0;
+	for (int i=1; i<n; i++) {
+		upweight += weight[order[i-1]];
+		sum += upweight * freq[order[i]];
+	}
+	cout << sum << endl;
+	return 0;
+}
+\end{cppcode}
+
+如果學過結構的話，也可以把上面的程式碼修改如下：
+
+\begin{cppcode}
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+struct item {
+	long long weight;
+	long long freq;
+};
+
+item items[100005];
+
+bool myfunction (item i, item j) { return i.weight*j.freq < j.weight*i.freq; }
+
+int main()
+{
+	int n;
+	cin >> n;
+	for (int i=0; i<n; i++) cin >> items[i].weight;
+	for (int i=0; i<n; i++) cin >> items[i].freq;
+	
+	sort(items, items+n, myfunction);
+	
+	long long upweight=0, sum=0;
+	for (int i=1; i<n; i++) {
+		upweight += items[i-1].weight;
+		sum += upweight * items[i].freq;
+	}
+	cout << sum << endl;
+	return 0;
+}
+\end{cppcode}
+	

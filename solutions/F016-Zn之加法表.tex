@@ -1,0 +1,39 @@
+\section{F016 - Zn之加法表}
+輸入一正整數n，印出Zn之加法表 Zn={0, 1, 2, 3..., n-1} 其加法規則為 x + y= ((x+y) mod n) 左方之加法為 (Zn, +)之加法 右方之加法為 實數之加法 mod n 表示 除以n求餘數
+\subsection{解題思惟}
+使用雙迴圈i變數為第一層，k為第2判斷
+
+\begin{inside}
+	if(sum==n)
+	{
+		sum = 0;
+	}
+\end{inside}
+使用判斷式判斷是否進行印下層，把變數sum=0
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+int main()
+{
+	int n, sum;
+	cin >> n;
+	for(int i=0;i<n;i++)
+	{
+		sum = i;
+		for(int k=0;k<n;k++)
+		{
+			if(sum==n)
+			{
+				sum = 0;
+			}
+			cout << setw(3) << sum;
+			sum++;
+		}
+		cout << endl;
+	}
+}
+\end{cppcode}

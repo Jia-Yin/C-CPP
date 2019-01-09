@@ -1,0 +1,41 @@
+\section{A036 百數最小值所在地}
+輸入100個正整數，將這些數最小值的一個所在地印出。
+\subsection{解題思維}
+\begin{enumerate}
+	\item 本題雖然輸入100個正整數，但只是要找到一個最小值的位置，可以使用陣列也可以不使用陣列解答。依次說明。
+	\item 使用陣列的話，可以先假設最小值的位置在0的位置，然後依次從位置1到99，找出陣列元素來和最小位置的值相比，如果更小的話，就把最小值位置更新。
+	\begin{inside}
+		int idx=0;
+		for (int i=0; i<100; i++) scanf("%d", &a[i]);
+		for (int i=1;  i<100; i++) {
+			if (a[i]<a[idx]) idx=i;
+		}
+	\end{inside}
+	\item 不使用陣列的話，因為輸入的次序依次為第0...99的位置的數字，所以位置可以直接使用迴圈索引，只要把最小值存起來就可以了，不用存其他值。
+	\begin{inside}
+		int idx, tmin, d;
+		for (int i=0; i<100; i++) {
+			scanf("%d", &d);
+			if (i==0 || d<tmin) { idx=i; tmin=d; }
+		}
+	\end{inside}
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <stdio.h>
+	
+	int main()
+	{
+		int idx, tmin, d;
+		
+		for (int i=0; i<100; i++) {
+			scanf("%d", &d);
+			if (i==0 || d<tmin) { idx=i; tmin=d; }
+		}
+		
+		printf("%d", idx);
+		
+		return 0;
+	}
+\end{cppcode}

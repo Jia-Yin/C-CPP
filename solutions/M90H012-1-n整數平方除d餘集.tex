@@ -1,0 +1,29 @@
+\section{M90H012 1～n整數平方除d餘集}
+輸入兩整數 n, d，從小到大輸出 $\{k^2 \mod\ d| 1\le k\le n\}$ 中之元素，重複者不列印。
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 本題除了題目的敘述之外，在瘋狂程設中還設定不可出現 [{}]，也就是不能使用陣列。
+	\item 一個數除以d的餘數只有0～(d-1)的可能性，我們可以設一個迴圈，令i從0跑到d-1，然後
+	找看看有沒有k可以使得k*k除以d的餘數是i，如果可以找到的話，i就是要輸出的數字。
+\end{enumerate}
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n, d;
+	cin >> n >> d;
+	
+	for (int i=0; i<d; i++) {
+		int flag = 0;
+		for (int k=1; k<=n; k++) {
+			if (k*k%d==i) { flag=1; break; }
+		}
+		if (flag) cout << i << endl;
+	}
+	return 0;
+}
+\end{cppcode}

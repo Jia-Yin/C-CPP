@@ -1,0 +1,31 @@
+\section{A031 百數最大值}
+輸入100個正整數，印出最大值及此100個數。
+
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item 使用陣列儲存輸入的100個數。
+	\item 找最大數的方法:每一個數都與``當前最大數"做比較，如果比較大，則該數晉升為``當前最大數"，如此依序比較，最終便能獲得最大數。
+	\item ``當前最大數"一開始要設定為什麼值呢？如果知道所有數字的範圍，則可以設定為比所有數都小的數(當比較第一個數時會被換掉)。如果不知道所有數字的範圍，則可以設定為第一個數。使用後者的話，可以在迴圈外先設定最大數，或則在迴圈內判斷是否為第一個數進行設定。
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <stdio.h>
+	
+	int main()
+	{
+		int a[100], tmax;
+		
+		for (int i=0; i<100; i++) {
+			scanf("%d", &a[i]);
+			if (i==0 || a[i]>tmax) tmax = a[i];
+		}
+		
+		printf("%d\n", tmax);
+		for (int i=0; i<100; i++) printf("%d ", a[i]);
+		
+		return 0;
+	}
+		
+\end{cppcode}

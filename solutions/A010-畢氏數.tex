@@ -1,0 +1,84 @@
+\section{A010 畢氏數}
+輸入一個正整數n，輸出所有的 $(a, b, c)$ 滿足
+\begin{enumerate}
+	\item $a, b, c$為三個正整數
+	\item $a<b<c<n$
+	\item $a^{2}+b^{2}=c^{2}$
+	\item $a, b, c$ 三數的最大公因數為 1。
+\end{enumerate}
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 
+	先宣告一整數 $n$，接著再輸入 $n$ 值。
+	\begin{inside}
+		int n;
+		cin >> n;
+	\end{inside}
+	\item
+	再來寫一個三層迴圈分別代表 $a, b, c$ 的值，注意此處 $a<b<c<n$。
+	\begin{inside}
+	int n;
+	cin >> n;
+	for (int a=1; a<n; a++) {
+		for (int b=a+1; b<n; b++) {
+			for (int c=b+1; c<n; c++) {
+				// ...
+			}
+		}
+	}
+	\end{inside}
+	\item
+	接著判斷是不是符合 $a^{2}+b^{2}=c^{2}$，如果不符合，則迴圈繼續跑。
+	\begin{inside}
+	for (int a=1; a<n; a++) {
+		for (int b=a+1; b<n; b++) {
+			for (int c=b+1; c<n; c++) {
+				if (a*a+b*b != c*c) continue;	
+			}
+		}
+	}
+	\end{inside}
+	\item 因為要判斷三個數的最大公因數是否為1，所以寫一個計算最大公因數的函式。
+	\begin{inside}
+	int gcd(int x, int y) {
+		while (x%=y) swap(x, y); // 如果 x%y>0，交換 x, y 值
+		return y;				
+	}
+	\end{inside}
+	上面函式可以用來計算兩個數的最大公因數。如果要計算三個數$a, b, c$的最大公因數是否為1，
+	可以使用 gcd(gcd($a, b$), $c$)==1 來判斷。
+	\item 求$a, b, c$三數的最大公因數，也可以使用搜尋的方式，從$a$往下一直到1，看什麼時候可以找到$a, b, c$的公因數，如果一直到1才找到，那三個數的最大公因數就是1。
+	\begin{inside}
+		for (k=a; k>0; k--) if (a%k==0 && b%k==0 && c%k==0) break;
+		if (k==1) ... // a, b, c 的最大公因數為1
+	\end{inside}
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	using namespace std;
+	
+	int gcd(int x, int y);
+	
+	int main() 
+	{
+		int n;
+		cin >> n;
+		for (int a=1; a<n; a++) {
+			for (int b=a+1; b<n; b++) {
+				for (int c=b+1; c<n; c++) {
+					if (a*a+b*b != c*c) continue;
+					if (gcd(gcd(a, b), c) != 1) continue;
+					cout << a << "," << b << "," << c << endl;	
+				}
+			}
+		}
+		return 0;
+	}
+
+	int gcd(int x, int y) {
+		while(x%=y) swap(x, y); // 如果 x%y>0，交換 x, y 值
+		return y;				
+	}
+\end{cppcode}

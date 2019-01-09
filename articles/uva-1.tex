@@ -1,0 +1,363 @@
+\chapter{uva一顆星選題}
+
+\section{uva　10162 Last Digit}
+輸入一個整數n ($1\le n\le 2\times 10^{100}$)，令
+$$ S = 1^1 + 2^2 + 3^3 + \cdots + n^n, $$
+請計算$S$的個位數。
+
+\subsection{解題思惟}
+本題看起來很難，但逐一計算會發現規律，有規律之後這一題就不難解了。
+\begin{enumerate}
+	\item $1^1$的個位數為1。$11^{11}$的個位數同$1^{11}$仍為1。依次類推，只要個位數是1的數，次方之後個位數都是1。
+	\item $2^2$的個位數為4，繼續不斷乘以2，其個位數依次為4, 8, 6, 2, ...，可以看出4個就循環一次，所以$12^{12}$的個位數同$2^{12}$，其個位數為6，接著$22^{22}$個位數同$2^{22}$，其個位數為4。依次類推，可以發現$2^2$, $12^{12}$, $22^{22}$, $32^{32}$, ...，其個位數次依為4, 6, 4, 6, ...。基本上每20個循環一次。
+	\item 同樣地,針對3, 4, ..., 9,　計算個位數的變化規則，列表如表\ref{dtable}。
+	\begin{table}[h]
+	\caption{個位數變化規則}
+	\label{dtable}
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline 
+		個位數 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\ 
+		\hline 
+		變化規律 & 0 & 1 & 2,4,8,6 & 3,9,7,1 & 4,6 & 5 & 6 & 7,9,3,1 & 8,4,2,6 & 9,1 \\ 
+		\hline 
+	\end{tabular} 
+	\end{table}
+	\item 從表中可以看出，基本上循環週期只有1, 2, 4三種。但基數的個位是每10個循環一次，所以$n^n$其個位數是每20個循環一次。(1, 2, 4, 10的最小公倍數)，前20個的個位數列表如表\ref{stable}：
+	\begin{table}[h]
+	\caption{$n^n$個位數}
+	\label{stable}
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline 
+		$n$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19\\ 
+		\hline 
+		$n^n$個位 & 0 & 1 & 4 & 7 & 6 & 5 & 6 & 3 & 6 & 9 & 0 & 1 & 6 & 3 & 6 & 5 & 6 & 7 & 4 & 9\\ 
+		\hline 
+	\end{tabular} 
+	\end{table}
+	\item 已經知道$n^n$的個位數是每20個循環一次，那麼
+	$S=1^1+2^2+\cdots+n^n$ 的個位數的規律為何？基本上每20個就會加總同樣的個位數，那麼先算前20個個位數的和，加總後其個位數為4，換句說，$S$的個位數，每20個會加一個4，所以20個一數，依次加4, 8, 2, 6, 0，所以5次後，個位數就不變了，所以$S$的個位數的週期為20*5=100。
+	\item 了解上述的規律之後，只要依上述兩個表，先算出$S$的前100項的個位數，那麼只要看輸入數字的最後2位去查詢它的個位數即可。
+	\item 本題另外要注意的點是輸入的數字極大，所以要使用字串來進行處理，不能直接讀取數字，會有溢位的問題。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <cstdio>
+
+int ren[] = {0,1,4,7,6,5,6,3,6,9,0,1,6,3,6,5,6,7,4,9};
+
+int main() {
+	int sum = 0, ans[100];
+	char num[105];
+	for (int i=0; i<100; i++) { // 算S前100項的個位數
+		sum += ren[i%20];
+		ans[i] = sum%10;
+	}
+	while (scanf("%s", num)) {
+		if (num[0]=='0' && num[1]==0) break;
+		int len=0;
+		while (num[len]) len++;
+		if (len==1) sum = num[0]-'0'; // 只有1位
+		else sum = (num[len-2]-'0')*10 + (num[len-1]-'0');
+		printf("%d\n", ans[sum]);
+	}
+	return 0;
+}
+\end{cppcode}
+
+\section{uva 10268 498'}
+本題要計算多項式
+$$a_0x^n + a_1x^{n-1} + \cdots + a_n$$
+在$x=x_0$的微分值，也就是計算
+$$a_0nx_0^{n-1}+a_1(n-1)x_0^{n-2}+\cdots+a_{n-1}$$
+
+\subsection{輸入格式}
+每筆資料佔兩列，第一列為$x_0$的值，第二列為$a_0, a_1, \cdots$。總共幾筆資料不定，一直處理到檔尾為止。
+\subsection{輸出格式}
+每筆資料輸出佔一列，直接印出在$x_0$的微分值。
+
+\subsection{解題思惟}
+1. 依正常方式，須要先了解次冪，然後逐項相加。
+2. 依特殊迭代公式，不須要先了解次冪，每次讀取新值做一次迭代。
+\subsection{程式碼}
+使用\cc{}的字串資料流
+\begin{cppcode}
+#include <iostream>
+#include <sstream>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+	int x, sum, c, deg;
+	string s;
+	while (cin >> x) {
+		getline(cin, s);
+		getline(cin, s);
+		deg = 0;
+		for (int i=0; i<s.length()-1; i++) if (s[i]==' ' && s[i+1]!=' ') deg++;
+		istringstream sin(s);
+		sum = 0;
+		for (int i=0; i<deg; i++) {
+			sin >> c;
+			sum = sum*x + c*(deg-i);
+		}
+		cout << sum << endl;
+	}
+	return 0;
+}
+	
+\end{cppcode}
+
+使用C
+\begin{cppcode}
+#include <stdio.h>
+
+#define MAXLINE 1000000
+
+int main()
+{
+	char s[MAXLINE];
+	int sum, offset, x, c, deg, i;
+	while (scanf("%d", &x)!=EOF) {
+	fgets(s, MAXLINE-1, stdin);
+	fgets(s, MAXLINE-1, stdin);
+	deg = 0;
+	for (i=0; s[i+1]; i++) if (s[i]==' ' && s[i+1]!=' ') deg++; // find degree
+	sum = offset = 0;
+	for (i=0; i<deg; i++) {
+		while (s[offset]==' ') offset++; // skip spaces
+		sscanf(s+offset, "%d", &c); // read number
+		while (s[offset]=='-' || (s[offset]>='0' && s[offset]<='9')) offset++; // skip number
+		while (s[offset]==' ') offset++; // skip spaces
+		sum = sum*x + c*(deg-i);
+	}
+	printf("%d\n", sum);
+}
+return 0;
+}
+\end{cppcode}
+特殊處理方式
+\begin{cppcode}
+#include <cstdlib>
+#include <cstring>
+#include <cstdio>
+
+using namespace std;
+
+int main()
+{
+	int x, a, temp;
+	
+	while (scanf("%d",&x) != EOF) {
+		getchar();
+		temp = getchar();
+		int sum = 0, ans = 0;
+		while (temp != '\n' && temp != EOF) {
+			if (temp == '-' || temp >= '0' && temp <= '9') {
+				ungetc(temp, stdin);
+				scanf("%d",&a);
+				ans = ans * x + sum;
+				sum = sum * x + a;
+			}
+			temp = getchar();
+		}
+		printf("%d\n",ans);
+	}
+	return 0;
+}
+\end{cppcode}
+
+\section{uva 10468 To carry or not to carry}
+本題其實就是要計算兩個數的XOR。
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int a, b;
+		while (cin >> a >> b) {
+			cout << (a^b) << endl;
+		}
+		return 0;
+	}
+\end{cppcode}
+
+\section{uva 10922 2 the 9s}
+要計算一個整數是否為9的倍數，只要把所有的位數和算出來，看是否為9的倍數即可，這個過程可以不斷重覆，直到最後的位數和為個位數即可，重覆的過程稱為該數的9的級數。本題要求針對輸入的數字，計算是否為9的倍數，以及其級數。
+\subsection{輸入格式}
+每列一個數，位數可能很長，最後一列以0結束。
+\subsection{輸出格式}
+如果輸入的數是9的倍數，例如999999999999999999999，則輸出如下格式：
+\begin{inside}
+999999999999999999999 is a multiple of 9 and has 9-degree 3.
+\end{inside}
+如果輸入的數不是9的倍數，例如9999999999999999999999999999998，則輸出如下格式：
+\begin{inside}
+9999999999999999999999999999998 is not a multiple of 9.
+\end{inside}
+\subsection{解題思惟}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+	string s;
+	while (cin >> s) {
+		if (s[0]=='0') break;
+		int d=1, sum=s[0]-'0';
+		if (s.length()>1) {
+			for (int i=1; i<s.length(); i++) sum+=s[i]-'0';
+			while (sum > 9) {
+				int ns=0;
+				while (sum) { ns+=sum%10; sum/=10; }
+				d++;
+				sum = ns;
+			}
+		}
+		if (sum==9) cout << s << " is a multiple of 9 and has 9-degree " << d << ".\n";
+		else cout << s << " is not a multiple of 9.\n";    
+	}
+	return 0;
+}
+\end{cppcode}
+
+\section{uva 10931 Parity}
+將輸入的整數列印成二進位形式，並計算其1的個數。
+\subsection{輸入格式}
+每列一個數，最後一列以0結束。
+\subsection{輸出格式}
+假設輸入的數為21，其輸出形式為：
+\begin{inside}
+The parity of 10101 is 3 (mod 2).
+\end{inside}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n, mask, first, parity;
+	while (cin >> n) {
+		if (!n) break;
+		first = 1; parity = 0;
+		for (mask=0x40000000; mask; mask>>=1) {
+			if (mask & n) {
+				if (first) { cout << "The parity of "; first = 0; }
+				cout << 1;
+				parity++;
+			} else if (!first) cout << 0;
+		}
+		cout << " is " << parity << " (mod 2)." << endl;
+	}
+	return 0;
+}
+\end{cppcode}
+
+\section{uva 11150 Cola}
+假設有n瓶可樂，喝完之後，每3個空瓶可再換一瓶，如果空瓶不夠，也可以先跟別人借，但要能夠還才行。問最多總共可以喝到幾瓶。
+\subsection{解題思惟}
+每兩個空瓶，可以先借一個空瓶來，湊成3個空瓶，就可以換一瓶來喝，並將空瓶還給別人。所以兩個空瓶可以視做一瓶。
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n;
+	while (cin >> n) cout << n + n/2 << endl;
+	return 0;
+}	
+\end{cppcode}
+
+\section{uva 11342 Three-Square}
+輸入整數K，找到最小順序的a, b, c，使得$a\le b\le c$且$K=a^2+b^2+c^2$。
+
+\subsection{輪入格式}
+第一列的數字表示要測試的案例數，之後每一列一個數為K值。
+
+\subsection{輸出格式}
+如果該數可以分成三個數的平方和，則輸出a, b, c，如果不行的話，則輸出-1。
+
+\subsection{解題思惟}
+跑兩個迴圈處理，適當設定上限以減少迴圈次數。
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int main()
+{
+	int n, k, smin1, smin2, a, b, c, found;
+	cin >> n;
+	while (n--) {
+		cin >> k;
+		smin1 = (int)sqrt((k+1)/3.0);
+		found = 0;
+		for (a=0; a<=smin1 && !found; a++) {
+			smin2 = (int)sqrt((k+1-a*a)/2.0);
+			for (b=a; b<=smin2 && !found; b++) {
+				c = (int)sqrt(k-a*a-b*b+0.5);
+				if (a*a+b*b+c*c==k) { found=1; break; }
+			}
+			if (found) a--;
+		}
+		if (found) cout << a << " " << b << " " << c << endl;
+		else cout << "-1\n";           
+	}
+	return 0;
+}
+\end{cppcode}
+
+\section{uva 11461 Square Numbers}
+輸入a, b兩個整數 ($0<a\le b\le 100000$)，算出兩個數中間共有幾個平方數（包括a和b）。
+
+\subsection{輸入格式}
+每列兩個數，表示a和b，最後一列以0 0結束。
+
+\subsection{輸出格式}
+每列一個數，表示a和b中間所有的平方數個數。
+
+\subsection{解題思惟}
+計算不小於$\sqrt{a}$的數以及不大於$\sqrt{b}$的數，兩數相減加1即可得出答案。
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int main()
+{
+	int a, b;
+	while (cin >> a >> b) {
+		if (!a && !b) break;
+		int m1 = (int)sqrt(a+0.5);
+		if (m1*m1 < a) m1++;
+		int m2 = (int)sqrt(b+0.5);
+		cout << m2-m1+1 << endl;
+	}
+	return 0;
+}
+\end{cppcode}

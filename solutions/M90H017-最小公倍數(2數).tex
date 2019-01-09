@@ -1,0 +1,26 @@
+\section{M90H017 - 最小公倍數(2數)}
+輸入2整數，輸出其最小正公倍數。
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 求解最小公倍數有多種解法，最基本的是用定義，從任一個數的絕對值開始往上數，數到
+	第一個可以整除兩個輸入的數就是答案。
+	\item 或者也可以先求最大公因數，然後利用最小公倍數=兩數相乘除以最大公因數求解。
+\end{enumerate}
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int a, b, n;
+	cin >> a >> b;
+	if (a<0) a=-a;
+	for (n=a; ; n++) {
+		if (n%a==0 && n%b==0) break;
+	}
+	cout << n;
+	return 0;
+}
+\end{cppcode}

@@ -1,0 +1,48 @@
+\section{猜數字}
+
+電腦先隨機產生一個１--100的整數，使用者試著猜出這個數。每次猜的時候，如果猜得比較小，電腦會回答more，如果猜得比較大，電腦會回覆less，一直到猜中為止。猜中的時候，電腦會回應Bingo! You did it!，然後問是否重新再玩一次。
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 如何產生隨機亂數呢？答：使用 rand() 函數，注意檔頭必須引入<stdlib.h>。rand() 函數會產生一個隨機的整數，其值從 0--RAND\_MAX。
+	\item 如何產生1--100的隨機亂數？答：1+rand()\%100。
+	\item 其餘的部份善用分支及迴圈指令即可完成。
+	\item 問：為何每次玩的時候，都是一樣的數字？答：rand()取亂數的時候，會使用一個種子值來產生亂數，而這個種子值預設是固定的，所以每次產生的亂數都一樣。那怎麼改種子值呢？可以使用srand(種子值)來完成。
+	\item 問：給定種子值之後，只要種子值不變，每次出來的亂數不也一樣嗎？答：可以使用時間函數來設定種子值，一般常用的方式為 srand(time(NULL))，其中time(NULL)函數會傳回一個從以前固定某時間到現在經歷的秒數，因為時間會一直改變，這樣就可以讓每次的種子值都不一樣了。使用time(NULL)這個函數，要另外引入time.h。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+int main()
+{
+    int number, guess;
+    char yn;
+
+    srand(time(NULL));
+    do {
+        number = 1 + rand()%100;
+        cout << "I have a number from 1-100. Please guess!\n\n";
+
+        do {
+            cout << "Your guess: ";
+            cin >> guess;
+            if (guess < number) cout << "  more" << endl;
+            if (guess > number) cout << "  less" << endl;
+        } while (guess != number);
+
+        cout << "\nBingo! You did it!\n\n";
+        cout << "Do you want to play again? (y/n) : ";
+        cin >> yn;
+        cout << endl << endl;
+
+    } while (yn=='y' || yn=='Y');
+
+    return 0;
+}
+\end{cppcode}

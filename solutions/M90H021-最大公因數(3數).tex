@@ -1,0 +1,27 @@
+\section{M90H021 - 最大公因數(3數)}
+輸入3整數，輸出其最大公因數。
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 求解最大公因數有多種方法，在前面的題目中(A007, A022)針對兩個數的最大公因數已曾加以探討。至於求解三個數的最大公因數，可以在求得兩數的
+	最大公因數之後，再用此數和第三個數求一次最大公因數即可。
+	\item 或者最簡單直覺的辦法是跑一個for迴圈，從任一個數的絕對值開始往下跑到1，第一個能夠
+	整除三個數的就是最大公因數。
+\end{enumerate}
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int a, b, c, n;
+	cin >> a >> b >> c;
+	if (a<0) a = -a;
+	for (n=a; n>0; n--) {
+		if (a%n==0 && b%n==0 && c%n==0) break;
+	}
+	cout << n;
+	return 0;
+}
+\end{cppcode}

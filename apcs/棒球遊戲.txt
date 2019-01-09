@@ -1,0 +1,54 @@
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    char info[9][5], ss[3];
+    int k;
+    for (int r=0; r<9; r++) {
+        cin >> k;
+        for (int i=0; i<k; i++) {
+            cin >> ss;
+            info[r][i] = ss[0];
+        }
+    }
+    cin >> k;
+
+    int status = 0;
+    int outplayer = 0;
+    int totalout = 0;
+    int score = 0;
+
+    for (int i=0; i<5; i++) {
+        for (int r=0; r<9; r++) {
+            switch (info[r][i]) {
+                case '1': status = (status<<1) + 1; break;
+                case '2': status = (status<<2) + 2; break;
+                case '3': status = (status<<3) + 4; break;
+                case 'H': status = (status<<4) + 8; break;
+                case 'S':
+                case 'F':
+                case 'G': totalout++; outplayer++; break;
+            }
+            int sf = status >> 3;
+            status &= 7;
+            while (sf) {
+                score += sf & 1;
+                sf >>= 1;
+            }
+            if (totalout==k) {
+                cout << score << endl;
+                return 0;
+            }
+            if (outplayer==3) {
+                status = 0;
+                outplayer = 0;
+            }
+        }
+    }
+
+    return 0;
+}
+

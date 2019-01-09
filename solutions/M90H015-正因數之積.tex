@@ -1,0 +1,25 @@
+\section{M90H015 - 正因數之積}
+輸入一整數n，輸出其正因數乘積。
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 令初始answer=1。
+	\item 當輸入n除以迴圈內i整除，則令answer乘上此i。
+\end{enumerate}
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n;
+	cin >> n;
+	int answer = 1;
+	for(int i=1; i<=n; i++) {
+		if(n%i == 0) answer *= i;
+	}
+	cout << answer;
+	return 0;
+}
+\end{cppcode}

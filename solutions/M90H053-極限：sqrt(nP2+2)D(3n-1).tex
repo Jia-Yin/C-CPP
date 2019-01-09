@@ -1,0 +1,32 @@
+\section{M90H053 - 極限 $\sqrt{n^2+2}/(3n-1)$}
+請使用double型別，計算n趨近無限大時，$sqrt{n^2+2}/(3n-1)$的逼近值。
+
+\subsection{解題思惟}
+
+\begin{enumerate}
+	
+	\item 此題有使用到sqrt(double x)函式，因此要引入標頭檔<math.h>。
+	\item 此題與上一題極限 $(2n+3)/(3n-1)$是相同的題型，解法也相同，請參考
+	\ref{M90H052}
+	「極限 $(2n+3)/(3n-1)$」。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+#include <cmath>
+
+int main()
+{
+	double n=1.0, ans=0.0, next;
+	
+	next = sqrt(n*n+2)/(3*n-1);
+	while (ans != next) {
+		ans = next;
+		n += 1000;
+		next = sqrt(n*n+2)/(3*n-1);
+	}
+	std::cout << ans;
+	return 0;
+}
+\end{cppcode}

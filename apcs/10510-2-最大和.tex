@@ -1,0 +1,39 @@
+\section{10510-2 最大和}
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 本題雖然是矩陣形式，但實際上只是要求每列的最大值，最後加總求和之後，並判斷各列最大值是否為和的因數。因此只要用一維陣列儲存每列的最大值即可。
+	\item 求最大值的方法，可先預設最大值為0 (因為輸入的數都大於0)，爾後每次讀取時比較並更新最大值即可。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n, m, a[100], sum=0, k=0;
+	cin >> n >> m;
+	for (int i=0; i<n; i++) {
+		int rmax = 0, num; // 預設最大值為0，num係用做讀取的變數
+		for (int j=0; j<m; j++) {
+			cin >> num;
+			if (num > rmax) rmax = num; // 更新最大值
+		}
+		a[i] = rmax; // 儲存最大值
+		sum += rmax; // 求和
+	}
+	cout << sum << endl;
+	for (int i=0; i<n; i++) {
+		if (sum % a[i] == 0) {
+			if (k==0) k=1; // 列印第一個因數前面不加空白
+			else cout << " "; // 其餘因數前面加空白
+			cout << a[i];
+		}
+	}
+	if (k==0) cout << -1; // 都沒有因數的話列印 -1
+	return 0;
+}
+\end{cppcode}

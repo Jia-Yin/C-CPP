@@ -1,0 +1,36 @@
+\section{M90H009 函式疊代f(f(f(a)))}
+假設$f(x)=(x+3)*(x+1)/(x+2)$，輸入一整數a，求f(f(f(a)))。
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item
+	只要照著題目的條件去寫 fun 函式即可，但應該注意的是，本題輸入為整數，但使用函式計算的結果需為實數，其次又要再次呼叫函式，故應該把輸入輸出都設為浮點數，考量比較好的精確度，應該宣告為double。
+	\begin{inside}
+	double f(double a) {
+		return (a+3)*(a+1)/(a+2);
+	}
+	\end{inside}
+	\item 在主程式中使用三次呼叫即可。
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+
+	using namespace std;
+	
+	double f(double a);
+	
+	int main()
+	{
+		int a;
+		cin >> a;
+		cout << "f(f(f(" << a << ")))=" << f(f(f(a)));
+		
+		return 0;
+	}
+	
+	double f(double a) {
+		return (a+3)*(a+1)/(a+2);
+	}
+\end{cppcode}

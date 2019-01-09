@@ -1,0 +1,30 @@
+\section{A034 三數排序(陣列版)}
+輸入三個正整數a b c，將a b c從小印到大。(僅使用一次if)
+\subsection{解題思維}
+	此題規定只能使用一次if，所以我們使用氣泡排序法。氣泡排序法使用雙迴圈，且只有一次比較，可以滿足題目要求。
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <stdio.h>
+	
+	int main()
+	{
+		int a[3];
+		
+		for (int i=0; i<3; i++) scanf("%d", &a[i]);
+		
+		for (int i=0; i<2; i++) {
+			for (int j=0; j<2-i; j++) {
+				if (a[j]>a[j+1]) {
+					int tmp = a[j];
+					a[j] = a[j+1];
+					a[j+1] = tmp;
+				}
+			}
+		}
+		
+		for (int i=0; i<3; i++) printf("%d ", a[i]);
+		
+		return 0;
+	}
+\end{cppcode}

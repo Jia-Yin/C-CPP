@@ -1,0 +1,29 @@
+\section{計算BMI}
+
+輸入身高(公尺)及體重(公斤)，計算BMI=體重/身高平方。
+
+若BMI<18.5，則輸出``too thin"
+
+若18.5<=BMI<24，則輸出``standard"
+
+若BMI>=24，則輸出``too fat"
+
+\subsection{解題思惟}
+本題為if-else的基本題型。注意觀察程式碼中if-else及條件的使用方式。
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+using namespace std;
+int main()
+{
+	double height; cin>>height;
+	double weight; cin>>weight;
+	double bmi = weight/height/height;
+	cout<<bmi;
+	if (bmi<18.5) cout<<endl<<"too thin";
+	else if (bmi<24) cout<<endl<<"standard";
+	else cout<<endl<<"too fat";
+	return 0;
+}
+\end{cppcode}

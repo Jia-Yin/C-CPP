@@ -1,0 +1,24 @@
+\section{F017 - Zn之乘法表}
+輸入一正整數n，印出Zn之乘法表 Zn={0, 1, 2, 3..., n-1} 其加法規則為 x * y= ((x*y) mod n) 左方之乘法為 (Zn, *)之乘法 右方之乘法為 實數之乘法 mod n 表示 除以n求餘數
+\subsection{解題思惟}
+雙迴圈判斷x * y= ((x*y) mod n)
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+int main()
+{
+	int n, i, j;
+	cin>>n;
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){ 
+			cout << setw(3) << (i*j)%n;
+		}
+		cout<<endl;
+	}
+}
+\end{cppcode}

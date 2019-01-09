@@ -1,0 +1,237 @@
+\chapter{第十一關：類別}
+
+%1
+\section{類別：建構子}
+完成程式寫作
+
+\subsection{解題思維}
+\begin{enumerate}
+	\item 建構子 \emph{(Constructor)} 是指和類別名稱相同的方法。當我們建立新物件時，程式會自動執行建構子，常被用來做物件參數初始化的動作。
+	
+	\item 物件的建構子有以下三個特點：
+	\begin{itemize}
+		\item 與類別名稱相同。
+		\item 沒有回傳值。
+		\item 支援方法過載。
+	\end{itemize}
+	有了概念之後我們就可以開始解題。
+	
+	\item 從題目預先給的程式碼來看，題目已經在Student類別中建立了兩個建構子，一個建構子傳數字元指標，另一個則多傳入了兩個 int 參數。
+	\begin{inside}
+	class Student{
+		public:
+		Student(char*){
+			cout<<endl<<"Student(char*);building a Student";
+		}
+		Student(char*, int, int) {
+			cout<<endl<<"Student(char*,int,int);building a Student";
+		}
+	};
+	\end{inside}
+	\item 接著我們看題目給的 main 程式碼。
+	\begin{inside}
+	int main(){
+		int n;
+		cin>>n;
+		Student me("arping");
+		Student you("Alice",99,77);
+		Student* pstu=new Student[n];
+		delete[] pstu;
+		return 0;
+	}		
+	\end{inside}
+	我們可以發現除了剛剛講的兩個建構子之外，main裡面還多呼叫了一個沒有任何參數的建構子，所以我們要把這個建構子加入Student類別中。
+	\item 再來只要依照輸出要求來建立建構子即可。
+	\begin{inside}
+	class Student{
+		public:
+		Student(char*){
+			cout<<endl<<"Student(char*);building a Student";
+		}
+		Student(char*, int, int) {
+			cout<<endl<<"Student(char*,int,int);building a Student";
+		}
+		Student() {
+			cout<<endl<<"Stuendt();building a Student";
+		}
+	};
+	\end{inside}
+\end{enumerate}
+
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	using namespace std;
+	
+	class Student{
+		public:
+		Student(char*) {
+			cout<<endl<<"Student(char*);building a Student";
+		}
+		Student(char*, int, int) {
+			cout<<endl<<"Student(char*, int, int);building a Student";
+		}
+		Student() {
+			cout<<endl<<"Student();building a Student";
+		}
+	};
+	
+	int main(){
+		int n;
+		cin>>n;
+		Student me("arping");
+		Student you("Alice",99,77);
+		Student* pstu=new Student[n];
+		delete[] pstu;
+		return 0;
+	}
+	
+\end{cppcode}
+
+
+%2
+\section{類別：靜態成員變數}
+完成程式寫作
+
+\subsection{解題思維}
+	\begin{enumerate}
+	\item 題目要求我們建立一個靜態成員變數Total，當我們建立新物件時來計算學生數量。
+	\item 再寫程式碼之前，我們先來了解靜態成員：
+	\begin{itemize}
+		\item 使用static宣告的變數稱為靜態變數。
+		\item 靜態成員屬於類別，不屬於個別的物件。
+		\item 和全域變數一樣，靜態變數也是永久儲存的。
+	\end{itemize}
+	\item 進一步舉例，假設我們見一個Circle類別，而每個不同的Circle都有著相同的圓周率${\pi}$
+	 ，也就是不同的物件會有相同的資料成員，這時我們就可以將${\pi}$設為靜態成員，使${\pi}$變成大家共享的資料成員。
+	
+	\item 接著我們開始建立靜態成員total，且在每次建立一個新的物件時total都會加一。 
+	\begin{inside}
+	class Student{
+		public:
+		static int total;
+		Student(char*) {
+			total++;
+			cout<<endl<<"Student(char*);building a Student;Total:"<<total;
+		}
+		Student(char*, int, int) {
+			total++;
+			cout<<endl<<"Student(char*,int,int);building a Student;Total:"<<total;
+		}
+		Student() {
+			total++;
+			cout<<endl<<"Student();building a Student;Total:"<<total;
+		}
+	};
+	int Student::total=0;
+	\end{inside}
+	\end{enumerate}
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	using namespace std;
+	
+	class Student{
+		public:
+		static int total;
+		Student(char*) {
+			total++;
+			cout<<endl<<"Student(char*);building a Student;Total:"<<total;
+		}
+		Student(char*, int, int) {
+			total++;
+			cout<<endl<<"Student(char*,int,int);building a Student;Total:"<<total;
+		}
+		Student() {
+			total++;
+			cout<<endl<<"Student();building a Student;Total:"<<total;
+		}
+	};
+	int Student::total=0;
+	
+	int main(){
+		int n;
+		cin>>n;
+		Student me("arping");
+		Student you("Alice",99,77);
+		Student* pstu=new Student[n];
+		delete[] pstu;
+		return 0;
+	}
+	
+\end{cppcode}
+
+%3
+\section{類別：靜態成員函數}
+完成程式寫作
+
+\subsection{解題思維}
+\begin{enumerate}
+	\item 與靜態成員類似，我們也可以把函式設為靜態成員函式，而靜態成員函式通常是拿來作為工具函式，如我們在circle類別中加上一個計算圓面積的函式cirArea()。
+	\item 題目要求我們建立size及count兩個靜態函式，回傳同樣的都是total的值，所以我們只要照著題意去寫程式即可。
+	\begin{inside}
+	class Student{
+		public:
+		static int total;
+		Student(char*) {
+			total++;
+			cout<<endl<<"Student(char*);make a Student;";
+		}
+		Student(char*, int, int) {
+			total++;
+			cout<<endl<<"Student(char*,int,int);make a Student;";
+		}
+		Student() {
+			total++;
+			cout<<endl<<"Student();make a Student;";
+		}
+		static int size() {
+			return total;
+		}
+		static int count() {
+			return total;
+		}
+	};
+	int Student::total=0;	
+	\end{inside}
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	using namespace std;
+	
+	class Student{
+		public:
+		static int total;
+		Student(char*) {
+			total++;cout<<endl<<"Student(char*);make a Student;";
+		}
+		Student(char*, int, int) {
+			total++;cout<<endl<<"Student(char*,int,int);make a Student;";
+		}
+		Student() {
+			total++;cout<<endl<<"Student();make a Student;";
+		}
+		static int size() {
+			return total;
+		}
+		static int count() {
+			return total;
+		}
+	};
+	int Student::total=0;
+	
+	int main(){
+		int n;
+		cin>>n;
+		Student me("arping");cout<<endl<<"make "<<Student::size()<<" student(s)";
+		Student you("Alice",99,77);cout<<endl<<"make "<<you.count()<<" student(s)";
+		Student* pstu=new Student[n];cout<<endl<<"make "<<Student::size()<<" student(s)";
+		delete[] pstu;
+		return 0;
+	}
+	
+	
+\end{cppcode}

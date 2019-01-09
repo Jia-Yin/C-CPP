@@ -1,0 +1,59 @@
+\section{A007\&A022 - 最大公因數}
+輸入兩個正整數x, y，輸出x, y的最大公因數。
+
+\subsection{解題思惟}
+求最大公因數有很多方法，這裡先講解一個簡單的暴力法，主要的概念是從最大的可能值往下找，找到的第一個共同的因數就是最大公因數。
+\begin{enumerate}
+\item 假設x<y，如果不是的話，將兩個數交換。最大公因數不會大於x。
+\item 跑一迴圈變數i從x到1，第一個發現是x和y的公因數的i就是最大公因數。
+\item 其實第一點可以省略，只是當x很大而y很小的時候，會多跑很多次迴圈而已。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int x, y, i;
+	cin >> x >> y;
+	for (i=x; i>=1; i--) {
+		if (x%i==0 && y%i==0) break;
+	}
+	cout << i;
+	return 0;
+}
+\end{cppcode}
+
+\subsection{解題思惟}
+接著要講述的方法是輾轉相除法。
+\begin{enumerate}
+\item 如果x除以y整除的話，那麼y就是最大公因數。
+\item 如果不能整除的話，可以先算出x除以y的餘數，這個數肯定比y還小，接著把y變成新的x，把剛才的餘數變成新的y，再回到上一個步驟。
+\end{enumerate}
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int x, y, t;
+	cin >> x >> y;
+	while (x%y) { // x % y != 0
+		x = x%y;
+		t=x; x=y; y=t; // swap(x, y);
+	}
+	cout << y;
+	return 0;
+}
+\end{cppcode}
+註：本題在瘋狂程設測試時，沒有辦法通過。仔細檢查，發現輸入的數有的是負數，不像題目所說的都是正整數，因此會產生錯誤。修正的辦法，是在輸入x, y整數之後，加上負數的判斷並改成正數，也就是下面兩行：
+\begin{inside}
+if (x<0) x = -x;
+if (y<0) y = -y;
+\end{inside}
+這樣的話，就沒有問題了。

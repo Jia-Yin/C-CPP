@@ -1,0 +1,35 @@
+\section{A016 - 三數排序}
+輸入三個正整數 a、b、c，將 a、b、c 從小排到大並輸出。
+\subsection{解題思維}
+\begin{enumerate}
+\item a,b,c三數排序時，可以先比a和b，如果a>b則交換兩個數，使a<b，之後再比b和c，順序不對就交換，使b<c，此時c為最大值。最後再比較和調整一次a和b即可。
+	\begin{inside}
+	if (a>b) swap(a, b);
+	if (b>c) swap(b, c);
+	if (a>b) swap(a, b);
+	\end{inside}
+\item 交換兩數x和y，在\cc{}中可以直接使用swap函式，如果是在C裡面，則常用的方法是宣告另一個暫存變數t，然後使用以下敘述：
+	\begin{inside}
+		t=x; x=y; y=t;
+	\end{inside}
+\item 其實排序有很多種方法，以上的排序法稱為氣泡排序法，它的基本原理是兩兩相比，順序不對就互相交換，這樣依序比過一輪，最大的就跑到最右邊了。之後再比第二輪，可以把次大的送到右邊第二位，依此類推。還不明白的讀者可自行上網查詢，或查看一般程式書籍，以進一步了解其原理和作法。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+
+	using namespace std;
+	
+	int main()
+	{
+		int a, b, c;
+		cin >> a >> b >> c;
+		if (a>b) swap(a, b);
+		if (b>c) swap(b, c);
+		if (a>b) swap(a, b);
+		cout << a << " " << b << " " << c;
+		return 0;
+	}
+\end{cppcode}
+

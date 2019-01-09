@@ -1,0 +1,45 @@
+\section{M90H006 - 映成函式個數}
+輸入定義域集合A元素個數a
+與對應域集合B的元素個數b，
+輸出A->B的映成函式個數。 
+答案為 $b^a + C^b_1(b-1)^a(-1)^1+C^b_2(b-2)^a(-1)^2+\cdots
++C^b_k(b-k)^a(-1)^k+\cdots+C^b_b(b-b)^a(-1)^b$。
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 本題必須計算組合數$C^a_b=a!/b!/(a-b)!$。我們可以寫一個計算階乘的函式，再用這個階乘函式來寫一個計算組合的函式。
+	\item 另外還要計算$x^y$，這個部份可以引入<math.h>，並使用pow函式。
+	\item 有了以上的函式之後，只要使用迴圈加總即可。
+\end{enumerate}
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int factorial(int x);
+int c(int x, int y);
+
+int main()
+{
+	int a, b, ans = 0;
+	cin >> a >> b;
+	for(int i = 0; i<b; i++) {
+		ans += c(b,i) * pow((b-i),a) * pow(-1,i);
+	}
+	cout << ans;
+	return 0;
+}
+
+int factorial(int x)
+{
+	int answer = 1;
+	for (int i=1 ; i<=x; i++) answer *= i;
+	return answer;
+}
+
+int c(int x, int y)
+{
+	return factorial(x)/factorial(y)/factorial(x-y);
+}
+\end{cppcode}

@@ -1,0 +1,38 @@
+\section{A023 - 比N小的質數}
+輸入一正整數N，輸出比N小的所有質數。
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 前面已處理過判別質數的問題，可以把它寫成一個函式，輸入n，輸出為1或0，1表示質數，0表示非質數。
+	\item 把小於N的所有數字跑一遍，用上面的函式檢查是否為質數即可。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int isprime(int n);
+
+int main()
+{
+	int n;
+	cin >> n;
+	for (int i=2; i<n; i++) {
+		if (isprime(i)) cout << i << " ";
+	}
+	return 0;
+}
+
+int isprime(int n)
+{
+	if (n<=1) return 0;
+	if (n<4) return 1; // 2 and 3 are primes
+	if (n%2==0) return 0; // 偶數非質數
+	for (int i=3; i*i<=n; i+=2) {
+		if (n%i==0) return 0;
+	}
+	return 1;
+}
+\end{cppcode}

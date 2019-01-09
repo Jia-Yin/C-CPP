@@ -1,0 +1,20 @@
+\section{M90H063 - 二次函式之極小值}
+輸入一個二次函式$ax^2+bx+c$的係數$a, b, c$，輸出其極小值。
+\subsection{解題思惟}
+二次函式$ax^2+bx+c$的極小值發生在$x=-b/(2a)$，取得使用者輸入的a, b, c後，算出$x$並代入函式求值即可。
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int a, b, c;
+	cin >> a >> b >> c;
+	float x = -0.5*b/a;
+	cout << a*x*x+b*x+c;
+	return 0;
+}
+\end{cppcode}

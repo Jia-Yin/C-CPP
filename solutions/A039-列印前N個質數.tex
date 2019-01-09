@@ -1,0 +1,64 @@
+\section{A039 列印前N個質數}
+輸入一個正數N(N<1024)，列印前N個質數。
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item 這個題目要列印的質數個數不超過1024個，所以數字不會太大。處理的方式可以不使用陣列，也可以使用陣列。
+	\item 如果不使用陣列的話，只要從2開始一直往上數，然後將是質數的列出來，並計算個數就可以了，主要是要判斷一個數是否為質數，這可以寫一個函式來處理，前面已經出現過類似的題目。
+	\begin{inside}
+		int cnt=0,;
+		for (int i=2; cnt<n; i++) {
+			if (isprime(i)) {
+				printf("%d ", i);
+				cnt++;
+			}
+		}
+	\end{inside}
+	\item 那如果使用陣列的話，我們可以從小到大，把目前為止已知的質數存起來，那麼接下來的數，如果不能被這些數整除的話，也就是質數了，這個方法會比較快。基本上除了2以外，只要判斷奇數就好了。
+	\begin{inside}
+		int cnt=1, primes[1024]={2}; // primes[0]=2, 其餘為0
+		for (int i=3; cnt<n; i+=2) { // 只看奇數就好
+			int isprime=1; // 假設為質數
+			for (int k=0; k<cnt; k++) {
+				if (i%primes[k]==0) { // 找到i的質因數
+					isprime=0; // 找得到因數，所以不是質數
+					break;
+				}
+				if (primes[k]*primes[k]>i) break; // 超過平方根就不用再找了
+			}
+			if (isprime) { // i為質數
+				printf(" %d", i);
+				primes[cnt++] = i;
+			}
+		}
+	\end{inside}
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <stdio.h>
+	
+	int main()
+	{
+		int n, cnt=1, primes[1024]={2}; // primes[0]=2, 其餘為0
+		scanf("%d", &n);
+		printf(" 2");
+		for (int i=3; cnt<n; i+=2) { // 只看奇數就好
+			int isprime=1; // 假設為質數
+			for (int k=0; k<cnt; k++) {
+				if (i%primes[k]==0) { // 找到i的質因數
+					isprime=0; // 找得到因數，所以不是質數
+					break;
+				}
+				if (primes[k]*primes[k]>i) break; // 超過平方根就不用再找了
+			}
+			if (isprime) { // i為質數
+				printf(" %d", i);
+				primes[cnt++] = i;
+			}
+		}
+		
+		return 0;
+	}
+	
+\end{cppcode}

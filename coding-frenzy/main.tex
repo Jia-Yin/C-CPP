@@ -1,0 +1,90 @@
+\documentclass[11pt]{book}
+
+\usepackage{jyw-program-book}
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begingroup
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+\node[inner sep=0pt] (background) at (current page.center) {\includegraphics[width=\paperwidth]{background}};
+\draw (current page.center) node [fill=ocre!30!white,fill opacity=0.6,text opacity=1,inner sep=1cm]{\Huge\centering\bfseries\heiti\parbox[c][][t]{\paperwidth}{\centering C/\cc{} 程式語言講義\\[15pt]\songti % Book title
+{\LARGE 瘋狂程設題解}\\[20pt] % Subtitle
+%{\LARGE 王佳盈}}}; % Author name
+{\LARGE 王佳盈\\ \Large
+梁家萁、侯怡安、朱睿謙、巫鈺瑩、周身鴻}}}; % Author name
+\end{tikzpicture}
+\vfill
+\endgroup
+
+%----------------------------------------------------------------------------------------
+%	COPYRIGHT PAGE
+%----------------------------------------------------------------------------------------
+
+\newpage
+~\vfill
+\thispagestyle{empty}
+
+\noindent Copyright \copyright\ 2017 Jia-Yin Wang\\ % Copyright notice
+
+\noindent \textsc{中原電機CTRL 501實驗室}\\ % Publisher
+
+\noindent \textsc{jywglady@gmail.com}\\ % URL
+
+\noindent 本書版權屬中原大學電機系CTRL實驗室所有。未經事前書面授權，不得以任何方式（包括儲存於資料庫或任何存取系統內）作全部或局部之翻印、仿製或轉載。書內圖片及資料來源已盡查明之責，若有疏漏致版權遭侵犯，我們在此致歉，並請有關人士致函本實驗室，我們將作最適當的修訂和安排。\\ % License information
+
+\noindent \textit{2017年十月，第一版} % Printing/edition date
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+%\usechapterimagefalse % If you don't want to include a chapter image, use this to toggle images off - it can be enabled later with \usechapterimagetrue
+
+\chapterimage{chapter_head_1.pdf} % Table of contents heading image
+
+\pagestyle{empty} % No headers
+\setcounter{tocdepth}{1}
+\tableofcontents % Print the table of contents itself
+
+\cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
+
+\pagestyle{fancy} % Print headers again
+
+
+
+%\begin{abstract}
+%\frontmatter
+
+%\maketitle
+
+%\tableofcontents
+
+\part{行前準備}
+\input{prefix}
+%\end{abstract}
+
+%\setcounter{tocdepth}{2}
+%\tableofcontents
+\mainmatter
+\include{install_and_setting}
+\include{Cpp_io}
+\part{程式練習廣場}
+\include{L1}
+\include{L2}
+\include{L3}
+\include{L4}
+\include{L5}
+\include{L6}
+\include{L7}
+\include{L9}
+\include{L10}
+%\include{L11}
+%\include{uva-1}
+%\include{smallprojs}
+
+\end{document}

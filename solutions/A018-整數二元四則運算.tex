@@ -1,0 +1,53 @@
+\section{A018 - 整數二元四則運算}
+輸入兩個正整數 a, b 及其中間的四則運算子，輸出其運算結果。
+\subsection{解題思維}
+\begin{enumerate}
+\item 宣告兩整數 a, b，及運算字元 c，並輸入其值：
+	\begin{inside}
+	int a, b;
+	char c;
+	cin >> a >> c >> b
+	\end{inside}
+\item 再來要判斷 c 是什麼運算子，可以使用 switch 或巢狀的if-else來處理。
+\end{enumerate}
+
+\subsection{程式碼}
+使用巢狀的if-else
+\begin{cppcode}
+	#include <iostream>
+
+	using namespace std;
+	
+	int main()
+	{
+		int a, b;
+		char c;
+		cin >> a >> c >> b;
+		if (c=='+') cout << a+b;
+		else if (c=='-') cout << a-b;
+		else if (c=='*') cout << a*b;
+		else if (c=='/') cout << a/b;
+		return 0;
+	}
+\end{cppcode}
+
+\noindent 使用switch
+\begin{cppcode}
+	#include <iostream>
+
+	using namespace std;
+	
+	int main()
+	{
+		int a, b;
+		char c;
+		cin >> a >> c >> b;
+		switch (c) {
+			case '+': cout << a+b; break;
+			case '-': cout << a-b; break;
+			case '*': cout << a*b; break;
+			case '/': cout << a/b; break;
+		}
+		return 0;
+	}
+\end{cppcode}

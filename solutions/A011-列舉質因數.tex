@@ -1,0 +1,48 @@
+\section{A011 列舉質因數}
+輸入一正整數N，輸出所有N的質因數。
+
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item
+	先宣告一整數 N，接接著跑一個從 2 到 N 的迴圈來找出 N 的因數。
+	\begin{inside}
+	int n;
+	cin >> n;
+	for (int i=2; i<=n; i++) {
+		if (n%i) continue; // 如果n除以i餘數不為0，則i非因數，迴圈繼續
+		... // i是n的因數
+	}
+	\end{inside}
+	\item
+	找到N的一個因數$i$，還要判斷它是否為質數，我們可以再跑一個迴圈，讓$j$從2開始往上遞增，看何時才能成為$i$的因數，如果在$i$之前就可以找到，表示它不是質數，如果要等到$j=i$時才是$i$的因數，則$i$為質數。
+	\begin{inside}
+	int n, j;
+	cin >> n;
+	for (int i=2; i<=n; i++) {
+		if (n%i) continue; // 如果n除以i餘數不為0，則i非因數，迴圈繼續
+		for (j=2; j<i; j++) if (i%j==0) break;
+		if (j==i) cout << i << endl;
+	}
+	\end{inside}
+	\item 本題也可以另外寫一個函式，用來判斷一個整數是否為質數，方法可以參照A009那題。
+	
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	using namespace std;
+	
+	int main()
+	{
+		int n, i, j;
+		cin >> n;
+		for (i=2; i<=n; i++) {
+			if (n%i) continue;
+			for (j=2; j<i; j++) if (i%j==0) break;
+			if (j==i) cout << i << endl;
+		}
+		return 0;
+	}
+\end{cppcode}

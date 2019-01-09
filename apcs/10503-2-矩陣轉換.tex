@@ -1,0 +1,74 @@
+\section{10503-2 矩陣轉換}
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 這一題要處理二維矩陣轉換的問題，基本上要處理的有兩個轉換，一個是翻轉，另一個是旋轉。題目說A矩陣經由一些轉換得到B，那已知B和轉換的運算，要求出A。那我們可以從B矩陣經由相反的轉換過程把A找出來。也就是說，假如$T_i$代表第$i$個轉換，那我們知道$T_nT_{n-1}\cdots T_1(A)=B$，反過來說$A=T_1^{-1}T_2^{-1}\cdots T_n^{-1}(B)$。這邊$T_i$是給定的翻轉和旋轉兩種轉換之一，那翻轉的反轉換還是翻轉，旋轉的反轉換也是旋轉（不同方向），所以只要先把兩種轉換用函數實現出來，這一題就容易解答了。
+	\item 要怎麼表達矩陣呢？基本上可以使用二維陣列，因為題目給定的R和C都不會超過10，所以宣告a[10][10]就足夠使用了。那我們宣告大一點，但實際上只使用R$\times$C或C$\times$R的大小就可以了。另外也可以使用一維陣列，自己處理二維元素和一維元素位置對應的問題，這樣也是可以的。如果讀者熟悉\cc{}裡面的向量(vector)，也可以使用向量的向量來處理這個問題。
+	\item 此處二維陣列連同其維度變數，都一併宣告為全域變數，然後撰寫翻轉和旋轉的函數來解題。翻轉的部份實作較容易，假設矩陣大小為$R\times C$，基本上是把矩陣的第$i$列和第$R-i$列對調。那旋轉的部份呢？稍微思考推導一下，可以知道逆時針轉90度，其實就等於轉置(transpose)加上翻轉。那轉置的話，是令$B_{ij}=A_{ji}$，這是很容易實作的。至於轉換的運算過程，可以用一個陣列存起來，最後倒過來讀取並施行於矩陣$B$，最後就可以得到矩陣$A$了。
+	\item 原題目只有一筆測資，在高中生解題平台中的題目則改為多筆測資，讀到檔尾結束。如果只有一筆測資，處理上較為單純，先讀取$r, c, m$，接著讀取矩陣的$r\times c$個元素，以及$m$個運算元，再繼續進行解題。那如果是多筆測資的話，把讀取$r, c, m$的部份放到while的判斷式中，並把接下來的讀取和解題放在while迴圈中即可，如下所示。
+	\begin{inside}
+		while (cin >> r >> c >> m) {
+			// 讀取矩陣及運算元並進行解題。
+		}
+	\end{inside}		
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int r, c, b[10][10], m, op[10000]; // 矩陣及運算元變數
+
+void flip(); // 翻轉
+void rotate(); // 旋轉
+void transpose(); // 轉置
+
+int main()
+{
+	while (cin >> r >> c >> m) { // 這部份假設多筆測資，
+		for (int i=0; i<r; i++) { // 雙重迴圈讀取矩陣
+			for (int j=0; j<c; j++) cin >> b[i][j];
+		}
+		for (int i=0; i<m; i++) cin >> op[i]; // 運算元
+		for (int i=m-1; i>=0; i--) { // 運算次序倒過來
+			if (op[i]==0) rotate(); // 逆時針旋轉90度
+			if (op[i]==1) flip(); // 翻轉
+		}
+		cout << r << " " << c << endl; // 輸出維度
+		for (int i=0; i<r; i++) { // 輸出矩陣
+			for (int j=0; j<c; j++) {
+				if (j) cout << " ";
+				cout << b[i][j];
+			}
+			cout << endl;
+		}
+	}
+	return 0;
+}
+
+void flip()
+{
+	for (int i=0; i<r/2; i++) { // 處理上半與下半的對調
+		for (int j=0; j<c; j++) swap(b[i][j], b[r-1-i][j]);
+	}
+}
+
+void transpose()
+{
+	int t = max(r, c); // 取r,c中較大者
+	for (int i=0; i<t; i++) { // 取右上半部元素
+		for (int j=i+1; j<t; j++) {
+			swap(b[i][j], b[j][i]); // Bij 和 Bji 對調
+		}
+	}
+	swap(r, c); // 維度對調
+}
+
+void rotate()
+{
+	transpose(); // 逆時旋轉90度等於轉置加上翻轉
+	flip();
+}	
+\end{cppcode}	

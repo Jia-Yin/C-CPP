@@ -1,0 +1,78 @@
+\section{M90H064 - 根極限 $x^3+2x^2-3=0$ 之根}
+\label{M90H064}
+使用double型別，計算 $x^3+2x^2-3=0$ 之根。
+
+\subsection{解題思惟}
+
+令函式$f(x)=x^3+2x^2-3$，使用while迴圈不斷迭代尋找x，當$|f(x)-0|$介於誤差範圍時，結束迴圈並輸出x。在此提供兩種找x的方法，分別是「二分堪根法」以及「牛頓法」，詳細內容可以參見一般教科書或到網路上尋找說明。
+
+\begin{enumerate}
+	\item 二分勘根法
+	當$f(a)\times f(b)<0$成立的時候，表示此函式至少有一根介於a、b之間。使用二分法不斷縮小a、b之間的範圍，最後就能找到根。
+	\item 牛頓法：
+	設函式$f'(x)$ 是$f(x)$的微分，牛頓法使用迭代式　$x_{n+1} = x_n - f(x_n)/f'(x_n)$，用此方法不斷迭代新的x，最後就能找到根。	
+\end{enumerate}
+此處當$|f(x)|<10^{-7}$時，即輸出此近似根。
+\subsection{程式碼}
+二分堪根法：
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	double f(double x);
+	
+	int main()
+	{
+		double a=1, b=2, x;
+		while (true) {
+			// 二分堪根法
+			x = (a+b)/2;
+			if(f(x) > -1E-7 && f(x) < 1E-7) break;
+			if(f(a)*f(x) <= 0) b = x;
+			if(f(b)*f(x) <= 0) a = x;
+		}
+		cout << x;		
+		return 0;
+	}
+	
+	double f(double x)
+	{
+		return (x*x*x)+(2*x*x)-3;
+	}	
+\end{cppcode}
+
+牛頓法：
+
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	double f(double x);
+	double df(double x);
+	
+	int main()
+	{
+		//牛頓切根法
+		double x=1;		
+		x=1;
+		while (true) {
+			if(f(x) > -1E-7 && f(x) < 1E-7) break;
+			x = x-(f(x)/df(x));
+		}
+		cout << x;	
+		return 0;
+	}
+	
+	double f(double x)
+	{
+		return (x*x*x)+(2*x*x)-3;
+	}
+	
+	double df(double x)
+	{
+		return (3*x*x)+(4*x);
+	}
+	
+\end{cppcode}

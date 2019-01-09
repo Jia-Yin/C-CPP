@@ -1,0 +1,31 @@
+\section{A059 遞迴計算N階乘}
+輸入一正整數N，輸出N!。
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item 本題要求使用遞迴函式，假設函式為fact(n)，因為 n! = n * (n-1)!，所以 fact(n) = n * fact(n-1)，另外必須要有一個終止條件。
+	\item 如果n為正整數，可以設n等於1為終止條件，直接回傳1即可。如果輸入包括0，則應該設0為終止條件，回傳1 (0!=1)。	
+	\item 本題雖然題目說是正整數，但實際上測資會出現0，故使用0為終止條件。
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+
+	using namespace std;
+
+	int fact(int n);
+	
+	int main()
+	{
+		int n;
+		cin >> n;
+		cout << fact(n);
+		return 0;
+	}
+
+	int fact(int n) {
+		if (n==0) return 1;
+		return n * fact(n-1);
+	}
+\end{cppcode}

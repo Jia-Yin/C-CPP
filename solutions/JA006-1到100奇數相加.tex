@@ -1,0 +1,24 @@
+\section{1到100奇數相加}
+使用 for 迴圈計算 1+3+5+...+99。
+
+\subsection{解題思惟}
+本題是 for 迴圈的基本題。
+for迴圈的用法是for(起始值； 條件式； 更新值)，本題的for迴圈寫法如下：
+\begin{inside}
+	for (int i=1; i<=100; i+=2) sum += i;
+\end{inside}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int sum=0;
+	for (int i=1; i<=100; i+=2) sum += i;
+	cout << sum;
+	return 0;
+}
+\end{cppcode}

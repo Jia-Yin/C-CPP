@@ -1,0 +1,21 @@
+\section{M90H042 複數絕對值}
+輸入一個複數，輸出其絕對值。
+\subsection{解題思維}
+
+複數$a+b i$的絕對值定義為$\sqrt{a^2+b^2}$ = sqrt$(a^2+b^2)$。本題觀察輸入都是整數，所以可以把輸入宣告為整數。因為使用到sqrt函式，必須引入<math.h>或<cmath>。
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	#include <cmath>
+
+	using namespace std;
+	
+	int main()
+	{
+		int a, b;
+		cin >> a >> b;
+		cout << sqrt(a*a+b*b);
+		return 0;
+	}
+\end{cppcode}

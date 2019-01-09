@@ -1,0 +1,70 @@
+\section{M90H065 - 根極限 $x^3=5$}
+
+使用double型別，計算$x^3=5$之根。
+\subsection{解題思惟}
+此題解法請參考
+\ref{M90H064}
+「根極限 $x^3+2x^2-3=0$ 之根」，提供兩種參考程式碼。
+
+\subsection{程式碼}
+二分勘根法：
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	double f(double x);
+	
+	int main()
+	{
+		double a=1, b=2, x;
+		while (true) {
+			// 二分勘根法
+			x = (a+b)/2;
+			if(f(x) > -1E-7 && f(x) < 1E-7)break;
+			if(f(a)*f(x) <= 0) b = x;
+			if(f(b)*f(x) <= 0) a = x;
+		}
+		cout << x;		
+		return 0;
+	}
+	
+	double f(double x)
+	{
+		return x*x*x-5;
+	}	
+\end{cppcode}
+
+牛頓法：
+
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	double f(double x);
+	double df(double x);
+	
+	int main()
+	{
+		// 牛頓勘根法
+		double x=1;		
+		x=1;
+		while (true) {
+			if(f(x) > -1E-7 && f(x) < 1E-7) break;
+			x = x-(f(x)/df(x));
+		}
+		cout << x;	
+		return 0;
+	}
+	
+	double f(double x)
+	{
+		return x*x*x-5;
+	}
+	
+	double df(double x)
+	{
+		return 3*x*x;
+	}
+\end{cppcode}

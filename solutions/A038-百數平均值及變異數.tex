@@ -1,0 +1,38 @@
+\section{A038 百數平均值及變異數}
+輸入100個正整數，印出平均值及變異數。
+
+\subsection{解題思維}
+
+n個數的平均值定義為
+$$\bar{x}=\frac{\sum_{i=1}^nx_{i}}{n}$$
+變異數的定義為
+$$\sigma^2=\frac{\sum_{i=1}^n(x_{i}-\bar{x})^2}{n}=\frac1n\sum_{i=1}^n x_i^2 - \bar{x}^2$$
+
+由以上的定義及推導可知，只要輸入過程計算其和及平方和，加上其個數即可以計算出平均值和變異數。
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <stdio.h>
+	
+	int main()
+	{
+		int n = 100, data;
+		double sum = 0;
+		double sum2 = 0;
+		double average = 0;
+		double variance = 0;
+		
+		for(int i = 0; i < n; i++) {
+			scanf("%d", &data);
+			sum += data;
+			sum2 += data*data;
+		}
+		
+		average = sum / n;
+		variance = sum2 / n - average * average;
+		printf("avg=%g\n", average);
+		printf("var=%g", variance);
+		
+		return 0;
+	}
+\end{cppcode}

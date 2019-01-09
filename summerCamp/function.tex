@@ -1,0 +1,271 @@
+\section{函數}
+\subsection{printf()格式輸出}
+\begin{enumerate}
+	\item 講解︰JB-02：九九乘法表
+		\begin{enumerate}
+			\item 題目說明：
+			\subitem 印出如輸出之九九乘法表。
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=12cm]{fig/JB02fig}
+			\end{figure}
+			\item 解題思維：
+			\begin{enumerate}
+				\item 先看第一列，會變動的數是``被乘數"，而且變動是有規律的1,2,3...,9，所以我們寫一個會執行9次的for迴圈，讓變數j從1跑到9。變數j就是要輸出的``被乘數"。
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=12cm]{fig/JB02fig_2}
+				\end{figure}
+				\item 再來觀察``乘數"，同一列的乘數是固定的，乘數隨著列改變，也就是說第i列的乘數是i。總共有9列，所以要寫一個會執行9次的for迴圈。變數i就是要輸出的``乘數"。
+				\item ``乘積"只要將i, j 相乘就可以了。
+				\item 這題使用printf()格式輸出比較容易。``\%2d"表示輸出時，會給這個整數兩給位數，當輸出的整數只有個位數的時候，十位數的位置會自動補上``空格"。
+			\end{enumerate}
+			
+			\item 程式碼：
+			\begin{cppcode}
+			#include <cstdio>
+			
+			int main()
+			{
+				for (int i=1; i<=9; i++) {//第i列的乘數是i
+					for(int j=1; j<=9; j++) {//每一列的被乘數j都從1~9
+						printf("%d*%d=%2d  ", j, i, i*j);
+					}
+					printf("\n");
+				}
+				return 0;
+			}
+				
+			\end{cppcode}
+		\end{enumerate}
+	
+	\item 練習︰JA-007：九九乘法表 (兩排)
+		\begin{enumerate}
+			\item 題目說明：
+			\subitem 印出九九乘法表，如輸出結果所示。
+			\begin{figure}[h]
+				\centering
+				\includegraphics[height=6cm]{fig/JA007fig}
+			\end{figure}
+			\item 解題思維：
+			\subitem 可以想成輸出兩個大群組的九九乘法表，當輸出第r (r=0, 1) 個群組時``被乘數"$=j+r\times4.$ (j=2, 3, 4, 5)。
+\begin{comment}			
+			\item 程式碼：
+			\begin{cppcode}
+				#include <cstdio>
+				
+				int main()
+				{
+					for (int r=0; r<2; r++) {//兩個群組
+						for (int i=1; i<=9; i++) {//第i列的乘數是i
+							for(int j=2; j<=5; j++) {//被乘數＝j+r*4
+								printf("%d*%d=%2d  ", j+r*4, i, i*(j+r*4));
+							}
+							printf("\n");
+						}
+						printf("\n");
+					}
+					return 0;
+				}
+				
+			\end{cppcode}
+\end{comment}
+		\end{enumerate}
+	
+\end{enumerate}
+\subsection{自訂函數}
+\begin{enumerate}
+	\item 講解︰JT-04印三角形函數
+	\begin{enumerate}
+		\item 題目說明：
+		\subitem 輸入Ｎ，印出Ｎ列的星號(*)，其中第Ｉ列有Ｉ個星，如執行範例所示。
+		\subitem 範例輸入：5
+		\subitem 範例輸出：
+		\begin{figure}[H]
+			\centering
+			\includegraphics{fig/JT04fig}
+		\end{figure}
+		
+		\item 解題思維：
+		\begin{enumerate}
+			\item 自己定義畫三角形的函數，使用這個函數時，需要輸入參數n，這樣函數才知道三角形有幾列。
+			\item 將畫三角形的程式碼寫進函式裡，主程式main裡面只需要呼叫函數即可印出三角形。
+		\end{enumerate}
+		
+		\item 程式碼：
+		\begin{cppcode}
+			#include <stdio.h>
+			
+			void triangle(int n);
+			
+			int main()
+			{
+				int n;
+				printf("Input row number : \n");
+				scanf("%d", &n);
+				triangle(n);
+				return 0;
+			}
+			
+			void triangle(int n)
+			{
+				int i, j;
+				for (i=1; i<=n; i++) {
+					for (j=0; j<i; j++) { printf("*"); }
+					printf("\n");
+				}
+			}
+			
+		\end{cppcode}
+	\end{enumerate}
+	
+	\item 練習︰JP-010-2：印倒三角形(無空白)
+	\begin{enumerate}
+		\item 題目說明：
+		\subitem 輸入正整數n<=20，輸出一個n層的倒三角形。
+		\subitem 範例輸入：5
+		\subitem 範例輸出：
+		\begin{figure}[H]
+			\centering
+			\includegraphics{fig/JP010fig}
+		\end{figure}
+		\item 解題思維：
+		\begin{enumerate}
+			\item 自己定義畫三角形的函數，使用這個函數時，需要輸入參數n，這樣函數才知道三角形有幾列。
+			\item 將畫倒三角形的程式碼寫進函式裡，主程式main裡面只需要呼叫函數即可印出三角形。
+		\end{enumerate}
+\begin{comment}
+		\item 程式碼：
+		\begin{cppcode}
+			#include <cstdio>
+			
+			void plot(int n);
+			
+			int main()
+			{
+				int n;
+				scanf("%d", &n);
+				plot(n);
+				return 0;
+			}
+			
+			void plot(int n)
+			{
+				int i, j;
+				for (i=n; i>0; i--) {
+					for(j=i; j>0; j--) {
+						printf("*");
+					}
+					printf("\n");
+				}
+			}		
+		\end{cppcode}
+\end{comment}
+	\end{enumerate}
+	
+	\item 練習︰JT-40：印等腰三角形
+		\begin{enumerate}
+			\item 題目說明：
+			\subitem 輸入N，印出一個N列的等腰三角形，其中第I列有2*I-1個\#，如程式範例結果所示。
+			\subitem 範例輸入：5
+			\subitem 範例輸出：
+			\begin{figure}[H]
+				\centering
+				\includegraphics{fig/JT40fig}
+			\end{figure}
+			
+			\item 解題思維：
+			\begin{enumerate}
+				\item 自己定義畫三角形的函數，使用這個函數時，需要輸入參數n，這樣函數才知道三角形有幾列。
+				\item 將畫等腰三角形的程式碼寫進函式裡，主程式main裡面只需要呼叫函數即可印出三角形。
+			\end{enumerate}
+\begin{comment}			
+			\item 程式碼：
+			\begin{cppcode}
+				#include <stdio.h>
+				
+				void plot(int n);
+				
+				int main()
+				{
+					int n;
+					scanf("%d", &n);
+					printf("Input = %d\n", n);
+					plot(n);
+					
+					return 0;
+				}
+				
+				void plot(int n)
+				{
+					int i, row;
+					for (row=1; row<=n; row++) {
+						for (i=0; i<n-row; i++) printf(" ");
+						for (i=0; i<2*row-1; i++) printf("#");
+						printf("\n");
+					}
+				}
+				
+				
+			\end{cppcode}
+\end{comment}
+		\end{enumerate}
+		
+	
+	
+	\item 挑戰︰JT61:Game Over
+		\begin{enumerate}
+			\item 題目說明：
+			\subitem 輸入整數 m 和 n,輸出以 \# 排成框,中間為 Game Over 之圖案,其中 m 為 G 之
+			前和 r 之後與邊界的空格數,n 為文字與上下邊界的空格數。例如輸入 2 1,則輸出為
+			\begin{figure}[h]
+			\centering
+			\includegraphics{fig/game_over_fig}
+			\end{figure}
+			\item 解題思維：
+			\begin{enumerate}
+				\item 第1列有11+2m個\#。
+				\item 接下來n列頭尾是\#，中間有9+2m個空白。
+				\item 再下一列是\#加m個空白，加Game Over，加m個空白和\#。
+				\item 接下來n列頭尾是\#，中間有9+2m個空白。
+				\item 最後一列有11+2m個\#。
+			\end{enumerate}
+\begin{comment}
+			\item 程式碼：
+		\begin{cppcode}
+			#include <iostream>
+			
+			using namespace std;
+			
+			int main()
+			{
+				int m, n;
+				cin >> m >> n;
+				for (int i=0; i<11+2*m; i++) cout << "#"; // Row 1
+				cout << endl;
+				for (int r=0; r<n; r++) { // Next n rows
+					cout << "#";
+					for (int i=0; i<9+2*m; i++) cout << " ";
+					cout << "#" << endl;
+				}
+				cout << "#"; // Middle row
+				for (int i=0; i<m; i++) cout << " ";
+				cout << "Game Over";
+				for (int i=0; i<m; i++) cout << " ";
+				cout << "#" << endl;
+				for (int r=0; r<n; r++) { // Next n rows
+					cout << "#";
+					for (int i=0; i<9+2*m; i++) cout << " ";
+					cout << "#" << endl;
+				}
+				for (int i=0; i<11+2*m; i++) cout << "#"; // Last row
+				cout << endl;
+				return 0;
+			}
+		
+	\end{cppcode}
+\end{comment}				
+		\end{enumerate}
+	
+\end{enumerate}
+

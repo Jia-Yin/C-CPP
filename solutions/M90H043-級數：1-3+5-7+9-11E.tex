@@ -1,0 +1,29 @@
+\section{M90H043 - 級數 $1-3+5-7+9-11\cdots$}
+考慮數列 +1, -3, +5, -7, +9, -11, $\cdots$
+輸入一整數n，輸出該數列前n項之和。
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 初始化變數answer=0，用來作為累加之用。
+	\item 跑for迴圈令i從1到n。
+	\item 當i不被2整除，則answer加(2*i-1)，當i被2整除則減(2*i-1)。
+\end{enumerate}
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n;
+	cin >> n;
+	int answer = 0;
+	for(int i = 1 ; i <= n ;i++)
+	{
+		if(i%2 == 1) answer += 2*i-1;
+		else answer -= 2*i-1;
+	}
+	cout << answer;
+	return 0;
+}
+\end{cppcode}

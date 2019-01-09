@@ -1,0 +1,50 @@
+\section{A029 - 費式數列}
+費氏數列定義如下 $f(0)=0, f(1)=1, f(n)=f(n-1)+f(n-2)$;請從螢幕輸入一個正整數n，輸出$f(n)$。
+
+\subsection{解題思惟}
+
+\begin{enumerate}
+\item 本題可以使用遞迴或非遞迴方式求解。先討論遞迴寫法。
+\item 遞迴函式f(n)，如果n<2，回傳n即可，n>=2時，回傳f(n-1)+f(n-2)即可。
+\item 如果不使用遞迴的話，可以設fn, fnm1, fnm2三個變數，分別表示f(n), f(n-1)及f(n-2)，先設好f(n-1)及f(n-2)的初始值，然後每次計算fn=fnm1+fnm2，算完後令 fnm2=fnm1, fnm1=fn，不斷重覆即可，重覆次數為n-1次。
+\end{enumerate}
+
+\subsection{程式碼}
+遞迴版本
+\begin{cppcode}
+#include <cstdio>
+
+int f(int n);
+
+int main()
+{
+	int n;
+	scanf("%d", &n);
+	printf("%d", f(n));
+	return 0;
+}
+
+int f(int n)
+{
+	if (n<2) return n;
+	return f(n-1)+f(n-2);
+}
+\end{cppcode}
+非遞迴版本
+\begin{cppcode}
+#include <cstdio>
+
+int main()
+{
+	int n, fn, fnm1=1, fnm2=0;
+	scanf("%d", &n);
+	if (n<2) fn=n;
+	else for (int i=2; i<=n; i++) {
+		fn = fnm1 + fnm2;
+		fnm2 = fnm1;
+		fnm1 = fn;
+	}
+	printf("%d", fn);
+	return 0;
+}
+\end{cppcode}

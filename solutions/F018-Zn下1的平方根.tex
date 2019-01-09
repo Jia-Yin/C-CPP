@@ -1,0 +1,22 @@
+\section{F018 - Zn下1的平方根}
+在實數下，1個平方根為 1和-1 所謂平方根係指 該數平方之後會等於1 在(Zn, *)下，1的平方根至少有 1 和 n-1，可能不只兩個。 因為 1*1=1 且 (n-1)*(n-1)=1 比如說 (Z7, *) 下 6*6=36=1 請輸入一正整數n，從小到大輸出1個平方根。
+\subsection{解題思惟}
+指定判斷i是否為n下的平方根
+\begin{inside}
+	if((i*i)%n==1)
+	cout << " " << i;
+\end{inside}
+\subsection{程式碼}
+\begin{cppcode}
+#include<iostream>
+using namespace std;
+int main()
+{
+	int n;
+	cin >> n;
+	for(int i = 1;i<n;i++) {
+		if((i*i)%n==1) cout << i << " ";
+	}
+	return 0;
+}
+\end{cppcode}

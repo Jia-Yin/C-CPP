@@ -1,0 +1,94 @@
+\documentclass[a4paper,12pt]{article}
+%\usepackage[utf8x]{inputenc}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{xcolor,colortbl}
+\setCJKmainfont{DFMing-Md-HK-BF.ttf}
+%% Language and font encodings
+%\usepackage[english]{babel}
+%\usepackage[T1]{fontenc}
+\usepackage{minted}
+%\usepackage{indentfirst}
+%% Sets page size and margins
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm,marginparwidth=0.5cm]{geometry}
+\usepackage{hyperref}
+\renewcommand{\figurename}{圖}
+\renewcommand{\figureautorefname}{圖}
+\renewcommand{\tablename}{表}
+\renewcommand{\tableautorefname}{表}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.5em}
+\renewcommand{\baselinestretch}{1.4}
+%\usepackage[explicit]{titlesec}
+%\usepackage{tikz}
+%\usetikzlibrary{shapes,shadows,calc}
+%\usepackage{lipsum}
+
+%\definecolor{visgreen}{rgb}{0.733, 0.776, 0}
+
+% the tikz picture that will be used for the title formatting
+% \SecTitle{<signal direction>}{<node anchor>}{<node horiz, shift>}{<node x position>}{#5}
+% the fifth argument will be used by \titleformat to write the section title using #1
+%\newcommand\SecTitle[5]{%
+%\begin{tikzpicture}[overlay,every node/.style={signal, draw, text=white, signal to=nowhere}]
+%  \node[visgreen,fill, signal to=#1, inner sep=0.5em,
+%    text=white,font=\Large\sffamily,anchor=#2,
+%    xshift=\the\dimexpr-\marginparwidth-\marginparsep-#3\relax] 
+%    at (#4,0) {#5};
+%\end{tikzpicture}%
+%}
+%\titleformat{name=\section,page=odd}
+%{\normalfont}{}{0em}
+%{\SecTitle{east}{west}{16pt}{0}{#1}}[\addvspace{4ex}]
+
+%\titleformat{name=\section,page=even}
+%{\normalfont\sffamily}{}{0em}
+%{\SecTitle{west}{east}{14pt}{\paperwidth}{#1}}[\addvspace{4ex}]
+
+
+
+%% Useful packages
+%\usepackage{amsmath}
+%\usepackage{graphicx}
+%\usepackage[colorinlistoftodos]{todonotes}
+\definecolor{bgc}{rgb}{0.95,0.95,0.95}
+\definecolor{LightCyan}{rgb}{0.88,1,1}
+%\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+%\usepackage{abstract}
+\renewcommand{\abstractname}{}%}\large 摘要}
+\newcommand{\cc}{C\texttt{++}}
+
+\newminted{cpp}{xleftmargin=.8cm,linenos,baselinestretch=1.2,autogobble=true,tabsize=4,showtabs=false,frame=single,framesep=10pt}
+\newminted[inside]{cpp}{tabsize=4,autogobble=true,baselinestretch=1.2}
+
+\title{2017年程式設計先修暑期夏令營\\課程大綱(助教版)}
+%\author{王佳盈　梁家萁　侯怡安　朱睿謙　巫鈺瑩　周身鴻}
+\begin{document}
+\maketitle
+%\begin{abstract}
+%\input{prefix}
+%\end{abstract}
+\ \\ \\ \\ \\ \\
+\begin{center}
+	本課程穫教育部扎根高中職資訊科學教育計畫補助
+\end{center} 
+\newpage
+這份講義，僅提供給老師和助教作為教學參考之用，
+講義的內容，主要針對瘋狂程設上的學習問題，
+提供參考的思考流程和程式解答，供作教學參考之用。
+
+這份講義還在修改階段，如果有什麼修正的建議，可以提供給我們，感謝大家。
+
+\newpage
+\setcounter{tocdepth}{2}
+\tableofcontents
+
+\include{day1}
+\include{day2}
+\include{day3}
+\include{day4}
+\include{install_and_setting}
+\include{Cpp_io}
+
+
+\end{document}

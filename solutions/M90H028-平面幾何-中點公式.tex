@@ -1,0 +1,20 @@
+\section{M90H028 - 平面幾何-中點公式}
+輸入兩個點，輸出其中點。
+\subsection{解題思惟}
+本題解法與上一題類似，只是三個數變成兩個數而已，可參考上一題之說明。
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	double x1, y1, x2, y2;
+	cin >> x1 >> y1 >> x2 >> y2;
+	
+	cout << "(" << (x1 + x2) / 2;
+	cout << "," << (y1 + y2) / 2 << ")";	
+	return 0;	    
+}
+\end{cppcode}

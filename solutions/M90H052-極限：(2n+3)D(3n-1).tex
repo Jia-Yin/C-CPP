@@ -1,0 +1,34 @@
+\section{M90H052 - 極限 $(2n+3)/(3n-1)$}
+\label{M90H052}
+請使用double型別，計算n趨近無限大時，$(2n+3)/(3n-1)$的逼近值。
+
+\subsection{解題思惟}
+當n趨近無限大時，$(2n+3)/(3n-1)$會慢慢逼近收斂值，因為浮點數有一定的精確度限制，
+所以當n超過一個很大的數字以後，代入計算的值就不會動了，
+我們可以利用這個特點結束求解的迴圈。程式流程如下：
+\begin{enumerate}
+	\item 宣告兩個double型別的變數ans及next，分別表示$n$及下一個$n$計算的結果。
+	\item 使用while迴圈重複比較ans與next是否相等，若不相等則加大n並計算新的ans。
+	當ans與temp相等時，結束while迴圈，並輸出答案ans。
+	把n加大的時候，不一定每次加1，這裡我們每次加1000以加快收斂速度。
+\end{enumerate}
+
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+int main()
+{
+	double n=1.0, ans=0.0, next;
+	
+	next = (2*n+3)/(3*n-1);
+	while (ans != next) {
+		ans = next;
+		n += 1000;
+		next = (2*n+3)/(3*n-1);
+	}
+	std::cout << ans;
+	return 0;
+}
+\end{cppcode}

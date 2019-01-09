@@ -1,0 +1,38 @@
+\section{10610-1 邏輯運算子}
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 在C/\cc{}中，做邏輯判斷時，除了給判斷式，也可以給數值，給數值的時候，0會看成是false，而非0的數則看成true。
+	\item 題目所給的AND運算，如果把得到的值c=1當做true，c=0當做false，那麼就可以把它看成是邏輯運算的AND(\&\&)。怎麼把c=1變成true，c=0變成false呢？只要使用c==1的判斷式就可以了。所以給定a, b, c之後，要看AND成立與否，可以用下列的式子來判斷
+	\begin{inside}
+		if ((a && b) == (c==1)) cout << "AND" << endl;
+	\end{inside}
+	\item 同樣的道理，題目所給的OR運算，把得到的值1當做true，0當做false，那麼就可以把它看成是邏輯運算的OR(||)。所以給定a, b, c之後，要看OR成立與否，可以用下列的式子來判斷
+	\begin{inside}
+	if ((a || b) == (c==1)) cout << "OR" << endl;
+	\end{inside}
+	\item 題目所給的XOR運算，把得到的值1當做true，0當做false，那麼可以把它看成是邏輯運算的(a\&\&!b) || (!a\&\&b)。所以給定a, b, c之後，要看OR成立與否，可以用下列的式子來判斷
+	\begin{inside}
+	if (((a && !b) || (!a && b)) == (c==1)) cout << "XOR" << endl;
+	\end{inside}
+	\item 以上三個式子可以針對給定的a, b, c三數，分別判斷AND, OR, 及XOR是否成立。但題目說，如果三個都不成立的話，要輸出IMPOSSIBLE，那這個部份，在程式中可以設定一個旗標來處理，如果上面三個式子，任一個被執行了，就設定旗標，如果最後發現旗標還沒有被設定，就輸出IMPOSSIBLE。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int a, b, c, found=0;
+	cin >> a >> b >> c;
+	if ((a && b) == (c==1)) { cout << "AND" << endl; found = 1; }
+	if ((a || b) == (c==1)) { cout << "OR" << endl; found = 1; }
+	if (((a && !b) || (!a && b)) == (c==1)) { cout << "XOR" << endl; found = 1; }
+	if (!found) cout << "IMPOSSIBLE" << endl;
+	return 0;
+}
+
+\end{cppcode}

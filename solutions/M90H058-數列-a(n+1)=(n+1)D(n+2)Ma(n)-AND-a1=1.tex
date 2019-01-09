@@ -1,0 +1,36 @@
+\section{M90H058 數列 $a(n+1)=(n+1)/(n+2)*a(n),\ a(1)=1$}
+考慮數列 $a(n+1)=(n+1)/(n+2)*a(n),\ a(1)=1$。\\輸入一整數n，輸出a(n)。
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item 本題可以使用迴圈或者遞迴處理，但題目限制不可出現for, while等關鍵字，所以必須使用遞迴。
+	\item 遞迴函式直接根據定義撰寫即可。
+	\begin{inside}
+	double a(int n) {
+		if(n==1) return 1.0;
+		return a(n-1)*n/(n+1);
+	}			
+	\end{inside}
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+
+	using namespace std;
+	
+	double a(int n);
+	
+	int main()
+	{
+		double n;
+		cin >> n;
+		cout << "a(" << n << ")=" << a(n);
+		return 0;
+	}
+	
+	double a(int n) {
+		if(n==1) return 1.0;
+		return a(n-1)*n/(n+1);
+	}
+\end{cppcode}

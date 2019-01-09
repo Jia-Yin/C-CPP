@@ -1,0 +1,41 @@
+\section{F002 - 溢位數 int}
+求最大整數及其加1之後的值。
+
+\subsection{解題思維}
+\begin{enumerate}
+	\item 一般而言，int型態使用32個位元，其最大值是$2^{31}-1$ = 0X7FFFFFFF，如果再往上加的話會溢位，變成 $-2^{31}$ = 0X80000000，也是整數型態的最小值。不過int型態使用32個位元並不是絕對的，有一些系統的編譯器並不是這樣。那比較一般的情況，我們可以使用while迴圈將正整數1一直往上加，直到變成負數前的那個整數就是最大的整數。
+	\begin{inside}
+		int n = 1;
+		while (n>0 && n+1>0) n++;
+	\end{inside}
+	\item 或者，我們也可以讓while迴圈將正整數1一直往上加，直到變成負數後跳出來，然後再減掉1也可以。
+	\begin{inside}
+		int n = 1;
+		while (n>0) n++;
+		n--;
+	\end{inside}
+	使用以上兩個方法解題的時候，應注意可能會有超時的問題。
+	\item 另外，我們也可以把正整數1每次乘以2，這也等於將其二進位值往左移一位。一直乘以2或者移位，直到變成負數為止，那就表示溢位了，然後再將其減掉1也可以。
+	\begin{inside}
+		int n = 1;
+		while (n>0) n <<= 1; // 或 n *= 2;
+		n--;
+	\end{inside}
+\end{enumerate}
+
+\subsection{程式碼}
+以上各種方法，都可以用來求解本題的答案，但要注意可能有超時的問題。下面的程式碼是以最後的方式來撰寫的。
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n = 1;
+	while (n>0) n <<= 1; // 或 n *= 2;
+	n--;
+	cout << n << endl << n+1;
+	return 0;
+}
+\end{cppcode}

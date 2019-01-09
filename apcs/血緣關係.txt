@@ -1,0 +1,128 @@
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+    int n, a, b;
+    while (cin >> n) {
+        int high[100005]={0}, parent[100005];
+        vector<int> node[100005], leaves;
+        for (int i=0; i<n; i++) parent[i] = -1;
+        for (int i=0; i<n-1; i++) {
+            cin >> a >> b;
+            node[a].push_back(b);
+            parent[b] = a;
+        }
+        // Find leaves
+        for (int i=0; i<n; i++) {
+            if (node[i].size()==0) leaves.push_back(i);
+        }
+        // Determine high for each node
+        for (int i=0; i<leaves.size(); i++) {
+            int num = leaves[i];
+            int pnum = parent[num];
+            while (pnum>=0) { // has parent
+                if (high[num]+1 <= high[pnum]) break;
+                high[pnum] = high[num] + 1;
+                num = pnum;
+                pnum = parent[num];
+            }
+        }
+        // Find max distance by high of different children
+        int maxdis = 0;
+        for (int i=0; i<n; i++) {
+            if (node[i].size()==0) continue;
+            if (node[i].size()==1) {
+                if (high[i] > maxdis) maxdis = high[i];
+                continue;
+            }
+            int maxd1=0, maxd2=0, d;
+            for (int j=0; j<node[i].size(); j++) {
+                d = high[node[i][j]];
+                if (d>maxd1) { maxd2=maxd1; maxd1=d; }
+                else if (d>maxd2) maxd2=d;
+            }
+            if (maxd1+maxd2+2>maxdis) maxdis = maxd1+maxd2+2;
+        }
+        cout << maxdis << endl;
+    }
+    return 0;
+}
+
+
+// 以下程式只得 40% ，在 N 可以到2000的時候，測資點 < 10M，超時
+
+#include <iostream>
+
+using namespace std;
+
+int n, parent[100005];
+
+int fromAtoB(int a, int b);
+int disAtoB(int a, int b);
+int disAtoRoot(int a);
+
+int main()
+{
+    int n, a, b, leaf[100000], isparent[100000], lfcnt;
+    while (cin >> n) {
+        for (int i=0; i<n; i++) {
+            parent[i] = -1;
+            isparent[i] = 0;
+        }
+        for (int i=0; i<n-1; i++) {
+            cin >> a >> b;
+            parent[b] = a;
+            isparent[a] = 1;
+        }
+        // Find leaves
+        lfcnt=0;
+        for (int i=0; i<n; i++) {
+            if (isparent[i]) continue;
+            leaf[lfcnt++] = i;
+        }
+        int maxdis = 0, dis;
+        for (int i=0; i<lfcnt; i++) {
+            if (disAtoRoot(leaf[i]) > maxdis) maxdis = disAtoRoot(leaf[i]);
+            for (int j=i+1; j<lfcnt; j++) {
+                dis = disAtoB(leaf[i], leaf[j]);
+                if (dis > maxdis) maxdis = dis;
+            }
+        }
+        cout << maxdis << endl;
+    }
+    return 0;
+}
+
+int disAtoRoot(int a)
+{
+    int step = 0;
+    while (parent[a]>=0) { step++; a=parent[a]; }
+    return step;
+}
+
+int disAtoB(int a, int b)
+{
+    int common=parent[a], step=1;
+
+    while (fromAtoB(b, common)<0) {
+        step++;
+        common = parent[common];
+    }
+    return step + fromAtoB(b, common);
+}
+
+int fromAtoB(int a, int b)
+{
+    int step, found=0;
+    for (step=1; parent[a]>=0; step++) {
+        if (parent[a]==b) { found=1; break; }
+        a = parent[a];
+    }
+    if (found) return step;
+    else return -1;
+}
+

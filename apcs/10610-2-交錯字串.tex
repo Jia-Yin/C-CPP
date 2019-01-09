@@ -1,0 +1,144 @@
+\section{10610-2 交錯字串}
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 這個題目針對輸入的字串，只要判斷大小寫就好了，至於字母是什麼其實並不重要。另外要處理的是大小寫交錯長度的問題，那如果我們把輸入轉換成交錯的連續大小寫長度陣列，應該會有幫助，例如字串``aafAXbbCDCCC"，有3個連續小寫，2個連續大寫，2個連續小寫，5個連續大寫，也就是把它轉換成\{3,2,2,5\}四個數的陣列。這樣的話後對於判斷最長連續交錯長度會有很大幫助。
+	\item 怎麼判斷大小寫呢？這個簡單，寫個函數來處理就好了。
+	\begin{inside}
+	int capital(char c)
+	{
+		if (c>='A' && c<='Z') return 1;
+		return 0;
+	}    
+	\end{inside}
+	\item 怎麼把給定的字串轉換成交錯的連續大小寫長度陣列呢？基本上就是看目前的字元是否和前一個字元的大小寫相同，如果相同，要持續累加個數，如果不同，就儲存目前的長度，然後記錄新的大小寫狀態和新的長度1。可以用以下的程式碼來實現：
+	\begin{inside}
+	int curcase, precase = capital(str[0]); // 記錄起始的大小寫狀態
+	int cnt = 1; // 起始的連續長度為1
+	for (int i=1; str[i]; i++) { // str[i]非0表示還有字元
+		curcase = capital(str[i]); // 取得目前字元大小寫狀態
+		if (curcase == precase) cnt++; // 如果和之前的大小寫相同則將長度加1
+		else { // 不同的話將目前長度存起來，並重設連續長度
+			h[idx++] = cnt;
+			cnt = 1;
+		}
+		precase = curcase; // 儲存目前大小寫狀態
+	}
+	h[idx++] = cnt; // 儲存最後一組的長度
+	\end{inside}
+	\item 有了交錯的連續大小寫長度陣列h[]之後，怎麼計算最長的連續交錯長度呢？我們可以先寫一個函數，用來計算從h的某一個位置開始的最長交錯長度。程式碼如下：
+	\begin{inside}
+	int alen(int pos, int len) // pos是目前位置，len是陣列長度
+	{
+		if (h[pos] < k) return 0; // 找不到長度為k的連續大小寫
+		int sum = k; // 找到了，長度至少為k
+		pos++; // 看下一個數。下面的while：如果是k，就遞增位置，並持續加k
+		while (pos<len && h[pos]==k) { sum += k; pos++; }
+		if (pos<len && h[pos]>k) sum += k; // 最後如果大於k，還要加k
+		return sum;
+	}
+	\end{inside}
+	\item 有了alen函數之後，接下來就簡單了，使用alen函數，把位置從頭到尾算一次，看哪個地方開始的值最大就好了。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+
+int k, h[100005]={0}, idx=0;
+
+int capital(char c);
+int alen(int pos, int len);
+
+int main()
+{
+	char str[100005];
+	cin >> k >> str;
+	int curcase, precase = capital(str[0]);
+	int cnt = 1;
+	for (int i=1; str[i]; i++) {
+		curcase = capital(str[i]);
+		if (curcase == precase) cnt++;
+		else {
+			h[idx++] = cnt;
+			cnt = 1;
+		}
+		precase = curcase;
+	}
+	h[idx++] = cnt;
+	
+	int maxlen = 0;
+	for (int i=0; i<idx; i++) {
+		int len = alen(i, idx);
+		if (len>maxlen) maxlen = len;
+	}
+	cout << maxlen << endl;
+	return 0;
+}
+
+int capital(char c)
+{
+	if (c>='A' && c<='Z') return 1;
+	return 0;
+}    
+
+int alen(int pos, int len)
+{
+	if (h[pos] < k) return 0;
+	int sum = k;
+	pos++;
+	while (pos<len && h[pos]==k) { sum += k; pos++; }
+	if (pos<len && h[pos]>k) sum += k;
+	return sum;
+}
+\end{cppcode}
+
+\subsection{另解}
+這一題也可以把大寫字元改成1，小寫字元改成0，然後將輸入的01陣列的「部份和陣列」求出來($S_n=\sum_{i=1}^n$)。有了$S_n$之後，要計算位置$p$到位置$q$有幾個大寫字元，只要使用$S_q-S_{p-1}$就可以求得。那麼要檢查位置$p$開始是否有連續$k$個大寫，可以使用$S_{p+k-1}-S_{p-1}==k$來求得，要計算是否有連續$k$個小寫，則可以使用$S_{p+k-1}-S_{p-1}==0$來求得。使用這樣的方法，也可以很快速地求出解答。稍微複雜一點，有興趣的同學可以思考看看，程式碼如下：
+\begin{cppcode}
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+int slen, h[100005]={0};
+
+int alen(int start, int k);
+
+int main()
+{
+	char str[100005];
+	int k;
+	cin >> k >> str;
+	slen = strlen(str);
+	for (int i=0; i<slen; i++) {
+		if (str[i]>='a' && str[i]<='z') h[i+1] = h[i];
+		if (str[i]>='A' && str[i]<='Z') h[i+1] = h[i] + 1;
+	}
+	
+	int maxlen = 0;
+	for (int i=1; i<=slen; i++) {
+		int len = alen(i, k);
+		if (len > maxlen) maxlen = len;
+	}
+	cout << maxlen << endl;
+	return 0;
+}
+
+int alen(int start, int k)
+{
+	int last = start+k-1;
+	if (last>slen) return 0;
+	int sum = h[last] - h[start-1];
+	if ((sum != k) && (sum != 0)) return 0;
+	sum = k - sum;
+	while (last+k<=slen && h[last+k]-h[last]==sum) {
+		last += k;
+		sum = k - sum;
+	}
+	return last-start+1;
+}
+\end{cppcode}	

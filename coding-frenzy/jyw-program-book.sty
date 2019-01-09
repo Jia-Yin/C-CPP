@@ -1,0 +1,64 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{jyw-program-book}[2017/09/30 v1.0 jyw program book theme]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Packages
+
+\input{structure}
+
+\usepackage{fontspec}
+\usepackage[CJKecglue={}]{xeCJK}
+\usepackage{xcolor,colortbl}
+\usepackage{minted}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true}
+%\usepackage{enumitem}
+\setCJKmainfont{DFFangSong-W4-HKP-BF.ttf}
+\newCJKfontfamily[ming]\mingti{DFMing-Md-HK-BF.ttf}
+\newCJKfontfamily[hei]\heiti{DFHei-Md-HK-BF.ttf}
+\newCJKfontfamily[song]\songti{DFFangSong-W4-HKP-BF.ttf}
+\setCJKmainfont{DFFangSong-W4-HKP-BF.ttf}
+\setCJKmonofont{DFFangSong-W4-HKP-BF.ttf}
+%\setmainfont[Mapping=tex-text]{Times New Roman} % rm
+%\setsansfont[Mapping=tex-text]{Arial}           % sf
+%\setmonofont{Courier New}                       % tt
+
+\newcommand{\cc}{C\texttt{++}}
+%\setlist[enumerate]{topsep=-6pt}
+
+\definecolor{dhscodebg}{rgb}{0.95,0.95,0.95}
+\newminted{cpp}{xleftmargin=.8cm,linenos,baselinestretch=1.1,autogobble=true,tabsize=4,showtabs=false,bgcolor=dhscodebg,breaklines}
+\newminted[inside]{cpp}{tabsize=4,baselinestretch=1.1,bgcolor=dhscodebg,autogobble=true,xleftmargin=.8cm}
+
+\BeforeBeginEnvironment{cppcode}{\vskip -4pt}
+\BeforeBeginEnvironment{minted}{\vskip -4pt}
+\BeforeBeginEnvironment{inside}{\vskip -4pt}
+
+%\usechapterimagefalse
+
+\addto\captionsenglish{% Replace "english" with the language you use
+	\renewcommand{\figurename}{圖}
+	\renewcommand{\figureautorefname}{圖}
+	\renewcommand{\tablename}{表}
+	\renewcommand{\tableautorefname}{表}
+	\renewcommand{\appendixname}{附錄}
+	\renewcommand{\chaptername}{}
+	\renewcommand{\contentsname}{目錄}
+}
+\addto\extrasenglish{%
+	\renewcommand{\figureautorefname}{圖}
+	\renewcommand{\tableautorefname}{表}
+}
+
+\let\oldv\verbatim
+\let\oldendv\endverbatim
+
+\def\verbatim{\par\setbox0\vbox\bgroup\oldv}
+\def\endverbatim{\oldendv\egroup\fboxsep0pt \noindent\colorbox[gray]{0.95}{\usebox0}\par}
+
+\renewcommand{\baselinestretch}{1.2}
+
+
+\endinput
+

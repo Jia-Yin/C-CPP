@@ -1,0 +1,26 @@
+\section{A024 - 級數}
+輸入一正整數N。輸出$1*3+3*5+5*7+...+(2N-1)(2N+1)$之值。
+
+\subsection{解題思惟}
+\begin{enumerate}
+\item 初始化變數ans等於0，用來做為累加之用。
+\item 跑迴圈令i從1到2n-1，每次把i*(i+2)加到ans即可。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int N, ans = 0;
+	cin >> N;
+	for (int i=1; i<=2*N-1; i+=2) {
+		ans += i*(i+2);
+	}
+	cout << ans;
+	return 0;
+}
+\end{cppcode}

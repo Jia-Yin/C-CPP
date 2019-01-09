@@ -1,0 +1,49 @@
+
+// 以下方法的複雜度應該是 O(nm)，雖然正確但不夠快，會產生TLE
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int n, m, k, next[200005];
+    cin >> n >> m >> k;
+    for (int i=1; i<n; i++) next[i] = i+1;
+    next[n] = 1;
+
+    int cnt = n, num = 1, lastnum = n;
+    while (k--) {
+        int p = (m-1) % cnt;
+        while (p--) { lastnum=num; num=next[num]; }
+        next[lastnum] = next[num];
+        num = next[num];
+        cnt--;
+    }
+    cout << num << endl;
+    return 0;
+}
+
+// 推出遞迴公式：　f(n, m, k) = ((m%n) + f(n-1, m, k-1)) % n
+//                f(n, m, 0) = 0
+// 最後再把 f(n, m, k) 加上 1
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int n, m, k, f=0;
+    cin >> n >> m >> k;
+
+    n=n-k;
+    for (int i=0; i<k; i++) {
+        n++;
+        f = ((m%n) + f) % n;
+    }
+    cout << 1+f << endl;
+    return 0;
+}
+
+

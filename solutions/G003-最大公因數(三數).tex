@@ -1,0 +1,42 @@
+\section{G003 最大公因數(三數)}
+輸入三個整數，輸出其最大公因數。
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item
+	要求三個數的最大公因數，我們可以先求其中兩個數的最大公因數，再跟第三數求最大公因數。至於求兩個數的最大公因數，有很多解法，前面亦有討論，此處以遞迴方式求解。
+	\begin{inside}
+	int gcd(int x, int y) {
+		if(x<0) return gcd(y, -x);
+		if(x==0) return y;
+		return gcd(y%x, x);
+	}
+	\end{inside}
+	
+	\item
+	完成 gcd 函式後再代入主程式使用就好。
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+
+	using namespace std;
+	
+	int gcd(int x,int y);
+	
+	int main()
+	{
+		int n, a, b, c;
+		cin >> a >> b >> c;
+		cout << gcd(gcd(a, b), c);
+		
+		return 0;
+	}
+
+	int gcd(int x,int y) {
+		if(x<0) return gcd(y, -x);
+		if(x==0) return y;
+		return gcd(y%x, x);
+	}
+\end{cppcode}

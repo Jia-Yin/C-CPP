@@ -1,0 +1,218 @@
+
+\section{8/14(一)上午：環境設定}
+
+%\subsection{上午：環境設定}
+\subsection{行政事項}
+\begin{enumerate}
+	\item i-learning登入測試
+		\subitem 網頁版
+		\subitem 下載app版
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=3.5cm]{fig/QRcode}
+		\end{figure}
+	\item 藍芽點名
+	\item 宣傳保溫課程、說明校園參訪＆校外參訪
+
+\end{enumerate}
+\subsection{認識新朋友}
+\begin{enumerate}
+	\item 老師、助教自我介紹
+	\item 同學自我介紹
+\end{enumerate}
+	
+
+\subsection{實力測驗（前測)}
+\begin{enumerate}
+
+\item 動手玩程式
+\subitem \href{https://studio.code.org/courses}{冰雪奇緣遊戲}（15分鐘)
+\end{enumerate}
+
+\subsection{環境設定}
+\begin{enumerate}
+\item Code::Blocks
+\subitem 安裝說明
+\item 瘋狂程設
+\subitem 註冊
+\subitem 加課
+\subitem 桌機板	
+\end{enumerate}
+
+\section{8/14（一）下午：基本語法}
+
+	\subsection{輸入、輸出(cin, cout)}
+	\subsection{四則運算}
+	
+\begin{enumerate}
+	\item 講解︰A001:Hello World
+	\begin{enumerate}
+	\item 題目說明：
+	\subitem 請在命令視窗中印出 ``Hello World！"。
+	
+	\item 解題思維：
+	\subitem 本題直接使用cout或printf函數印出想要顯示的文字即可。
+	
+	\item 程式碼：
+	\begin{cppcode}
+		#include <iostream>
+		
+		using namespace std;
+		
+		int main()
+		{
+			cout << "Hello World!";
+			return 0;
+		}
+	\end{cppcode}
+	\end{enumerate}
+	
+	\item 練習︰JT-01︰我可以把程式學好
+		\begin{enumerate}
+			\item 題目說明：
+			\subitem 請印出字串 "Programming is easy!"
+			
+			\item 解題思維：
+			\subitem 本題直接使用cout或printf函數印出想要顯示的文字即可。
+			
+			\item 程式碼：
+			\begin{cppcode}
+				#include <iostream>
+				
+				using namespace std;
+				
+				int main()
+				{
+					cout << "Programming is easy!";
+					return 0;
+				}
+				
+			\end{cppcode}
+		\end{enumerate}
+	\item 講解︰F001:兩數相加%(第01關：變數與計算)
+		\begin{enumerate}
+			\item 題目說明：
+			\subitem 輸入兩整數，輸出兩數之和。
+			
+			\item 解題思維：
+			%\subitem
+			\begin{enumerate}
+			\item 先宣告兩個變數。
+			\begin{inside}
+			int a, b; // 宣告變數
+			\end{inside}
+			\item 使用cin取得使用者輸入的兩個數字。
+			\begin{inside}
+			cin >> a >> b; // 取得輸入的值, 存入a和b
+			\end{inside}
+			\item 將剛剛取得的兩個數字相加，並用cout輸出。
+			\begin{inside}
+			cout << a+b;
+			\end{inside}
+			\end{enumerate} 
+			
+			\item 程式碼：
+			\begin{cppcode}
+				#include <iostream>
+				
+				using namespace std;
+				
+				int main()
+				{
+					int a, b;
+					cin >> a >> b;
+					cout << a+b;
+					return 0;	
+				}
+			\end{cppcode}
+		\end{enumerate}
+		
+	\item 練習︰F019:長方形面積%(第01關：變數與計算)
+		\begin{enumerate}
+			\item 題目說明：
+			\subitem 輸入長和寬，輸出面積。
+			
+			\item 解題思維：
+			\subitem 與上題解題思維大致相同，只是兩數相加變為兩數相乘。
+			
+			\item 程式碼：
+			\begin{cppcode}
+				#include <iostream>
+				
+				using namespace std;
+				
+				int main()
+				{
+					int a, b;
+					cin >> a >> b;
+					cout << a*b;
+					return 0;	
+				}
+			\end{cppcode}
+		\end{enumerate}
+		
+	\item 練習︰G001:長寬高算體積
+		\begin{enumerate}
+			\item 題目說明：
+			\subitem 輸入長方體的長寬高，輸出其體積。
+			
+			\item 解題思維：
+			\subitem 與上題解題思維大致相同，變數改成三個，輸出將三數相乘。
+			
+			\item 程式碼：
+			\begin{cppcode}
+				#include <iostream>
+				
+				using namespace std;
+				
+				int main()
+				{
+					int a, b, c;
+					cin >> a >> b >> c;
+					cout << a*b*c;
+					return 0;	
+				}
+			\end{cppcode}
+		\end{enumerate}
+		
+	\item 講解︰M90H011:整數商餘%(第01關：變數與計算){\color{blue} (cout and printf) }
+		\begin{enumerate}
+			\item 題目說明：
+			\subitem 
+			輸入兩整數m和n,輸出m除以n之商及餘數。
+			\item 解題思維：
+			\begin{enumerate}
+			\item 　先宣告兩個變數m和n，再使用scanf取得使用者輸入的兩個整數。
+			\begin{inside}
+			int m, n;
+			scanf("%d%d", &m, &n); 
+			\end{inside}
+			\item  將剛剛取得的整數m除以整數n，並用printf輸出所除結果之商及餘數。
+			\begin{inside}
+			printf("\n%d / %d = %d", m, n, m / n);
+			printf("\n%d mod %d = %d", m, n, m % n);
+			\end{inside}
+			\end{enumerate}
+			
+			\item 程式碼：
+			\begin{cppcode}
+				#include <stdio.h>
+				
+				int main()
+				{
+					int m, n;
+					scanf("%d%d", &m, &n); 
+					printf("\n%d / %d = %d", m, n, m / n);
+					printf("\n%d mod %d = %d", m, n, m % n);
+					return 0;
+				}
+			\end{cppcode}
+		\end{enumerate}
+	
+	\item 練習︰使用printf完成下列兩題
+	\begin{enumerate}
+		\item F001︰兩數相加
+		\item F019 ︰長方形面積
+	\end{enumerate}
+\end{enumerate}
+

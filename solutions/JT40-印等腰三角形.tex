@@ -1,0 +1,30 @@
+\section{印等腰三角形}
+輸入N，印出一個N列的等腰三角形，其中第I列有2*I-1個\#，且左右對稱。
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item N列的輸出，可以跑一個迴圈，令i等於1到N來處理。
+	\item 第N列有2*N-1個\#，且前面沒有空白。
+	\item 第N-1列有2*(N-1)-1個\#，且前面有1個空白。
+	\item 依次類推，第i列應該是有2*i-1個\#，且前面有N-i個空白。
+\end{enumerate}
+			
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n;
+	cin >> n;
+	cout << "Input = " << n << endl;
+	for (int i=1; i<=n; i++) {
+		for (int j=0; j<n-i; j++) cout << " ";
+		for (int j=0; j<2*i-1; j++) cout << "#";
+		cout << endl;
+	}
+	return 0;
+}
+\end{cppcode}

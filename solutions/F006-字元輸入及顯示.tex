@@ -1,0 +1,32 @@
+\section{F006 - 字元輸入及顯示}
+輸入一個字元，輸出此字元及其 ASCII 碼，接著再輸出 ASCII 表上的下一個字元及其 ASCII 碼。
+
+\subsection{解題思維}
+\begin{enumerate}
+\item 字元在電腦中一般是以一個八位元的整數來儲存，符號與其對應的數字一般使用 American Standard Code for Information Interchange (ASCII) 編碼。在 C/\cc{}中，可以將此編碼視為一個八位元的整數，也可以視為一個字元。使用 printf 函式，可以透過指定格式字 \%d 與 \%c 在兩者中切換輸出。
+\item 要輸入一個字元，我們要先宣告一個型態是 char 的變數，接著輸入字元。
+	\begin{inside}
+		char s;
+		scanf("%c", &s);
+	\end{inside}
+\item 使用 printf 函式及指定格式字 \%d 與 \%c，可以將其輸出為整數或字元型態。
+	\begin{inside}
+		printf("%d %c", s, s);
+	\end{inside}
+\end{enumerate}
+\newpage
+\subsection{程式碼}
+\begin{cppcode}
+	#include <cstdio>
+	
+	int main()
+	{
+		char s;
+		scanf("%c", &s);
+		printf("%c:%d\n", s, s);
+		printf("%c:%d", s+1, s+1);
+		return 0;
+	}
+\end{cppcode}
+註：本題在瘋狂程設測試時，不能通過，原因是因為測試字元前面會多一個空白，這是測資引發的問題。
+修正方式是先讀一次字元，也就是把程式中 scanf 那一列重複兩次即可。

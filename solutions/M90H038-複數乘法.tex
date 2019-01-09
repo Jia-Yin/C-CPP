@@ -1,0 +1,17 @@
+\section{M90H038 - 複數乘法}
+輸入兩個複數，輸出兩數之積。
+
+\subsection{解題思維}
+假設我們要計算$a+bi$和$c+di$兩式之積，實數部份係數是ac-bd，虛數部份係數是ad+bc。如果虛部係數為正，前面要補一個正號，可以直接使用printf加上格式指定字``\%+d"輸出即可。
+\subsection{程式碼}
+\begin{cppcode}
+	#include <cstdio>
+
+	int main()
+	{
+		int a, b, c, d;
+		scanf("%d%d%d%d", &a, &b, &c, &d);
+		printf("%d%+di", a*c-b*d, a*d+b*c);
+		return 0;
+	}
+\end{cppcode}

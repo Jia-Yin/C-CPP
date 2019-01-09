@@ -1,0 +1,88 @@
+\section{10510-3 定時K彈}
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 這個題目可以使用陣列處理，每個位置儲存下一個數，然後某個位置爆掉的時候，簡單做一個跳過的連接處理就可以了。假設位置a接到b，位置b接到c，現在如果b爆掉的話，就把a接到c就好了。使用這樣的方式基本上就可以解題了，但是實際上測試的時候，會發現後面幾組測資都會超時，因為複雜度為$O(nm)$，並且n最大可能達到200000，m最大可能達到1000000的緣故。以下第一個程式碼會用此方式解題。
+	\item 在上述的解題過程中，前進m步的時候，一個一個前進太慢，如果我們改用STL的vector來儲存數字，那麼前進m步只要直接計算位置索引就好了，這樣複雜度幾乎掉到$O(n)$應該就不會超時了。至於某個數引爆時，只要使用vector的erase函數將該數刪除即可。使用這個方法，對於STL的vector要有一些基本認識才行。以下第二個程式碼會使用此方式解題，可以通過所有測資。
+	\item 這題有另外一種演算解法，這種題目稱為約瑟夫斯問題(Josephus problem)，有興趣的讀者可以參閱\href{https://zh.wikipedia.org/wiki/%E7%BA%A6%E7%91%9F%E5%A4%AB%E6%96%AF%E9%97%AE%E9%A2%98}{wiki}上的說明。那這種問題的解法，基本上可以推導遞迴的關係來解題。先把數目1..n改成0..n-1，並假設後者的情況下，輸入n,m,k參數的解答為f(n,m,k)。很顯然f(n,m,0)=0 (沒有引爆彈)；又m為n的倍數時，等於將n-1爆掉，爆掉之後，變成n-1個數的情況，所以答案為f(n-1,m,k-1)；那如果m不是n的倍數呢？假設m除以n餘1，那麼等於0會爆掉，爆掉之後，等於還是n-1個數的情況，但每個數都加上了1，所以結果會等於1+f(n-1, m, k-1)；那如果m除以n餘2呢？照理應該會等於2+f(n-1,m,k-1)，但是這個數有可能超過n-1，所以最後還要求除以n的餘數，這樣類推下來可以得到下列遞迴公式：
+		\begin{eqnarray*}
+			f(n, m, 0) & = & 0 \\
+			f(n, m, k) & = & ((m\ \%\ n) + f(n-1, m, k-1))\ \%\ n \\
+			Ans & = & 1 + f(n, m, k)
+		\end{eqnarray*}
+	那上面這個遞迴公式，可以使用遞迴，或者改用迭代方式求解。
+\end{enumerate}
+
+\subsection{程式碼}
+程式碼一：使用基本陣列方式解題，n和m比較大的時候會超時 (TLE)。
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n, m, k, next[200005];
+	cin >> n >> m >> k;
+	for (int i=1; i<n; i++) next[i] = i+1; // 每個數接到下一個數
+	next[n] = 1; // 最後一個數n接到1
+	
+	int cnt = n, num = 1, lastnum = n; // cnt 為一個循環的個數
+	while (k--) { // 引爆k次
+		int p = (m-1) % cnt; // 前進的時侯，每個循環都會回到原位
+		while (p--) { lastnum=num; num=next[num]; } // 前進m-1步
+		next[lastnum] = next[num]; // 處理跳過num的連接
+		num = next[num]; // 前進一步
+		cnt--; // 循環個數減1
+	}
+	cout << num << endl;
+	return 0;
+}
+\end{cppcode}
+
+程式碼二：使用vector處理，可以通過所有測資。
+\begin{cppcode}
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+	int n, m, k;
+	while (cin >> n >> m >> k) {
+		vector<int> v(n); // 宣告長度為n的vector
+		for (int i=0; i<n; i++) v[i] = i+1; // 儲存啟始數字
+		int idx = 0;
+		while (k--) { // 引爆K次
+			idx = (idx + m - 1) % v.size(); // 計算引爆點
+			v.erase(v.begin() + idx); // 刪除引爆位置
+		}
+		idx = idx % v.size(); // v個數已減1，要重新計算位置
+		cout << v[idx] << endl; // 輸出
+	}
+	return 0;
+}
+\end{cppcode}	
+
+程式碼三：推導遞迴關係並使用迭代方式解題，可以通過所有測資。
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n, m, k, f=0;
+	cin >> n >> m >> k;
+	
+	n = n-k; // 從 n-k 個球開始往上推算
+	for (int i=0; i<k; i++) {
+		n++; // 多一個球的狀況
+		f = ((m%n) + f) % n; // 從n-1推n
+	}
+	cout << 1+f << endl;
+	return 0;
+}
+\end{cppcode}
+

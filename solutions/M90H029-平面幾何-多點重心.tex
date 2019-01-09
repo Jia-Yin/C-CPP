@@ -1,0 +1,24 @@
+\section{M90H029 - 平面幾何：多點重心}
+輸入一整數n，輸入n個點，輸出其重心。
+\subsection{解題思惟}
+n個數的重心等於n個座標的和除以n，計算的時候要記得轉成浮點數。
+另外在瘋狂程設中用C輸出浮點數時，如果沒有特別指明格式，
+則使用\%g指示詞，與\cc{}的輸出格式比較接近。
+\subsection{程式碼}
+\begin{cppcode}
+#include <cstdio>
+
+int main()
+{
+	int n, x, y;
+	float sumx=0, sumy=0;
+	scanf("%d", &n);
+	for (int i=0; i<n; i++) {
+		scanf("%d%d", &x, &y);
+		sumx += x;
+		sumy += y;
+	}
+	printf("(%g,%g)", sumx/n, sumy/n);
+	return 0;
+}
+\end{cppcode}

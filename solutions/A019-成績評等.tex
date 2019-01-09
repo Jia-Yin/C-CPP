@@ -1,0 +1,24 @@
+\section{A019 - 成績評等}
+輸入一個正整數成績。 輸出:右方擇一顯示 A+[100,90], A(90,80], B(80,70], C(70,60], D(60,0]。
+PS：小括號為不包含，中括號為包含。
+
+\subsection{解題思維}
+使用巢狀if-else處理，判斷成績是在哪個分數區間並輸出答案。判斷的順序，可以從最低分依次判斷到最高分，或者從最高分判斷到最低分亦可。
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int n;
+		cin >> n;
+		if (n>=90) cout << "A+";
+		else if (n>=80) cout << "A";
+		else if (n>=70) cout << "B";
+		else if (n>=60) cout << "C";
+		else cout << "D";
+		return 0;
+	}
+\end{cppcode}

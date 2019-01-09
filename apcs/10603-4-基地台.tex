@@ -1,0 +1,39 @@
+\section{10603-4 基地台}
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 這題要求最小直徑d，因為是整數，那我們試著將d從1開始往上測試。
+	\item 先把服務點排序，假設最左邊的點座標為x，要服務到這個點且基地台直徑為d的話，最好的情況是增設一個基地台在x+d/2，這樣的話，最右邊可服務到x+d。我們可以跳過所有可被服務到的點。
+	\item 接下來如果有尚未被服務到的點，就找出下一個，假設位置為y，那我們可以像上一步一樣增設一個基地台在y+d/2，然後跳過所有可被服務的點(位置小於等於y+d)。
+	\item 依此類推，一直到最後所有的點都可以被服務到，或基地台數量大於k。
+	\item 檢查所有增設基地台的數量，如果小於等於k的話，那這個直徑就是我們的答案，所以用break跳出迴圈並印出結果。如果不是，把直徑增加一個最小的時間單位，然後重覆第2個步驟到上個步驟。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int main()
+{
+	int n, d, k, p[1000];
+	cin >> n >> k;
+	for (int i=0; i<n; i++) cin >> p[i]; // 輸入服務點
+	sort(p, p+n); // 排序
+	for (d=1; ; d++) { // 從1開始測試直徑
+		int r=0, cnt=0, idx=0; // r=目前可服務到的範圍
+		while (r<p[n-1]) { // 尚有未服務的點
+			cnt++; // 新增一個基地台
+			if (cnt>k) break;
+			r=p[idx]+d; // 基地台放p[idx]+d/2，可服務到p[idx]+d
+			while (idx<n-1 && p[idx+1]<=r) idx++; // 反覆移到下一個可服務的點
+			idx++; // 再移到下一個(不能被服務到的)點
+		}
+		if (cnt<=k) break; // 如果總部不超過k即找到答案
+	}
+	cout << d << endl;
+	return 0;
+}
+\end{cppcode}

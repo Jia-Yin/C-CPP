@@ -1,0 +1,21 @@
+\section{A006 - 輸入之正零負}
+輸入一整數 N，如果 N 大於 0，則輸出 N>0；如果 N 等於 0，則輸出 N=0；如果 N 小於 0，則輸出 N<0。
+
+\subsection{解題思維}
+本題根據輸入值是大於零、等於零還是小於零，分別印出相對的敘述即可。基本上使用三個分開的if判斷，或者使用巢狀的if-else判斷皆可。
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int n;
+		cin >> n;
+		if (n>0) cout << "N>0";
+		else if (n==0) cout << "N=0";
+		else cout << "N<0";
+		return 0;
+	}
+\end{cppcode}

@@ -1,0 +1,30 @@
+\section{F014 - ASCII表}
+輸出 32 到 127 號 ASCII 字元，每16個字換一行。
+\subsection{解題思惟}
+\begin{enumerate}
+\item 輸出字元，在C中使用printf及\%c指示詞。
+如果是在\cc{}中，針對字元c，使用cout<<c，
+如果是整數i，則先轉成字元再輸出：cout<<(char)i。
+\item 本題在輸出時，每16個字換一行，並且觀察輸出，最後一排輸出完畢不用換行。
+假設輸出的ASCII碼為i，當i為16的倍數時，印出字元前要先換行，另外第一次印出(i=32)不用換行。
+可用以下程式碼：
+\begin{inside}
+if (i!=32 && i%16==0) cout << endl;
+\end{inside}
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	for(int i=32; i<128; i++)
+	{
+		if (i!=32 && i%16==0) cout << endl;
+		cout << char(i);
+	}
+}
+\end{cppcode}

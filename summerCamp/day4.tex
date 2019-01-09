@@ -1,0 +1,253 @@
+
+\section{8/17(四)上午：遞迴}
+
+\subsection{遞迴}
+\begin{enumerate}
+	\item 講解：JA-008：遞迴解1+2+...+n
+		\begin{enumerate}
+			\item 題目說明：
+			\subitem 使用遞迴方式算出 1+2+...+n
+			
+			\item 解題思維：
+			\subitem 假設$f(n)=1+2+...+n$，則遞迴的計算方法為$f(n)=n+f(n-1)$。
+			
+			\item 程式碼：
+			\begin{cppcode}
+				#include <cstdio>
+				
+				int f(int n);
+				
+				int main()
+				{
+					int n;
+					scanf("%d", &n);
+					printf("%d", f(n));
+					return 0;
+				}
+				
+				int f(int n)
+				{
+					if (n==1) return 1;
+					return n + f(n-1);
+				}
+								
+			\end{cppcode}
+		\end{enumerate}
+	
+	\item 練習：A059：遞迴計算n階乘
+		\begin{enumerate}
+			\item 題目說明：
+			\subitem 輸入一正整數N，輸出N!。其中$N! = 1\times2\times3\times...\times N$
+			
+			\item 解題思維：
+			\subitem 假設函數$fact(n)=n! $，其遞迴的計算方式為$fact(n)=n\times fact(n-1)$。
+			
+			\item 程式碼：
+			\begin{cppcode}
+				#include<iostream>
+				using namespace std;
+				
+				int fact(int n);
+
+				int main()
+				{
+					int n;
+					cin >> n;
+					cout << fact(n);
+					return 0;
+				}
+
+				int fact(int n)
+				{
+					if (n) return n * fact(n-1);
+					else return 1;
+				}
+
+			\end{cppcode}
+		\end{enumerate}
+	
+	\item 講解：A029︰費式數列
+		\begin{enumerate}
+			\item 題目說明：
+			\subitem 費氏數列定義如下 $f(0)=0, f(1)=1, f(n)=f(n-1)+f(n-2)$。
+			題目是從螢幕輸入一個正整數 n,輸出 $f(n)$。
+			
+			\item 解題思維：
+			\begin{enumerate}
+				\item 本題可用遞迴或非遞迴方式計算。
+				\item 因為程式簡明易了,可直接觀看程式碼尋求理解。
+			\end{enumerate}
+			
+			\item 程式碼：
+			\begin{cppcode}
+				#include <stdio.h>
+
+				int f(int n);
+
+				int main()
+				{
+					int n;
+					scanf("%d", &n);
+					printf("%d", f(n));
+					return 0;
+				}
+
+				int f(int n)
+				{
+					if (n<2) return n;
+					return f(n-1)+f(n-2);
+				}
+			\end{cppcode}
+		\end{enumerate}
+	
+	\item 挑戰：JA-009：爬樓梯有幾種爬法
+		\begin{enumerate}
+			\item 題目說明：
+			\subitem 小明爬樓梯，已知要爬的梯數有N階，但小明一次可以爬1～3階，請問總共有幾種爬法？
+			
+			\item 解題思維：
+			\subitem
+			當n=1, 2, 3時，分別有1, 2, 4種爬法，當n>3時，爬樓梯的方法為$f(n)=f(n-1)+f(n-2)+f(n-3)$。
+			
+			\item 程式碼：
+			\begin{cppcode}
+				#include <cstdio>
+				
+				int f(int n);
+				
+				int main()
+				{
+					int n;
+					scanf("%d", &n);
+					printf("%d", f(n));
+					return 0;
+				}
+				
+				int f(int n)
+				{
+					if (n==1) return 1;
+					if (n==2) return 2;
+					if (n==3) return 4;
+					return f(n-1)+f(n-2)+f(n-3);
+				}
+			\end{cppcode}
+		\end{enumerate}
+	
+	\item 講解：JB-04︰河內塔
+	\begin{enumerate}
+		\item 題目說明：
+		\subitem 依課堂上講解之河內塔規則，從柱1移到柱3，柱2為輔助。輸入環的個數n，輸出所有移動過程。
+		
+		\item 解題思維：
+		\subitem 河內塔的解法如下：
+		\begin{enumerate}
+			\item 當只有1個環的時候，直接把環搬到目標柱子上。
+			\item 當有n個環的時候
+			\begin{enumerate}
+				\item 先將(n-1)層的河內塔搬到輔助的柱子上。
+				\item 接著將第n個環搬到目標柱子上。
+				\item 最後，再將(n-1)層的河內塔從輔助的柱子搬到目標柱子上。 
+			\end{enumerate}
+			
+		\end{enumerate}
+		
+		\item 程式碼：
+		\begin{cppcode}
+			#include <iostream>
+			
+			using namespace std;
+			
+			void hanoi(int n, int from, int to, int buf);
+			
+			int main()
+			{
+				int n;
+				cin >> n;
+				hanoi(n, 1, 3, 2);
+				return 0;
+			}
+			
+			void hanoi(int n, int from, int to, int buf)
+			{
+				if (n==1) {
+					cout << from << " => " << to << endl;
+				} else {
+				hanoi(n-1, from, buf, to);
+				cout << from << " => " << to << endl;
+				hanoi(n-1, buf, to, from);
+			}
+		}
+	\end{cppcode}
+\end{enumerate}
+
+	
+	
+	
+	
+\end{enumerate}
+
+\section{8/17(四)下午：陣列}
+
+\subsection{陣列}
+\begin{enumerate}
+	\item 講解：A030︰百數反印
+		\begin{enumerate}
+			\item 題目說明：
+			\subitem 輸入 100 個正整數,反向印出此 100 個數。
+			
+			\item 解題思維：
+			\subitem 本題使用陣列儲存 100 個數,再反向印出即可,是很基本的題目。
+			
+			\item 程式碼：
+			\begin{cppcode}
+				#include<iostream>
+				using namespace std;
+				int main()
+				{
+					int data[100];
+					for (int i=0; i<100; i++) cin >> data[i];
+					for (int i=99; i>=0; i--) cout << " " << data[i];
+					return 0;
+				}
+			\end{cppcode}
+		\end{enumerate}
+	
+	\item 講解︰JT-30︰排序
+		\begin{enumerate}
+			\item 題目說明：
+			\subitem 輸入N及N個數 (N<100),將N個數從小到大印出來。
+			
+			\item 解題思維：
+			\subitem 本題是練習排序的演算法。基本上排序的演算法很多,以下程式使用\href{https://zh.wikipedia.org/wiki/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F}{氣泡排序法},
+			這也是最基本的排序演算法之一。在程式中,i 的範圍可以從 0
+			到 n-2,或則倒過來從 n-1 到 1 也可以,基本上就是要執行 n-1 輪的意思,但是 i 的
+			範圍寫法不同,j 的上限寫法也跟著(有)一些變化,這是在閱讀參考連結時,應注意的地
+			方。
+			
+			\item 程式碼：
+			\begin{cppcode}
+				#include <stdio.h>
+			
+				int main()
+				{
+					int i, j, t, n, a[100];
+					scanf("%d", &n);
+					for (i=0; i<n; i++) scanf("%d", a+i);
+					for (i=n-1; i>0; i--) {
+						for (j=0; j<i; j++) {
+							if (a[j]>a[j+1]) {
+								t=a[j];
+								a[j]=a[j+1];
+								a[j+1]=t;
+							}
+						}
+					}
+					printf("%d", a[0]);
+					for (i=1; i<n; i++) printf(" %d", a[i]);
+					return 0;
+				}
+			\end{cppcode}
+		\end{enumerate}
+	
+\end{enumerate}
+

@@ -1,0 +1,32 @@
+\section{四數排序}
+輸入a,b,c,d四個數，將其依小到大的順序印出來。
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 本題有多種解法，以下的方法，主要是氣泡排序法的概念。
+	\item a和b比較，如果a>b則交換a和b；接著比b和c，如果b大於c，則交換b和c；再來比c和d，如果c大於d，則交換c和d，這樣比一輪之後，d會變成最大整數。
+	\item 接者要對a,b,c三數進行排序，方法與上面雷同。先a和b比較，如果a>b則交換a和b；接著比b和c，如果b大於c，則交換b和c，這樣比過之後，c會變成三數中最大整數。
+	\item 接者要對a,b兩數進行排序，直接比較a和b，如果a>b則交換a和b。
+\end{enumerate}
+			
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int a, b, c, d;
+		cin >> a >> b >> c >> d;
+		if (a>b) swap(a, b);
+		if (b>c) swap(b, c);
+		if (c>d) swap(c, d);
+		if (a>b) swap(a, b);
+		if (b>c) swap(b, c);
+		if (a>b) swap(a, b);
+		cout << a << " " << b << " " << c << " " << d;
+		return 0;
+	}
+	
+\end{cppcode}

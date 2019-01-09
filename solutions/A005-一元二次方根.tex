@@ -1,0 +1,30 @@
+\section{A005 - 一元二次方根}
+從命令視窗輸入一元二次方程式 $ax^{2}+bx+c=0$ 的三個係數$a, b, c$，若該一元二次方程式有解，請印出它的兩個解，若無解則印出 ``No"。請使用 double 做為係數及解的型態。另外兩個解的公式為 $\displaystyle\frac{-b\pm\sqrt{d}}{2a}$，其中 $d=b^2-4ac$。輸出請四捨五入到小數點後三位。
+
+\subsection{解題思維}
+\begin{enumerate}
+	\item 因為求解會用到開根號函式sqrt，所以我們也要引入math函式庫。
+	\item 輸出要四捨五入到小數點三位，這部份使用printf函式會比較簡單一點，所以本題優先考慮使用C的輸入輸出函式。
+	\item 使用scanf輸入double的時候，格式指定字要使用\%lf。\%f是給float使用的。
+	\item 一般來說，printf輸出浮點數的時候，都會先轉成double型態，格式指定字是使用\%f。在C99之後的標準，為了和scanf一致，也可以使用\%lf，\%f和\%lf的意義對printf來說是相同的。要四捨五入並輸出至小數點後三位，格式指定字用\%.3f。
+	\item 最後根據判斷式 $d=b^2-4ac$ 是否小於0決定程式分支即可。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <cstdio>
+	#include <cmath>
+	
+	int main()
+	{
+		double a, b, c, d;
+		scanf("%lf%lf%lf", &a, &b, &c);
+		d = b*b - 4*a*c;
+		if (d>=0) {
+			printf("%.3f\n%.3f", (-b+sqrt(d))/(2*a),
+					(-b-sqrt(d))/(2*a));
+		} else printf("No");
+		return 0;
+	}
+\end{cppcode}
+註：本題在瘋狂程設測試時，沒有辦法通過。仔細檢查，發現實際上輸出並未遵循題目所述，取四捨五入到小數點後三位，而是直接以cout將浮點數輸出。\cc{}預設的浮點數輸出，大約等同於C的\%g指示詞，因此若要通過瘋狂程設的檢查，可將上述程式碼中的\%.3f改成\%g，或者使用cout輸出即可。本題所給的參考答案係以題目所述為主。

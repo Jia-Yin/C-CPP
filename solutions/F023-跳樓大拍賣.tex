@@ -1,0 +1,25 @@
+\section{F023 - 跳樓大拍賣}
+滿百95折，滿千9折，滿萬85折，輸入一消費額，輸出需付金額。
+
+\subsection{解題思維}
+\begin{enumerate}
+	\item 使用if和else判斷消費金額屬於哪個區間，然後決定所打的折扣(滿百95折，滿千9折，滿萬85折)，並計算出最後需付的金額。
+	\item 計算出來的值為浮點數，但必須轉成整數，須注意售價只能減，不能增，所以不是四捨五入，而是無條件捨去小數。一般直接把浮點數強制轉型成整數，小數部份就會自動捨去。
+\end{enumerate}
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	
+	using namespace std;
+	
+	int main()
+	{
+		int a;
+		cin >> a;
+		if (a>=10000) cout << (int)(a*0.85);
+		else if (a >= 1000) cout << (int)(a*0.9);
+		else if (a >= 100) cout << (int)(a*0.95);
+		else cout << a;
+		return 0;
+	}	
+\end{cppcode}

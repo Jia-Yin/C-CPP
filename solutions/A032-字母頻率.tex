@@ -1,0 +1,37 @@
+\section{A032 字母頻率}
+輸入英文段落，求印各字母頻率，未出現者略過不印。
+
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item
+	因為在C語言中，每個字元都對應到一個數字(請參照ASCII Code表)，其數字範圍不超過256，因此我們可以使用大小為256的陣列來儲存每個字的出現頻率，以該字元的ASCII Code作為陣列索引值，而對應的值表示該字元的出現頻率。(ex:A的ASCII碼為65，所以f[65]就是A出現的頻率)
+	\item 每次讀入一個字元，即使用該字元的值做為陣列索引，將該索引值位置的值加1。
+	\item 印出時以字母當索引值，檢查對應的值是否大於0，如果大於0，則將其對應值印出來。
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <stdio.h>
+	
+	int main()
+	{
+		int f[256] = { 0 }; // 設定所有對應值為0
+		char ch;
+		
+		while (scanf("%c", &ch) == 1) { // 讀到檔尾
+			f[ch]++;
+		}
+	
+		for (int i='A'; i<='Z'; i++) { // A..Z的頻率
+			if (f[i]) printf("%c:%d\n", i, f[i]);
+		}
+	
+		for (int i='a'; i<='z'; i++) { // a..z的頻率
+			if(f[i]) printf("%c:%d\n", i, f[i]);
+		}
+	
+		return 0;
+	}
+	
+\end{cppcode}

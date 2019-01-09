@@ -1,0 +1,100 @@
+
+// 以下複雜度為　maxright * n，只能過 75%，餘超時
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int n, a, b, right=0;
+    while (cin >> n) {
+        int num[1000005]={0};
+        for (int i=0; i<n; i++) {
+            cin >> a >> b;
+            for (int j=a; j<b; j++) num[j]=1;
+            if (b>right) right=b;
+        }
+        int sum=0;
+        for (int i=0; i<right; i++) {
+            sum += num[i];
+        }
+        cout << sum << endl;
+    }
+    return 0;
+}
+
+// 以下複雜度約為 n*n，也只能過 75%
+
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int nleft[100005], nright[100005];
+int num[2*100005], n;
+
+bool findinseg(float k);
+
+int main()
+{
+    int a, b;
+    while (cin >> n) {
+        for (int i=0; i<n; i++) {
+            cin >> a >> b;
+            nleft[i] = a;
+            nright[i] = b;
+            num[2*i] = a;
+            num[2*i+1] = b;
+        }
+        sort(num, num+2*n);
+        int sum=0;
+        for (int i=1; i<2*n; i++) {
+            if (num[i]==num[i-1]) continue;
+            if (findinseg((num[i]+num[i-1])/2.0)) sum += num[i] - num[i-1];
+        }
+        cout << sum << endl;
+    }
+    return 0;
+}
+
+bool findinseg(float k)
+{
+    for (int i=0; i<n; i++) {
+        if (nleft[i]<=k && k<=nright[i]) return true;
+    }
+    return false;
+}
+
+// 以下為Klee's Algorithm
+
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int num[2*100005], n;
+
+bool findinseg(float k);
+
+int main()
+{
+    int a, b;
+    while (cin >> n) {
+        for (int i=0; i<n; i++) {
+            cin >> a >> b;
+            num[2*i] = 2*a;
+            num[2*i+1] = 2*b+1;
+        }
+        sort(num, num+2*n);
+        int sum=0, open=0;
+        for (int i=0; i<2*n; i++) {
+            if (open>0) sum += num[i]/2-num[i-1]/2;
+            if (num[i]&1) open--;
+            else open++;
+        }
+        cout << sum << endl;
+    }
+    return 0;
+}
+

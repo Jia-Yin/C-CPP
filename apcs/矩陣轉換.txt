@@ -1,0 +1,73 @@
+
+#include <iostream>
+
+using namespace std;
+
+void rotate90(int a[]);
+void vflip(int a[]);
+int  r, c;
+bool rflag;
+
+int main()
+{
+    int m, b[100], op[10];
+    while (cin >> r >> c >> m) {
+        rflag = false;
+        for (int i=0; i<r; i++) {
+            for (int j=0; j<c; j++) {
+                cin >> b[i*c+j];
+            }
+        }
+        for (int i=0; i<m; i++) cin >> op[i];
+        for (int i=m-1; i>=0; i--) {
+            if (op[i]==0) rotate90(b);
+            else vflip(b);
+        }
+        if (rflag) {
+            cout << c << " " << r << endl;
+            for (int i=0; i<c; i++) {
+                for (int j=0; j<r; j++) {
+                    if (j) cout << " ";
+                    cout << b[i*r+j];
+                }
+                cout << endl;
+            }
+        } else {
+            cout << r << " " << c << endl;
+            for (int i=0; i<r; i++) {
+                for (int j=0; j<c; j++) {
+                    if (j) cout << " ";
+                    cout << b[i*c+j];
+                }
+                cout << endl;
+            }
+        }
+    }
+    return 0;
+}
+
+void vflip(int a[])
+{
+    int r1, c1, b[100];
+    if (rflag) { r1=c; c1=r; }
+    else { r1=r; c1=c; }
+    for (int i=0; i<r*c; i++) {
+        int row=i/c1, col=i%c1;
+        b[i] = a[(r1-1-row)*c1+col]; // b[row][col] = a[r1-1-row][col]
+    }
+    for (int i=0; i<r*c; i++) a[i]=b[i];
+}
+
+void rotate90(int a[])
+{
+    int r1, c1, b[100];
+    if (rflag) { r1=c; c1=r; }
+    else { r1=r; c1=c; }
+    for (int i=0; i<r*c; i++) {
+        int row=i/r1, col=i%r1;
+        b[i] = a[col*c1 + c1-1-row]; // b[row][col] (c1,r1) = a[col][c1-row] (r1,c1)
+    }
+    for (int i=0; i<r*c; i++) a[i]=b[i];
+    rflag = !rflag;
+}
+

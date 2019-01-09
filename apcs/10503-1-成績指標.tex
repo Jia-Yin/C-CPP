@@ -1,0 +1,42 @@
+\section{10503-1 成績指標}
+
+\subsection{解題思惟}
+\begin{enumerate}
+	\item 這一題首先要輸入n和n筆成績，這部份使用陣列來處理就可以了。
+	\item 第二個部份是要印出排序好的成績，這部份可以自己寫排序的函數，例如氣泡排序法。如果要考慮到速度的話，那氣泡排序法的複雜度是$O(n^2)$，在n很大的時候，可能會有超時的問題，這時必須改用快速排序法等$O(n\log(n))$的演算法，不過這部份對初學的同學來說比較困難，但我們可以直接使用\cc{}裡面STL函數。基本上先引入<algorithm>檔頭，假設陣列名稱為a，且要排序的個數為n，直接呼叫std::sort(a, a+n)就可以排序了。
+	\item 另外還要找出不及格的最高分，和及格的最低分的問題。這部份有兩種作法，一種是從排序好的數列中尋找，另一種是從原始數列中尋找。基本上後者就是從一堆數列中找最大值（或最小值）的方法，這部份對一般同學來說比較熟悉，基本概念就是逐一比過，有更大（或更小）的就替換掉就可以了，不過在比之前要先確定這個數目是不及格（或及格）才進行比較。
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int main()
+{
+	int n, score[200], t, tmax, tmin;
+	
+	while (cin >> n) {
+		tmax = -999;
+		tmin = 999;
+		for (int i=0; i<n; i++) {
+			cin >> score[i];
+			if (score[i]<60 && score[i]>tmax) tmax = score[i];
+			if (score[i]>59 && score[i]<tmin) tmin = score[i];
+		}
+		sort(score, score+n);
+		for (int i=0; i<n; i++) {
+			if (i) cout << " ";
+			cout << score[i];
+		}
+		cout << endl;
+		if (tmax==-999) cout << "best case\n";
+		else cout << tmax << endl;
+		if (tmin==999) cout << "worst case\n";
+		else cout << tmin << endl;
+	}
+	return 0;
+}
+\end{cppcode}

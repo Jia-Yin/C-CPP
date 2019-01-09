@@ -1,0 +1,38 @@
+\section{A044 百數亂排}
+輸入一百個正整數，將這些數打亂。
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item 將100個正整數讀入陣列。
+	\item 打亂的方法，可以跑一個迴圈執行若干次，
+	每次使用rand()函式隨機取得兩個位置，並且交換兩個位置的數字。
+\end{enumerate} 
+	
+\subsection{程式碼}
+\begin{cppcode}
+	#include <stdio.h>
+	#include <stdlib.h>
+	
+	int main()
+	{
+		int num[100];
+		int n = 100;
+		
+		for (int i=0; i<n; i++) scanf("%d", &num[i]);
+		
+		for (int i=0; i<n; i++) {
+			int j = rand() % n, k = rand() % n; // Get 2 random numbers
+			int tmp = num[j]; // swap 2 numbers
+			num[j] = num[k];
+			num[k] = tmp;
+		}
+		
+		for (int i=0; i<n; i++) {
+			printf("%d ", num[i]);
+			if (i%10 == 9) printf("\n");
+		}
+		
+		return 0;
+	}
+\end{cppcode}
+註：本題在瘋狂程設中，測試時沒有通過，原因是輸出的檢查方式設定錯誤。

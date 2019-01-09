@@ -1,0 +1,37 @@
+\section{M90H027 平面幾何-三角形周長}
+輸入三角形三個點(ax, ay), (bx, by), (cx, cy)，輸出其周長。
+\subsection{解題思維}
+
+\begin{enumerate}
+	\item
+	我們先寫一個求兩點連線長度的函式 len，有四個輸入分別代表兩個的點 x, y 座標。
+	\begin{inside}
+	double len(int ax, int ay, int bx, int by) {
+		return sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay)); 
+	}			
+	\end{inside}
+	\item
+	完成後再代入主程式，再把三個距離長度加起來即可。
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+	#include <cmath>
+
+	using namespace std;
+	
+	double len(int ax, int ay, int bx, int by);
+	
+	int main()
+	{
+		int ax, ay, bx, by, cx, cy;
+		cin >> ax >> ay >> bx >> by >> cx >> cy;
+		cout << len(ax, ay, bx, by) + len(ax, ay, cx, cy) + len(bx, by, cx, cy);
+		return 0;
+	}
+	
+	double len(int ax, int ay, int bx, int by) {
+		return sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay));
+	}
+\end{cppcode}

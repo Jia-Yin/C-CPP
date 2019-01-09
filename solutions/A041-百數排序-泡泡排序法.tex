@@ -1,0 +1,35 @@
+\section{A041 百數排序-泡泡排序法}
+輸入一百個正整數，將這些數依照泡泡排序法從小排到大。
+\subsection{解題思維}
+
+泡泡排序法又稱氣泡排序法，其作法如下：
+\begin{enumerate}
+	\item 將未排序的數列從左至右，兩兩比較，如果前面比後面大，則將此二數交換。這樣比過一輸，最後的數一定是最大的。
+	\item 現在不考慮最後那個數，把前面的數再依上述作法操作一次，這樣一來，次大的數也找出來了。依此類推，直到排序完成為止。
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <stdio.h>
+	
+	int main()
+	{
+		int a[100];
+		
+		for (int i=0; i<100; i++) scanf("%d", &a[i]);
+
+		for (int i=0; i<99; i++) {
+			for(int j=0; j<99-i; j++) {
+				if(a[j] > a[j+1]) {
+					int tmp = a[j];
+					a[j] = a[j+1];
+					a[j+1] = tmp;
+				}
+			}
+		}
+		
+		for(int i = 0; i <= 99; i++) printf("%d ", a[i]);
+		
+		return 0;
+	}
+\end{cppcode}

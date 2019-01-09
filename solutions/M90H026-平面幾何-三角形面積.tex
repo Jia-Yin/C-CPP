@@ -1,0 +1,42 @@
+\section{M90H026 平面幾何-三角形面積}
+輸入三角形三個點(ax, ay), (bx, by), (cx, cy)，輸出其面積。
+\subsection{解題思維}
+\begin{enumerate}
+	\item 已知三角形三點座標，要求此三角形面積的方法，可用向量外積方式簡略推導，如果讀者不能明瞭，可以查看一般教科書或網路上查詢其他說明。
+	\item 假設兩個邊向量分別為$(a,b),\ (c,d)$，可以將其看成兩個三維向量
+	$(a,b,0)$及$(c,d,0)$，其外積為
+	$$\left|\begin{array}{ccc}
+	\vec{i} & \vec{j} & \vec{k} \\
+	a & b & 0 \\
+	c & d & 0 \\
+	\end{array}\right| = (ad-bc)\ \vec{k}$$
+	因為外積為兩個向量形成的平行四邊形面積，所以兩個邊所形成的三角形面積會變成$|ad-bc|/2$。
+	\item 已知三角形三個點，可以求兩個邊向量，再用上面的公式求面積。假設三點座標為(ax, ay), (bx, by), (cx, cy)，則兩個向量邊為(bx-ax, by-ay)以及(cx-ax, cy-ay)，故面積為0.5*abs((bx-ax)*(cy-ay)-(cx-ax)*(by-ay))，撰寫函式如下：
+	\begin{inside}
+	double tri(int ax, int ay, int bx, int by, int cx, int cy) {
+		return 0.5*abs((bx-ax)*(cy-ay)-(by-ay)*(cx-ax));
+	}		
+	\end{inside}
+	\item
+	完成後再代入主程式。
+\end{enumerate} 
+
+\subsection{程式碼}
+\begin{cppcode}
+	#include <iostream>
+
+	using namespace std;
+	
+	double tri(int ax, int ay, int bx, int by, int cx, int cy);
+	
+	int main(){
+		int ax, ay, bx, by, cx, cy;
+		cin >> ax >> ay >> bx >> by >> cx >> cy;
+		cout << tri(ax, ay, bx, by, cx, cy);
+		return 0;
+	}
+	
+	double tri(int ax, int ay, int bx, int by, int cx, int cy) {
+		return 0.5*abs((bx-ax)*(cy-ay)-(by-ay)*(cx-ax));
+	}		
+\end{cppcode}

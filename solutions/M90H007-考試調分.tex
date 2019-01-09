@@ -1,0 +1,59 @@
+\section{M90H007 - 考試調分}
+在一次程設小考中，同學成績表現不好，老師決定採線性調整分數，將最低分調成60分，將最高分調成100分，所有同學調整後的分數採四捨五入進整數。輸入60個同學的成績，輸出同學調整後的成績。
+\subsection{解題思惟}
+先找出最高以及最低的成績，最高分會變成100，最低分變成60，因為是線性變換，可以算出新成績與舊成績的轉換公式如下：
+$$
+\mbox{新成績} = 60 + \mbox{(舊成績$-$最低分)}*{\frac{100-60}{\mbox{最高分$-$最低分}}}
+$$
+另外本題最後輸出成績會使用到四捨五入，使用printf函式會比較方便，故採用C的輸入輸出函式。
+\begin{enumerate}
+\item 先取得每位同學的成績，因為有60位同學，所以必須使用陣列。
+\begin{inside}
+	int score[60]; 
+	for (int i=0; i<60; i++) scanf("%d", &score[i]);
+\end{inside}
+\item 找出最高分與最低分，因最高分不低於0分，可設smax=0，之後每次讀入一個分數的時候，檢查是否高於smax，如果高於smax，則將smax替換為輸入值。又最低分不高於100分，可設smin=100，之後每次讀入一個分數的時候，檢查是否低於smin，如果低於smin，則將smin替換為輸入值。結合第1點，改寫如下：
+	\begin{inside}
+	int score[60], smin = 100, smax = 0;
+	for (int i=0; i<60; i++) {
+		scanf("%d", &score[i]);
+		if (score[i] > smax) smax = score[i];
+		if (score[i] < smin) smin = score[i];
+	}
+	\end{inside}
+\item 取得最高分及最低分之後，先計算線性變換的比值。須注意比值為浮點數，故計算比值公式的時候，算式中不可全為整數，否則會被當作整數運算，而捨棄小數位。基本上在上述公式中，將40改成40.0即可。
+	\begin{inside}
+	float ratio = 40.0 / (smax - smin); // 40.0 為浮點數，不可寫成 40
+	\end{inside}
+\item 接著依線性變換公式計算每位同學的新成績，並將其印出來，印出值需依四捨五入方式取至整數位，可使用printf函式，搭配 \%.0f 的指示詞，表示輸出浮點數時小數點取0位，且須要四捨五入。
+	\begin{inside}
+	for (int i=0; i<60; i++) {
+		float newScore = 60 + (score[i]-smin) * ratio; // 計算新成績
+		printf("%.0f\n", newScore); // 四捨五入，小數點取0位
+	}
+	\end{inside}
+\end{enumerate}
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <cstdio>
+
+int main()
+{
+	int score[60], smin = 100, smax = 0;
+
+	for (int i=0; i<60; i++) {
+		scanf("%d", &score[i]);
+		if (score[i] > smax) smax = score[i];
+		if (score[i] < smin) smin = score[i];
+	}
+	
+	float ratio = 40.0 / (smax - smin); // 比值
+	
+	for (int i=0; i<60; i++) {
+		float newScore = 60 + (score[i]-smin) * ratio; // 計算新成績
+		printf("%.0f\n", newScore); // 四捨五入
+	}
+	return 0;
+}
+\end{cppcode}

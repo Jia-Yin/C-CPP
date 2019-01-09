@@ -1,0 +1,26 @@
+\section{M90H056 - 級數極限 $1/1+1/(1+2)+1/(1+2+3)+...$}
+請使用double型別，計算無窮級數 $1/1+1/(1+2)+1/(1+2+3)+...$。 
+
+\subsection{解題思惟}
+此題的題型與
+\ref{M90H054}
+「級數極限 $1+1/2+1/4+1/8+...$」相同。只需要更改累加的規則。
+注意每次新增加的項目為 $1/(1+2+\cdots+n) = 1/(n(n+1)/2) = 2/(n(n+1))$。
+
+
+\subsection{程式碼}
+\begin{cppcode}
+#include <iostream>
+
+int main()
+{
+	double n=1.0, ans=0.0, next=1.0;
+	while (ans != next) {
+		ans = next;
+		n += 1.0;
+		next += 2/n/(n+1); 
+	}
+	std::cout << ans;
+	return 0;
+}
+\end{cppcode}
