@@ -9,12 +9,12 @@
 	\end{inside}
 \item 求得 n 的 p 次方後，接著再取餘數。
 \item 以上的想法雖然正確，但實際依此方法解答的時候，卻會發生錯誤。原因是因為整數溢位的問題，基本上，n 的 p 次方可能會是一個很大的整數，所以必須考慮溢位的狀況。在數學上，求兩個數 a 和 b 的乘積除以 d 的餘數，可以先求 a 除以 d 的餘數，以及 b 除以 d 的餘數，將兩個餘數相乘，再除以 d 求餘數，這樣求出的答案是相同的。使用這樣的方法，可以避免掉溢位的問題。所以本題取餘數要跟求次方同時進行，才不會發生錯誤！
-	\begin{inside}
+\begin{inside}
 	for (int i=0; i<p; i++) { 
 		m *= n;
 		m %= d;
 	}
-	\end{inside}	
+\end{inside}
 \end{enumerate}
 
 \subsection{程式碼}
@@ -61,5 +61,5 @@
 		if (p%2) return (n*k*k) % d; // p is odd
 		else return (k*k) % d; // p is even
 	}
-\end{cppcode}	
+\end{cppcode}
 

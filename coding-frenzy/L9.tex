@@ -88,7 +88,7 @@ int main()
 	for (int i=0; i<n; i++) cout << a[i] << " ";
 	return 0;
 }
-\end{cppcode}	
+\end{cppcode}
  
 在處理不定數的輸入時，如果熟悉\cc{}的向量，也可以使用如下的程式碼：
 \begin{cppcode}
@@ -125,7 +125,7 @@ int main()
 	int *a = new int[n];
 	for (int i=0; i<n; i++) cin >> a[i];
 	// 其餘部份同上面程式碼
-\end{inside}	
+\end{inside}
 
 在Ｃ裡面，使用malloc來配置記憶體空間(要引入stdlib.h)。像這樣：
 \begin{inside}
@@ -133,7 +133,7 @@ int main()
 	int *a = (int*)malloc(sizeof(int)*n);
 	for (int i=0; i<n; i++) scanf("%d", a+i);
 	// 其餘部份同上面程式碼
-\end{inside}	
+\end{inside}
 
 
 %L9_02 梁 A048
@@ -1192,14 +1192,14 @@ int main(){
 	int n;  cin >> n;
 	int *a = new int[n];
 	for (int i=0; i<n; i++) cin >> a[i];
-\end{inside}	
+\end{inside}
 
 在Ｃ裡面，則是使用malloc來配置記憶體空間(要引入stdlib.h)。像這樣：
 \begin{inside}
 	int n;  scanf("%d", &n);
 	int *a = (int*)malloc(sizeof(int)*n);
 	for (int i=0; i<n; i++) scanf("%d", a+i);
-\end{inside}	
+\end{inside}
 
 至於計算最小公倍數的方法，如果沒有要求速度的話，比較簡單的辦法，
 就是從1開始往上遞增，看哪一個數可以被所有的數字整除，像這樣：
